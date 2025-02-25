@@ -1,0 +1,279 @@
+# import sys
+# sys.stdout.reconfigure(encoding='utf-8')
+
+import os
+
+# Replace this with your Graphviz installation path
+os.environ["PATH"] += os.pathsep + r'C:\Program Files\Graphviz\bin'
+
+#%%
+
+from modules.gate import Gate
+from modules.event import Event
+from modules.faulttree import FaultTree
+import matplotlib.pyplot as plt
+import numpy as np
+import filecmp
+
+
+def compare_truth_tables(truth_table_1, truth_table_2):
+    return filecmp.cmp(truth_table_1, truth_table_2)
+
+
+def compare_reliability_of_basic_event_(basic_event_id, reconstructedFT, originalFT):
+    original_basic_event = originalFT.get_basic_event_(basic_event_id)
+
+    theoretical_distribution = original_basic_event.reliability_distribution
+    reconstructedFT.plot_reliability_distribution_of_basic_event_(basic_event_id, theoretical_distribution)
+
+
+def compare_maintainability_of_basic_event_(basic_event_id, reconstructedFT, originalFT):
+    original_basic_event = originalFT.get_basic_event_(basic_event_id)
+
+    theoretical_distribution = original_basic_event.maintainability_distribution
+    reconstructedFT.plot_maintainability_distribution_of_basic_event_(basic_event_id, theoretical_distribution)
+
+
+def compare_reliability_of_top_event(linspace, reconstructedFT, originalFt):
+    top_event_reliability = originalFt.top_event.reliability_function
+
+    reconstructedFT.plot_reliability_distribution_of_top_event(linspace, top_event_reliability)
+
+
+def compare_maintainability_of_top_event(linspace, reconstructedFT, originalFt):
+    top_event_maintainability = originalFt.top_event.maintainability_function
+
+    reconstructedFT.plot_maintainability_distribution_of_top_event(linspace, top_event_maintainability)
+
+
+def compare_MTTF_MTTR_of_top_event(reconstructedFT, originalFT):
+    print('Reconstructed Fault Tree: ')
+    print('MTTF from time series: ' + str(reconstructedFT.top_event.MTTF))
+    print('MTTR from time series: ' + str(reconstructedFT.top_event.MTTR))
+
+    print('Original Fault Tree: ')
+    print('MTTF from reliability function: ' + str(originalFT.top_event.MTTF))
+    print('MTTR from maintainability function: ' + str(originalFT.top_event.MTTR))
+    print('----------------------------------------------------------------')
+
+
+def compare_MTTF_MTTR_of_basic_events(reconstructedFT, originalFT):
+    basic_event_names = []
+    reconstructedMTTF = []
+    reconstructedMTTR = []
+    originalMTTF = []
+    originalMTTR = []
+    for basic_event in reconstructedFT.get_basic_events():
+        basic_event_names.append(basic_event.name)
+        reconstructedMTTF.append(basic_event.MTTF)
+        reconstructedMTTR.append(basic_event.MTTR)
+
+    for basic_event in originalFT.get_basic_events():
+        originalMTTF.append(basic_event.MTTF)
+        originalMTTR.append(basic_event.MTTR)
+
+    print('Reconstructed\t\t\t\tOriginal')
+    for i in range(0, len(basic_event_names)):
+        print(basic_event_names[i])
+        print('MTTF: ' + str(reconstructedMTTF[i]) + '\t\t\t' + str(originalMTTF[i]))
+        print('MTTR: ' + str(reconstructedMTTR[i]) + '\t\t\t' + str(originalMTTR[i]))
+    print('----------------------------------------------------------------')
+
+
+def compare_distributions_of_basic_events(reconstructedFT, originalFT):
+    basic_event_names = []
+    reconstructed_reliability = []
+    reconstructed_maintainability = []
+    original_reliability = []
+    original_maintainability = []
+
+    for basic_event in reconstructedFT.get_basic_events():
+        basic_event_names.append(basic_event.name)
+        reconstructed_reliability.append(basic_event.reliability_distribution)
+        reconstructed_maintainability.append(basic_event.maintainability_distribution)
+
+    for basic_event in originalFT.get_basic_events():
+        original_reliability.append(basic_event.reliability_distribution)
+        original_maintainability.append(basic_event.maintainability_distribution)
+
+    print('Reconstructed\t\t\t\tOriginal')
+    for i in range(0, len(basic_event_names)):
+        print(basic_event_names[i])
+        print('Reliability: ' + str(reconstructed_reliability[i]) + '\t\t\t' + str(original_reliability[i]))
+        print('Maintainability: ' + str(reconstructed_maintainability[i]) + '\t\t\t' + str(original_maintainability[i]))
+    print('----------------------------------------------------------------')
+
+
+def compare_inherent_availability_of_basic_events(reconstructedFT, originalFT):
+    basic_event_names = []
+    reconstructed_availability_inherent = []
+    original_availability_inherent = []
+    for basic_event in reconstructedFT.get_basic_events():
+        basic_event_names.append(basic_event.name)
+        reconstructed_availability_inherent.append(basic_event.availability_inherent)
+
+    for basic_event in originalFT.get_basic_events():
+        original_availability_inherent.append(basic_event.availability_inherent)
+
+    print('Reconstructed Fault Tree\t\t\t\t\t\tOriginal Fault Tree')
+    for i in range(0, len(basic_event_names)):
+        print(basic_event_names[i])
+        print('Inherent Availability: ' + str(reconstructed_availability_inherent[i]) +
+              '\t\t\t' + str(original_availability_inherent[i]))
+    print('----------------------------------------------------------------')
+
+
+def compare_availabilities_of_top_event(reconstructedFT, originalFT):
+    print('Reconstructed Fault Tree\t\t\t\t\t\tOriginal Fault Tree')
+    print('Top Event')
+    print('Operational Availability: ' + str(reconstructedFT.top_event.availability_operational) +
+          '\t\t\t' + str(originalFT.top_event.availability_operational))
+    print('These are exaclty the same, since calculating operational availability uses simulation, so using' +
+          ' the time series')
+
+
+def run_reconstruction_analysis(faultTree):
+    print('Cut sets')
+    faultTree.calculate_cut_sets()
+    print('Minimal cut sets')
+    faultTree.calculate_minimal_cut_sets()
+
+    faultTree.reconstruct_fault_tree('generatedFT_method.py')
+    # Remember to take off .py extensive when using it as a module to be imported
+    faultTree.load_in_fault_tree('generatedFT_method')
+
+    faultTree.load_time_series_into_basic_events()
+
+    faultTree.determine_distributions_of_basic_events()
+
+    faultTree.calculate_time_series()
+
+    faultTree.calculate_MTTF_of_top_event_from_time_series()
+    faultTree.calculate_MTTR_of_top_event_from_time_series()
+
+    faultTree.calculate_MTTF_of_basic_events_from_time_series()
+    faultTree.calculate_MTTR_of_basic_events_from_time_series()
+
+    faultTree.calculate_operational_availability_of_top_event(10000)
+
+
+def run_theoretical_analysis(faultTree, linspace):
+    faultTree.calculate_reliability_maintainability(linspace)
+
+    #faultTree.calculate_MTTF_of_top_event_from_reliability_function(linspace)
+    #faultTree.calculate_MTTR_of_top_event_from_maintainability_function(linspace)
+
+    faultTree.calculate_MTTF_of_basic_events_from_distributions()
+    faultTree.calculate_MTTR_of_basic_events_from_distributions()
+
+    faultTree.calculate_operational_availability_of_top_event(10000)
+
+
+# --------------------PROGRAM STARTS HERE-------------------------
+
+rel_weibull_dist = ['WEIBULL', 60, 10]
+main_weibull_dist = ['WEIBULL', 4, 10]
+
+rel_exp_dist = ['EXP', 1 / 10]
+lognorm_dist = ['LOGNORM', 2, 1]
+norm_dist = ['NORMAL', 12, 1]
+main_exp_dist = ['EXP', 1 / 2]
+
+
+'''
+topEvent = Event('Top Event')
+and1 = Gate('AND', parent=topEvent)
+basicEvent1 = Event('Basic Event 1', rel_exp_dist, main_exp_dist, parent=and1)
+basicEvent2 = Event('Basic Event 2', ['EXP', 1 / 100], main_exp_dist, parent=and1)
+
+'''
+'''
+intermed = Event('Inter event ', parent=or1)
+and1 = Gate('AND', parent=intermed)
+basicEvent3 = Event('Basic Event 3', lognorm_dist, norm_dist, parent=and1)
+basicEvent4 = Event('Basic Event 4', rel_exp_dist, main_exp_dist, parent=and1)
+'''
+
+# =============================================================================
+# Original
+# =============================================================================
+# topEvent = Event('Top Event')
+# and1 = Gate('AND', parent=topEvent)
+# intermediateEvent1 = Event('Intermediate Event 1', parent=and1)
+# intermediateEvent2 = Event('Intermediate Event 2', parent=and1)
+# vote2 = Gate('VOTING', parent=intermediateEvent1, k=2)
+# basicEvent1 = Event('Basic Event 1', rel_exp_dist, main_exp_dist, parent=vote2)
+# basicEvent2 = Event('Basic Event 2', rel_exp_dist, main_exp_dist, parent=vote2)
+# intermediateEvent3 = Event('Intermediate Event 3', parent=vote2)
+# and2 = Gate('AND', parent=intermediateEvent3)
+# basicEvent3 = Event('Basic Event 3', rel_exp_dist, main_exp_dist, parent=and2)
+# basicEvent4 = Event('Basic Event 4', rel_exp_dist, main_exp_dist,  parent=and2)
+# or1 = Gate('OR', parent=intermediateEvent2)
+# basicEvent5 = Event('Basic Event 5', rel_exp_dist, main_exp_dist, parent=or1)
+# intermediateEvent4 = Event('Intermediate Event 4', parent=or1)
+# and3 = Gate('AND', parent=intermediateEvent4)
+# basicEvent6 = Event('Basic Event 6', rel_exp_dist, main_exp_dist, parent=and3)
+# basicEvent7 = Event('Basic Event 7', rel_exp_dist, main_exp_dist,  parent=and3)
+# basicEvent8 = Event('Basic Event 8', rel_exp_dist, main_exp_dist,  parent=and3)
+# =============================================================================
+
+
+fault_tree = FaultTree(topEvent)
+# 5000 takes about 30 seconds depending on FT complexity of course
+# 10000 generation size takes a good minute
+# 30000 takes more than 30 minutes didn't wait to finish
+fault_tree.generate_basic_event_time_series(5000)
+fault_tree.calculate_time_series()
+fault_tree.print_tree()
+fault_tree.export_time_series('time_series_omar.txt')
+fault_tree.export_truth_table('truth_table_original_omar.txt')
+
+#%%%
+import itertools
+
+def read_truth_table(filename):
+    with open(filename, 'r') as file:
+        lines = file.readlines()[1:]  # Skip the header line
+    return [list(map(int, line.split())) for line in lines]
+
+def get_minimal_cut_sets(truth_table):
+    num_events = len(truth_table[0]) - 1
+    cut_sets = []
+    
+    for row in truth_table:
+        if row[-1] == 1:  # Top event occurs
+            cut_set = [i+1 for i in range(num_events) if row[i] == 1]
+            cut_sets.append(cut_set)
+    
+    minimal_cut_sets = []
+    for cut_set in cut_sets:
+        if not any(set(cs).issubset(set(cut_set)) for cs in cut_sets if cs != cut_set):
+            minimal_cut_sets.append(cut_set)
+    
+    return minimal_cut_sets
+
+def boolean_expression(minimal_cut_sets):
+    terms = []
+    for cut_set in minimal_cut_sets:
+        term = ' & '.join(f'BE{i}' for i in cut_set)
+        terms.append(f'({term})')
+    return ' | '.join(terms)
+
+def simplify_expression(expression):
+    terms = expression.split(' | ')
+    simplified_terms = []
+    for term in terms:
+        events = set(term.strip('()').split(' & '))
+        if not any(events.issubset(set(other.strip('()').split(' & '))) for other in terms if other != term):
+            simplified_terms.append(term)
+    return ' | '.join(simplified_terms)
+
+# Main execution
+filename = 'truth_table_original_omar.txt'
+truth_table = read_truth_table(filename)
+minimal_cut_sets = get_minimal_cut_sets(truth_table)
+fault_tree_expression = boolean_expression(minimal_cut_sets)
+simplified_expression = simplify_expression(fault_tree_expression)
+
+print("Fault Tree Boolean Expression:")
+print(simplified_expression)
