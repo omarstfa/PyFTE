@@ -66,6 +66,32 @@ basicEvent17 = Event('Basic Event 18', parent=or4)
 
 # Output
 
+```bash
+Identifying Cut Sets (first 5 shown):
+Cut Set 1: ['BE18']
+Cut Set 2: ['BE17']
+Cut Set 3: ['BE17', 'BE18']
+Cut Set 4: ['BE18', 'BE4']
+Cut Set 5: ['BE17', 'BE4']
+
+Minimal Cut Sets: 
+['BE18'], ['BE17'], ['BE16'], ['BE15'], ['BE14'], ['BE13'], ['BE12'], ['BE11'], ['BE10'], ['BE9'], ['BE8'], ['BE7'], ['BE6'], ['BE5'], ['BE2'], ['BE1'], ['BE3', 'BE4']
+
+Extracted Fault Tree Boolean Expression:  TE = BE17 + BE16 + BE2 + BE1 + BE15·BE3 + BE14·BE3 + BE13·BE3 + BE12·BE3 + BE11·BE3 + BE10·BE3 + BE3·BE9 + BE3·BE8 + BE3·BE7 + BE3·BE6 + BE3·BE5 + BE3·BE4
+
+Constructed Truth Table (sample):
+R   BE1  BE2  BE3  BE4  BE5  BE6  BE7  ...    BE13  BE14  BE15  BE16  BE17  BE18  TE
+0    0    0    0    0    0    0    0   ...     0     0     0     0     0     0     0
+1    0    0    0    0    0    0    0   ...     0     0     0     0     0     1     1
+2    0    0    0    0    0    0    0   ...     0     0     0     0     1     0     1
+3    0    0    0    0    0    0    0   ...     0     0     0     0     1     1     1
+4    0    0    0    1    0    0    0   ...     0     0     0     0     0     0     0
+[5 rows x 19 columns]
+
+Truth table generated and saved from Boolean expression.
+[Validation Successful]: Truth Tables Match!
+The constructed fault tree produces an identical truth table to the original.
+```
 
 # Usage & Attribution
 
