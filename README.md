@@ -13,7 +13,7 @@ This is a tool for extracting fault tree models from system data. The fault logs
 ```bash
 git clone https://github.com/omarstfa/PyFTE.git  # 1. Clone repository
 pip install -r requirements.txt  # 2. Install requirements
-python3 examples/PV_example.py  # 3. Run PV-system example
+python3 main.py  # 3. Run PV-system example
 ```
 
 # Case Study Model (PV system example)
