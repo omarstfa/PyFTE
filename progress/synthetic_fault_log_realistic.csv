@@ -1,0 +1,1059 @@
+Timestamp,Component,Description,Fault_Code,Severity,Status,Value
+2025-01-01 11:50:40,PV_Hot_Spot,PV Hot Spot fault detected.,PV_516,Medium,Active,SimValue_41
+2025-01-01 12:50:40,PV_Hot_Spot,PV Hot Spot fault detected.,PV_516,Medium,Cleared,SimValue_41
+2025-01-01 17:46:14,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_117,High,Active,SimValue_30
+2025-01-02 01:46:14,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_117,High,Cleared,SimValue_30
+2025-01-02 03:35:38,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_902,Medium,Active,SimValue_76
+2025-01-02 09:35:38,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_902,Medium,Cleared,SimValue_76
+2025-01-02 20:57:39,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_723,High,Active,SimValue_87
+2025-01-03 03:57:39,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_723,High,Cleared,SimValue_87
+2025-01-04 19:44:54,PV_Shading,PV Shading fault detected.,PV_214,Low,Active,SimValue_13
+2025-01-05 05:44:54,PV_Shading,PV Shading fault detected.,PV_214,Low,Cleared,SimValue_13
+2025-01-06 16:38:36,PV_Broken_Cell,PV Broken Cell fault detected.,PV_287,High,Active,SimValue_35
+2025-01-07 01:38:36,PV_Broken_Cell,PV Broken Cell fault detected.,PV_287,High,Cleared,SimValue_35
+2025-01-08 08:29:10,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_467,Medium,Active,SimValue_13
+2025-01-08 15:29:10,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_467,Medium,Cleared,SimValue_13
+2025-01-08 22:45:22,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_848,Medium,Active,SimValue_55
+2025-01-09 05:45:22,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_848,Medium,Cleared,SimValue_55
+2025-01-10 13:05:51,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_967,High,Active,SimValue_50
+2025-01-10 19:49:07,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_617,Medium,Active,SimValue_43
+2025-01-10 20:05:51,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_967,High,Cleared,SimValue_50
+2025-01-11 07:49:07,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_617,Medium,Cleared,SimValue_43
+2025-01-11 14:30:21,PV_Broken_Cell,PV Broken Cell fault detected.,PV_504,High,Active,SimValue_24
+2025-01-11 17:14:11,PV_Broken_Cell,PV Broken Cell fault detected.,PV_962,High,Active,SimValue_53
+2025-01-11 19:51:54,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_890,High,Active,SimValue_50
+2025-01-11 22:30:21,PV_Broken_Cell,PV Broken Cell fault detected.,PV_504,High,Cleared,SimValue_24
+2025-01-12 02:14:11,PV_Broken_Cell,PV Broken Cell fault detected.,PV_962,High,Cleared,SimValue_53
+2025-01-12 02:23:18,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_453,Medium,Active,SimValue_73
+2025-01-12 05:51:54,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_890,High,Cleared,SimValue_50
+2025-01-12 11:23:18,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_453,Medium,Cleared,SimValue_73
+2025-01-13 10:57:09,PV_Broken_Cell,PV Broken Cell fault detected.,PV_231,High,Active,SimValue_89
+2025-01-13 14:57:09,PV_Broken_Cell,PV Broken Cell fault detected.,PV_231,High,Cleared,SimValue_89
+2025-01-13 18:51:57,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_560,High,Active,SimValue_36
+2025-01-13 22:51:57,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_560,High,Cleared,SimValue_36
+2025-01-14 06:06:53,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_673,High,Active,SimValue_43
+2025-01-14 09:52:34,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_710,Medium,Active,SimValue_34
+2025-01-14 10:31:23,PV_Broken_Cell,PV Broken Cell fault detected.,PV_844,High,Active,SimValue_30
+2025-01-14 11:31:23,PV_Broken_Cell,PV Broken Cell fault detected.,PV_844,High,Cleared,SimValue_30
+2025-01-14 12:06:53,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_673,High,Cleared,SimValue_43
+2025-01-14 17:52:34,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_710,Medium,Cleared,SimValue_34
+2025-01-15 11:51:21,PV_Broken_Cell,PV Broken Cell fault detected.,PV_198,High,Active,SimValue_84
+2025-01-15 12:51:41,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_160,Medium,Active,SimValue_38
+2025-01-15 15:51:41,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_160,Medium,Cleared,SimValue_38
+2025-01-15 23:51:21,PV_Broken_Cell,PV Broken Cell fault detected.,PV_198,High,Cleared,SimValue_84
+2025-01-17 19:00:13,Fuse_Improper_Maintenance,Fuse Improper Maintenance fault detected.,FU_106,Medium,Active,SimValue_23
+2025-01-18 01:22:42,PV_Shading,PV Shading fault detected.,PV_545,Low,Active,SimValue_35
+2025-01-18 06:00:13,Fuse_Improper_Maintenance,Fuse Improper Maintenance fault detected.,FU_106,Medium,Cleared,SimValue_23
+2025-01-18 07:22:42,PV_Shading,PV Shading fault detected.,PV_545,Low,Cleared,SimValue_35
+2025-01-19 07:37:39,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_526,High,Active,SimValue_77
+2025-01-19 10:37:39,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_526,High,Cleared,SimValue_77
+2025-01-20 01:47:48,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_810,Medium,Active,SimValue_24
+2025-01-20 04:47:48,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_810,Medium,Cleared,SimValue_24
+2025-01-20 07:10:44,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_146,Medium,Active,SimValue_72
+2025-01-20 11:10:44,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_146,Medium,Cleared,SimValue_72
+2025-01-20 18:06:22,PV_Shading,PV Shading fault detected.,PV_455,Low,Active,SimValue_34
+2025-01-21 04:06:22,PV_Shading,PV Shading fault detected.,PV_455,Low,Cleared,SimValue_34
+2025-01-21 07:13:37,PV_Broken_Cell,PV Broken Cell fault detected.,PV_517,High,Active,SimValue_65
+2025-01-21 16:13:37,PV_Broken_Cell,PV Broken Cell fault detected.,PV_517,High,Cleared,SimValue_65
+2025-01-21 17:53:20,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_714,Medium,Active,SimValue_86
+2025-01-21 19:53:20,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_714,Medium,Cleared,SimValue_86
+2025-01-22 04:01:15,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_533,High,Active,SimValue_23
+2025-01-22 05:12:44,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_171,High,Active,SimValue_63
+2025-01-22 10:12:44,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_171,High,Cleared,SimValue_63
+2025-01-22 12:35:34,PV_Broken_Cell,PV Broken Cell fault detected.,PV_678,High,Active,SimValue_16
+2025-01-22 13:01:15,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_533,High,Cleared,SimValue_23
+2025-01-22 14:54:43,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_373,Medium,Active,SimValue_50
+2025-01-22 20:35:34,PV_Broken_Cell,PV Broken Cell fault detected.,PV_678,High,Cleared,SimValue_16
+2025-01-22 22:54:43,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_373,Medium,Cleared,SimValue_50
+2025-01-23 12:29:54,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_725,Medium,Active,SimValue_79
+2025-01-23 13:30:31,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_834,Medium,Active,SimValue_96
+2025-01-23 16:29:54,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_725,Medium,Cleared,SimValue_79
+2025-01-24 00:30:31,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_834,Medium,Cleared,SimValue_96
+2025-01-24 16:28:04,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_172,Medium,Active,SimValue_38
+2025-01-24 21:28:04,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_172,Medium,Cleared,SimValue_38
+2025-01-27 23:45:09,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_854,High,Active,SimValue_41
+2025-01-28 07:45:09,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_854,High,Cleared,SimValue_41
+2025-01-29 23:00:41,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_863,Medium,Active,SimValue_82
+2025-01-30 00:00:41,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_863,Medium,Cleared,SimValue_82
+2025-01-30 00:14:40,PV_Broken_Cell,PV Broken Cell fault detected.,PV_645,High,Active,SimValue_88
+2025-01-30 06:14:40,PV_Broken_Cell,PV Broken Cell fault detected.,PV_645,High,Cleared,SimValue_88
+2025-01-31 17:14:58,PV_Hot_Spot,PV Hot Spot fault detected.,PV_629,Medium,Active,SimValue_73
+2025-02-01 03:14:58,PV_Hot_Spot,PV Hot Spot fault detected.,PV_629,Medium,Cleared,SimValue_73
+2025-02-01 06:26:37,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_300,High,Active,SimValue_70
+2025-02-01 10:21:21,PV_Shading,PV Shading fault detected.,PV_249,Low,Active,SimValue_74
+2025-02-01 12:26:37,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_300,High,Cleared,SimValue_70
+2025-02-01 14:21:21,PV_Shading,PV Shading fault detected.,PV_249,Low,Cleared,SimValue_74
+2025-02-02 05:08:05,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_888,High,Active,SimValue_77
+2025-02-02 07:50:21,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_173,Medium,Active,SimValue_31
+2025-02-02 13:08:05,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_888,High,Cleared,SimValue_77
+2025-02-02 13:50:21,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_173,Medium,Cleared,SimValue_31
+2025-02-03 09:44:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_107,Medium,Active,SimValue_36
+2025-02-03 18:44:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_107,Medium,Cleared,SimValue_36
+2025-02-05 05:42:51,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_118,High,Active,SimValue_93
+2025-02-05 07:42:51,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_118,High,Cleared,SimValue_93
+2025-02-05 19:01:16,PV_Broken_Cell,PV Broken Cell fault detected.,PV_239,High,Active,SimValue_35
+2025-02-05 23:01:16,PV_Broken_Cell,PV Broken Cell fault detected.,PV_239,High,Cleared,SimValue_35
+2025-02-06 15:28:08,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_498,Medium,Active,SimValue_41
+2025-02-07 02:28:08,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_498,Medium,Cleared,SimValue_41
+2025-02-07 10:37:06,PV_Broken_Cell,PV Broken Cell fault detected.,PV_571,High,Active,SimValue_27
+2025-02-07 16:37:06,PV_Broken_Cell,PV Broken Cell fault detected.,PV_571,High,Cleared,SimValue_27
+2025-02-07 20:25:22,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_926,High,Active,SimValue_90
+2025-02-08 04:05:29,PV_Shading,PV Shading fault detected.,PV_685,Low,Active,SimValue_42
+2025-02-08 07:25:22,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_926,High,Cleared,SimValue_90
+2025-02-08 10:05:29,PV_Shading,PV Shading fault detected.,PV_685,Low,Cleared,SimValue_42
+2025-02-08 17:31:15,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_340,Medium,Active,SimValue_20
+2025-02-08 18:06:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_165,Medium,Active,SimValue_13
+2025-02-09 02:06:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_165,Medium,Cleared,SimValue_13
+2025-02-09 04:31:15,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_340,Medium,Cleared,SimValue_20
+2025-02-09 09:35:07,PV_Shading,PV Shading fault detected.,PV_594,Low,Active,SimValue_24
+2025-02-09 10:35:07,PV_Shading,PV Shading fault detected.,PV_594,Low,Cleared,SimValue_24
+2025-02-10 02:41:26,PV_Hot_Spot,PV Hot Spot fault detected.,PV_576,Medium,Active,SimValue_38
+2025-02-10 11:12:35,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_267,Medium,Active,SimValue_59
+2025-02-10 12:20:05,PV_Broken_Cell,PV Broken Cell fault detected.,PV_627,High,Active,SimValue_78
+2025-02-10 12:41:26,PV_Hot_Spot,PV Hot Spot fault detected.,PV_576,Medium,Cleared,SimValue_38
+2025-02-10 14:12:35,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_267,Medium,Cleared,SimValue_59
+2025-02-10 15:42:42,MCB_Faulty,MCB Faulty fault detected.,MC_481,High,Active,SimValue_14
+2025-02-10 18:58:56,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_899,High,Active,SimValue_21
+2025-02-10 20:20:05,PV_Broken_Cell,PV Broken Cell fault detected.,PV_627,High,Cleared,SimValue_78
+2025-02-10 21:58:56,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_899,High,Cleared,SimValue_21
+2025-02-10 23:42:42,MCB_Faulty,MCB Faulty fault detected.,MC_481,High,Cleared,SimValue_14
+2025-02-12 00:53:24,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_398,High,Active,SimValue_22
+2025-02-12 03:53:24,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_398,High,Cleared,SimValue_22
+2025-02-12 19:44:44,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_318,Medium,Active,SimValue_68
+2025-02-13 06:44:44,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_318,Medium,Cleared,SimValue_68
+2025-02-14 08:51:30,PV_Broken_Cell,PV Broken Cell fault detected.,PV_708,High,Active,SimValue_47
+2025-02-14 12:51:30,PV_Broken_Cell,PV Broken Cell fault detected.,PV_708,High,Cleared,SimValue_47
+2025-02-14 16:37:09,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_316,Medium,Active,SimValue_83
+2025-02-14 19:37:09,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_316,Medium,Cleared,SimValue_83
+2025-02-15 02:50:50,PV_Hot_Spot,PV Hot Spot fault detected.,PV_335,Medium,Active,SimValue_31
+2025-02-15 06:50:50,PV_Hot_Spot,PV Hot Spot fault detected.,PV_335,Medium,Cleared,SimValue_31
+2025-02-16 15:29:24,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_960,Medium,Active,SimValue_36
+2025-02-16 21:35:42,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_139,High,Active,SimValue_31
+2025-02-17 00:31:34,PV_Broken_Cell,PV Broken Cell fault detected.,PV_440,High,Active,SimValue_89
+2025-02-17 03:29:24,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_960,Medium,Cleared,SimValue_36
+2025-02-17 05:35:42,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_139,High,Cleared,SimValue_31
+2025-02-17 06:31:34,PV_Broken_Cell,PV Broken Cell fault detected.,PV_440,High,Cleared,SimValue_89
+2025-02-17 20:55:31,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_768,High,Active,SimValue_67
+2025-02-18 08:55:31,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_768,High,Cleared,SimValue_67
+2025-02-18 12:12:32,PV_Broken_Cell,PV Broken Cell fault detected.,PV_916,High,Active,SimValue_72
+2025-02-18 16:12:32,PV_Broken_Cell,PV Broken Cell fault detected.,PV_916,High,Cleared,SimValue_72
+2025-02-19 04:17:19,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_733,Medium,Active,SimValue_57
+2025-02-19 06:17:19,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_733,Medium,Cleared,SimValue_57
+2025-02-23 16:00:29,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_879,High,Active,SimValue_18
+2025-02-24 00:00:29,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_879,High,Cleared,SimValue_18
+2025-02-27 22:31:41,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_484,High,Active,SimValue_26
+2025-02-28 01:31:41,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_484,High,Cleared,SimValue_26
+2025-02-28 09:48:03,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_325,Medium,Active,SimValue_27
+2025-02-28 10:29:54,PV_Broken_Cell,PV Broken Cell fault detected.,PV_784,High,Active,SimValue_50
+2025-02-28 12:35:04,PV_Shading,PV Shading fault detected.,PV_790,Low,Active,SimValue_17
+2025-02-28 16:29:54,PV_Broken_Cell,PV Broken Cell fault detected.,PV_784,High,Cleared,SimValue_50
+2025-02-28 19:35:04,PV_Shading,PV Shading fault detected.,PV_790,Low,Cleared,SimValue_17
+2025-02-28 19:48:03,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_325,Medium,Cleared,SimValue_27
+2025-03-01 19:09:47,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_171,Medium,Active,SimValue_70
+2025-03-01 22:09:47,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_171,Medium,Cleared,SimValue_70
+2025-03-02 23:33:16,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_734,High,Active,SimValue_99
+2025-03-03 06:33:16,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_734,High,Cleared,SimValue_99
+2025-03-03 19:05:06,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_892,High,Active,SimValue_24
+2025-03-03 22:05:06,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_892,High,Cleared,SimValue_24
+2025-03-04 06:26:59,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_593,Medium,Active,SimValue_31
+2025-03-04 15:26:59,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_593,Medium,Cleared,SimValue_31
+2025-03-07 15:04:51,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_400,High,Active,SimValue_78
+2025-03-07 23:04:51,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_400,High,Cleared,SimValue_78
+2025-03-08 01:19:24,PV_Shading,PV Shading fault detected.,PV_302,Low,Active,SimValue_88
+2025-03-08 10:19:24,PV_Shading,PV Shading fault detected.,PV_302,Low,Cleared,SimValue_88
+2025-03-08 22:46:10,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_435,Medium,Active,SimValue_92
+2025-03-09 06:46:10,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_435,Medium,Cleared,SimValue_92
+2025-03-09 09:55:56,PV_Broken_Cell,PV Broken Cell fault detected.,PV_343,High,Active,SimValue_14
+2025-03-09 13:35:15,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_466,Medium,Active,SimValue_67
+2025-03-09 15:55:56,PV_Broken_Cell,PV Broken Cell fault detected.,PV_343,High,Cleared,SimValue_14
+2025-03-09 18:32:24,PV_Shading,PV Shading fault detected.,PV_961,Low,Active,SimValue_37
+2025-03-09 22:35:15,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_466,Medium,Cleared,SimValue_67
+2025-03-09 23:35:41,PV_Hot_Spot,PV Hot Spot fault detected.,PV_639,Medium,Active,SimValue_44
+2025-03-10 04:32:24,PV_Shading,PV Shading fault detected.,PV_961,Low,Cleared,SimValue_37
+2025-03-10 04:35:41,PV_Hot_Spot,PV Hot Spot fault detected.,PV_639,Medium,Cleared,SimValue_44
+2025-03-10 05:52:27,PV_Broken_Cell,PV Broken Cell fault detected.,PV_797,High,Active,SimValue_97
+2025-03-10 10:52:27,PV_Broken_Cell,PV Broken Cell fault detected.,PV_797,High,Cleared,SimValue_97
+2025-03-10 13:05:04,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_599,High,Active,SimValue_46
+2025-03-10 23:26:35,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_411,Medium,Active,SimValue_69
+2025-03-11 00:05:04,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_599,High,Cleared,SimValue_46
+2025-03-11 01:26:35,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_411,Medium,Cleared,SimValue_69
+2025-03-11 21:18:24,PV_Broken_Cell,PV Broken Cell fault detected.,PV_636,High,Active,SimValue_61
+2025-03-12 01:18:24,PV_Broken_Cell,PV Broken Cell fault detected.,PV_636,High,Cleared,SimValue_61
+2025-03-12 10:29:19,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_238,Medium,Active,SimValue_42
+2025-03-12 20:29:19,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_238,Medium,Cleared,SimValue_42
+2025-03-13 09:04:15,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_745,High,Active,SimValue_23
+2025-03-13 18:04:15,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_745,High,Cleared,SimValue_23
+2025-03-14 09:06:58,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_870,High,Active,SimValue_90
+2025-03-14 13:44:59,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_840,High,Active,SimValue_83
+2025-03-14 17:44:59,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_840,High,Cleared,SimValue_83
+2025-03-14 18:06:58,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_870,High,Cleared,SimValue_90
+2025-03-15 12:30:49,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_144,High,Active,SimValue_12
+2025-03-16 00:30:49,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_144,High,Cleared,SimValue_12
+2025-03-16 10:59:04,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_548,Medium,Active,SimValue_49
+2025-03-16 13:10:08,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_834,Medium,Active,SimValue_98
+2025-03-16 16:10:08,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_834,Medium,Cleared,SimValue_98
+2025-03-16 20:36:42,PV_Hot_Spot,PV Hot Spot fault detected.,PV_465,Medium,Active,SimValue_88
+2025-03-16 22:59:04,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_548,Medium,Cleared,SimValue_49
+2025-03-16 23:36:42,PV_Hot_Spot,PV Hot Spot fault detected.,PV_465,Medium,Cleared,SimValue_88
+2025-03-17 12:10:19,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_233,Medium,Active,SimValue_71
+2025-03-18 00:10:19,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_233,Medium,Cleared,SimValue_71
+2025-03-18 15:20:57,PV_Shading,PV Shading fault detected.,PV_505,Low,Active,SimValue_99
+2025-03-18 18:47:11,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_811,High,Active,SimValue_83
+2025-03-18 21:20:57,PV_Shading,PV Shading fault detected.,PV_505,Low,Cleared,SimValue_99
+2025-03-19 03:31:36,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_285,Medium,Active,SimValue_89
+2025-03-19 03:47:11,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_811,High,Cleared,SimValue_83
+2025-03-19 12:31:36,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_285,Medium,Cleared,SimValue_89
+2025-03-20 00:35:11,PV_Shading,PV Shading fault detected.,PV_982,Low,Active,SimValue_31
+2025-03-20 01:45:40,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_348,Medium,Active,SimValue_65
+2025-03-20 02:35:11,PV_Shading,PV Shading fault detected.,PV_982,Low,Cleared,SimValue_31
+2025-03-20 06:45:40,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_348,Medium,Cleared,SimValue_65
+2025-03-20 18:06:28,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_100,High,Active,SimValue_39
+2025-03-20 22:06:28,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_100,High,Cleared,SimValue_39
+2025-03-21 00:04:03,PV_Shading,PV Shading fault detected.,PV_409,Low,Active,SimValue_66
+2025-03-21 04:04:03,PV_Shading,PV Shading fault detected.,PV_409,Low,Cleared,SimValue_66
+2025-03-22 05:02:28,PV_Hot_Spot,PV Hot Spot fault detected.,PV_178,Medium,Active,SimValue_53
+2025-03-22 15:02:28,PV_Hot_Spot,PV Hot Spot fault detected.,PV_178,Medium,Cleared,SimValue_53
+2025-03-23 10:37:21,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_744,Medium,Active,SimValue_13
+2025-03-23 12:37:21,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_744,Medium,Cleared,SimValue_13
+2025-03-24 12:57:34,PV_Shading,PV Shading fault detected.,PV_951,Low,Active,SimValue_46
+2025-03-24 16:35:19,PV_Hot_Spot,PV Hot Spot fault detected.,PV_552,Medium,Active,SimValue_37
+2025-03-24 18:57:34,PV_Shading,PV Shading fault detected.,PV_951,Low,Cleared,SimValue_46
+2025-03-24 20:35:19,PV_Hot_Spot,PV Hot Spot fault detected.,PV_552,Medium,Cleared,SimValue_37
+2025-03-25 17:42:26,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_780,Medium,Active,SimValue_42
+2025-03-25 19:47:12,PV_Broken_Cell,PV Broken Cell fault detected.,PV_777,High,Active,SimValue_30
+2025-03-25 23:42:26,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_780,Medium,Cleared,SimValue_42
+2025-03-26 02:47:12,PV_Broken_Cell,PV Broken Cell fault detected.,PV_777,High,Cleared,SimValue_30
+2025-03-26 04:08:29,PV_Broken_Cell,PV Broken Cell fault detected.,PV_767,High,Active,SimValue_21
+2025-03-26 09:01:35,PV_Shading,PV Shading fault detected.,PV_146,Low,Active,SimValue_11
+2025-03-26 10:08:29,PV_Broken_Cell,PV Broken Cell fault detected.,PV_767,High,Cleared,SimValue_21
+2025-03-26 11:01:37,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_729,High,Active,SimValue_73
+2025-03-26 13:01:35,PV_Shading,PV Shading fault detected.,PV_146,Low,Cleared,SimValue_11
+2025-03-26 18:15:17,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_665,Medium,Active,SimValue_78
+2025-03-26 23:01:37,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_729,High,Cleared,SimValue_73
+2025-03-27 02:15:17,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_665,Medium,Cleared,SimValue_78
+2025-03-27 02:48:11,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_682,High,Active,SimValue_17
+2025-03-27 05:32:17,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_627,Medium,Active,SimValue_61
+2025-03-27 06:34:07,MCB_Faulty,MCB Faulty fault detected.,MC_136,High,Active,SimValue_18
+2025-03-27 07:32:17,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_627,Medium,Cleared,SimValue_61
+2025-03-27 08:34:07,MCB_Faulty,MCB Faulty fault detected.,MC_136,High,Cleared,SimValue_18
+2025-03-27 10:48:11,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_682,High,Cleared,SimValue_17
+2025-03-27 20:01:19,PV_Broken_Cell,PV Broken Cell fault detected.,PV_647,High,Active,SimValue_41
+2025-03-28 00:01:19,PV_Broken_Cell,PV Broken Cell fault detected.,PV_647,High,Cleared,SimValue_41
+2025-03-28 01:23:46,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_370,Medium,Active,SimValue_15
+2025-03-28 05:23:46,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_370,Medium,Cleared,SimValue_15
+2025-03-29 23:50:13,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_839,Medium,Active,SimValue_44
+2025-03-30 01:50:13,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_839,Medium,Cleared,SimValue_44
+2025-03-30 09:31:40,PV_Broken_Cell,PV Broken Cell fault detected.,PV_186,High,Active,SimValue_55
+2025-03-30 15:03:53,PV_Hot_Spot,PV Hot Spot fault detected.,PV_931,Medium,Active,SimValue_27
+2025-03-30 15:33:08,PV_Broken_Cell,PV Broken Cell fault detected.,PV_970,High,Active,SimValue_87
+2025-03-30 21:31:40,PV_Broken_Cell,PV Broken Cell fault detected.,PV_186,High,Cleared,SimValue_55
+2025-03-30 22:33:08,PV_Broken_Cell,PV Broken Cell fault detected.,PV_970,High,Cleared,SimValue_87
+2025-03-31 01:03:53,PV_Hot_Spot,PV Hot Spot fault detected.,PV_931,Medium,Cleared,SimValue_27
+2025-03-31 08:59:55,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_390,High,Active,SimValue_21
+2025-03-31 14:59:55,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_390,High,Cleared,SimValue_21
+2025-03-31 21:30:20,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_147,Medium,Active,SimValue_95
+2025-04-01 07:30:20,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_147,Medium,Cleared,SimValue_95
+2025-04-02 00:06:08,PV_Broken_Cell,PV Broken Cell fault detected.,PV_725,High,Active,SimValue_20
+2025-04-02 05:06:08,PV_Broken_Cell,PV Broken Cell fault detected.,PV_725,High,Cleared,SimValue_20
+2025-04-02 21:29:22,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_854,Medium,Active,SimValue_72
+2025-04-02 23:29:22,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_854,Medium,Cleared,SimValue_72
+2025-04-04 05:21:02,PV_Hot_Spot,PV Hot Spot fault detected.,PV_305,Medium,Active,SimValue_82
+2025-04-04 16:21:02,PV_Hot_Spot,PV Hot Spot fault detected.,PV_305,Medium,Cleared,SimValue_82
+2025-04-05 03:51:00,PV_Shading,PV Shading fault detected.,PV_558,Low,Active,SimValue_90
+2025-04-05 07:51:00,PV_Shading,PV Shading fault detected.,PV_558,Low,Cleared,SimValue_90
+2025-04-05 14:57:46,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_361,Medium,Active,SimValue_20
+2025-04-05 17:29:49,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_429,High,Active,SimValue_55
+2025-04-06 01:29:49,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_429,High,Cleared,SimValue_55
+2025-04-06 02:57:46,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_361,Medium,Cleared,SimValue_20
+2025-04-06 14:38:02,PV_Shading,PV Shading fault detected.,PV_134,Low,Active,SimValue_67
+2025-04-06 19:38:02,PV_Shading,PV Shading fault detected.,PV_134,Low,Cleared,SimValue_67
+2025-04-07 08:10:40,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_129,High,Active,SimValue_35
+2025-04-07 08:47:42,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_237,High,Active,SimValue_19
+2025-04-07 13:47:42,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_237,High,Cleared,SimValue_19
+2025-04-07 20:10:40,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_129,High,Cleared,SimValue_35
+2025-04-07 22:59:56,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_478,High,Active,SimValue_76
+2025-04-08 07:59:56,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_478,High,Cleared,SimValue_76
+2025-04-09 16:51:18,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_736,High,Active,SimValue_85
+2025-04-09 21:51:18,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_736,High,Cleared,SimValue_85
+2025-04-10 11:03:55,PV_Hot_Spot,PV Hot Spot fault detected.,PV_741,Medium,Active,SimValue_70
+2025-04-10 13:03:55,PV_Hot_Spot,PV Hot Spot fault detected.,PV_741,Medium,Cleared,SimValue_70
+2025-04-10 16:01:28,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_593,High,Active,SimValue_70
+2025-04-10 21:01:28,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_593,High,Cleared,SimValue_70
+2025-04-12 02:17:03,PV_Soiling,PV Soiling fault detected.,PV_826,Low,Active,SimValue_55
+2025-04-12 02:34:11,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_934,High,Active,SimValue_94
+2025-04-12 03:17:03,PV_Soiling,PV Soiling fault detected.,PV_826,Low,Cleared,SimValue_55
+2025-04-12 03:34:11,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_934,High,Cleared,SimValue_94
+2025-04-13 01:38:05,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_849,High,Active,SimValue_55
+2025-04-13 09:25:49,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_420,High,Active,SimValue_41
+2025-04-13 11:38:05,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_849,High,Cleared,SimValue_55
+2025-04-13 13:42:53,PV_Broken_Cell,PV Broken Cell fault detected.,PV_754,High,Active,SimValue_59
+2025-04-13 19:14:58,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_977,Medium,Active,SimValue_20
+2025-04-13 20:25:49,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_420,High,Cleared,SimValue_41
+2025-04-14 00:14:58,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_977,Medium,Cleared,SimValue_20
+2025-04-14 01:42:53,PV_Broken_Cell,PV Broken Cell fault detected.,PV_754,High,Cleared,SimValue_59
+2025-04-14 03:10:59,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_911,High,Active,SimValue_22
+2025-04-14 10:51:56,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_476,Medium,Active,SimValue_42
+2025-04-14 12:10:59,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_911,High,Cleared,SimValue_22
+2025-04-14 16:51:56,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_476,Medium,Cleared,SimValue_42
+2025-04-16 00:36:34,PV_Broken_Cell,PV Broken Cell fault detected.,PV_487,High,Active,SimValue_22
+2025-04-16 07:36:34,PV_Broken_Cell,PV Broken Cell fault detected.,PV_487,High,Cleared,SimValue_22
+2025-04-16 08:06:58,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_718,Medium,Active,SimValue_96
+2025-04-16 17:06:58,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_718,Medium,Cleared,SimValue_96
+2025-04-17 19:36:02,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_931,High,Active,SimValue_11
+2025-04-17 23:31:04,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_331,High,Active,SimValue_32
+2025-04-18 00:36:02,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_931,High,Cleared,SimValue_11
+2025-04-18 06:31:04,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_331,High,Cleared,SimValue_32
+2025-04-18 13:53:39,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_391,Medium,Active,SimValue_54
+2025-04-18 20:53:39,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_391,Medium,Cleared,SimValue_54
+2025-04-20 09:04:17,PV_Hot_Spot,PV Hot Spot fault detected.,PV_289,Medium,Active,SimValue_72
+2025-04-20 15:04:17,PV_Hot_Spot,PV Hot Spot fault detected.,PV_289,Medium,Cleared,SimValue_72
+2025-04-20 21:54:46,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_750,Medium,Active,SimValue_79
+2025-04-20 23:54:46,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_750,Medium,Cleared,SimValue_79
+2025-04-21 05:13:38,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_792,Medium,Active,SimValue_62
+2025-04-21 12:13:38,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_792,Medium,Cleared,SimValue_62
+2025-04-23 15:44:26,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_146,High,Active,SimValue_79
+2025-04-23 16:44:26,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_146,High,Cleared,SimValue_79
+2025-04-24 22:00:22,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_895,High,Active,SimValue_80
+2025-04-25 07:00:22,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_895,High,Cleared,SimValue_80
+2025-04-26 07:44:58,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_827,High,Active,SimValue_52
+2025-04-26 14:07:33,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_562,Medium,Active,SimValue_90
+2025-04-26 15:07:33,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_562,Medium,Cleared,SimValue_90
+2025-04-26 15:44:58,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_827,High,Cleared,SimValue_52
+2025-04-26 16:04:13,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_812,High,Active,SimValue_50
+2025-04-26 18:04:13,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_812,High,Cleared,SimValue_50
+2025-04-28 13:40:06,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_640,High,Active,SimValue_27
+2025-04-28 15:35:32,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_295,Medium,Active,SimValue_16
+2025-04-28 19:40:06,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_640,High,Cleared,SimValue_27
+2025-04-28 22:35:32,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_295,Medium,Cleared,SimValue_16
+2025-04-28 22:36:37,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_810,Medium,Active,SimValue_47
+2025-04-29 05:36:37,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_810,Medium,Cleared,SimValue_47
+2025-05-01 02:15:35,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_275,High,Active,SimValue_46
+2025-05-01 04:15:35,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_275,High,Cleared,SimValue_46
+2025-05-01 19:21:04,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_916,Medium,Active,SimValue_81
+2025-05-02 03:21:04,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_916,Medium,Cleared,SimValue_81
+2025-05-02 14:44:52,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_105,Medium,Active,SimValue_86
+2025-05-02 22:03:24,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_332,Medium,Active,SimValue_15
+2025-05-03 01:46:15,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_797,Medium,Active,SimValue_79
+2025-05-03 02:44:52,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_105,Medium,Cleared,SimValue_86
+2025-05-03 05:57:32,PV_Broken_Cell,PV Broken Cell fault detected.,PV_929,High,Active,SimValue_43
+2025-05-03 06:46:15,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_797,Medium,Cleared,SimValue_79
+2025-05-03 10:03:24,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_332,Medium,Cleared,SimValue_15
+2025-05-03 13:57:32,PV_Broken_Cell,PV Broken Cell fault detected.,PV_929,High,Cleared,SimValue_43
+2025-05-03 23:15:52,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_634,High,Active,SimValue_20
+2025-05-04 07:15:52,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_634,High,Cleared,SimValue_20
+2025-05-04 07:38:34,PV_Shading,PV Shading fault detected.,PV_456,Low,Active,SimValue_56
+2025-05-04 19:38:34,PV_Shading,PV Shading fault detected.,PV_456,Low,Cleared,SimValue_56
+2025-05-05 00:50:45,MCB_Faulty,MCB Faulty fault detected.,MC_126,High,Active,SimValue_94
+2025-05-05 03:51:44,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_901,Medium,Active,SimValue_68
+2025-05-05 06:50:45,MCB_Faulty,MCB Faulty fault detected.,MC_126,High,Cleared,SimValue_94
+2025-05-05 06:51:44,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_901,Medium,Cleared,SimValue_68
+2025-05-06 10:22:57,PV_Shading,PV Shading fault detected.,PV_328,Low,Active,SimValue_10
+2025-05-06 12:22:57,PV_Shading,PV Shading fault detected.,PV_328,Low,Cleared,SimValue_10
+2025-05-06 16:03:41,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_970,Medium,Active,SimValue_49
+2025-05-06 19:03:41,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_970,Medium,Cleared,SimValue_49
+2025-05-07 04:25:21,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_569,High,Active,SimValue_57
+2025-05-07 13:25:21,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_569,High,Cleared,SimValue_57
+2025-05-08 05:24:42,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_321,Medium,Active,SimValue_52
+2025-05-08 10:36:17,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_765,Medium,Active,SimValue_72
+2025-05-08 11:24:42,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_321,Medium,Cleared,SimValue_52
+2025-05-08 12:36:17,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_765,Medium,Cleared,SimValue_72
+2025-05-08 13:59:29,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_679,High,Active,SimValue_96
+2025-05-08 16:59:29,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_679,High,Cleared,SimValue_96
+2025-05-08 19:24:25,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_869,Medium,Active,SimValue_25
+2025-05-09 00:19:45,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_478,Medium,Active,SimValue_90
+2025-05-09 02:47:47,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_622,Medium,Active,SimValue_89
+2025-05-09 05:24:25,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_869,Medium,Cleared,SimValue_25
+2025-05-09 07:19:45,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_478,Medium,Cleared,SimValue_90
+2025-05-09 11:47:47,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_622,Medium,Cleared,SimValue_89
+2025-05-10 07:34:16,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_196,Medium,Active,SimValue_94
+2025-05-10 16:34:16,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_196,Medium,Cleared,SimValue_94
+2025-05-11 17:43:43,Cable_Material_Aging,Cable Material Aging fault detected.,CA_576,Medium,Active,SimValue_91
+2025-05-11 21:43:43,Cable_Material_Aging,Cable Material Aging fault detected.,CA_576,Medium,Cleared,SimValue_91
+2025-05-11 23:04:59,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_285,Medium,Active,SimValue_74
+2025-05-12 05:04:59,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_285,Medium,Cleared,SimValue_74
+2025-05-12 21:11:04,PV_Shading,PV Shading fault detected.,PV_365,Low,Active,SimValue_70
+2025-05-12 23:11:04,PV_Shading,PV Shading fault detected.,PV_365,Low,Cleared,SimValue_70
+2025-05-14 18:35:00,PV_Broken_Cell,PV Broken Cell fault detected.,PV_731,High,Active,SimValue_21
+2025-05-14 19:35:00,PV_Broken_Cell,PV Broken Cell fault detected.,PV_731,High,Cleared,SimValue_21
+2025-05-14 20:56:35,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_368,High,Active,SimValue_24
+2025-05-14 21:56:35,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_368,High,Cleared,SimValue_24
+2025-05-15 13:31:29,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_835,High,Active,SimValue_41
+2025-05-15 19:31:29,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_835,High,Cleared,SimValue_41
+2025-05-15 19:51:19,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_273,Medium,Active,SimValue_58
+2025-05-16 01:51:19,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_273,Medium,Cleared,SimValue_58
+2025-05-16 04:38:59,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_663,High,Active,SimValue_52
+2025-05-16 15:38:59,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_663,High,Cleared,SimValue_52
+2025-05-17 03:39:38,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_939,Medium,Active,SimValue_73
+2025-05-17 14:39:38,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_939,Medium,Cleared,SimValue_73
+2025-05-18 01:06:25,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_315,Medium,Active,SimValue_57
+2025-05-18 03:06:25,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_315,Medium,Cleared,SimValue_57
+2025-05-18 14:40:43,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_662,High,Active,SimValue_92
+2025-05-18 15:40:43,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_662,High,Cleared,SimValue_92
+2025-05-19 00:39:09,PV_Hot_Spot,PV Hot Spot fault detected.,PV_849,Medium,Active,SimValue_37
+2025-05-19 01:52:53,PV_Shading,PV Shading fault detected.,PV_179,Low,Active,SimValue_60
+2025-05-19 03:05:54,PV_Hot_Spot,PV Hot Spot fault detected.,PV_214,Medium,Active,SimValue_88
+2025-05-19 04:39:09,PV_Hot_Spot,PV Hot Spot fault detected.,PV_849,Medium,Cleared,SimValue_37
+2025-05-19 04:52:53,PV_Shading,PV Shading fault detected.,PV_179,Low,Cleared,SimValue_60
+2025-05-19 05:05:54,PV_Hot_Spot,PV Hot Spot fault detected.,PV_214,Medium,Cleared,SimValue_88
+2025-05-19 13:16:56,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_422,Medium,Active,SimValue_67
+2025-05-19 22:16:56,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_422,Medium,Cleared,SimValue_67
+2025-05-20 01:02:30,PV_Shading,PV Shading fault detected.,PV_178,Low,Active,SimValue_23
+2025-05-20 02:02:30,PV_Shading,PV Shading fault detected.,PV_178,Low,Cleared,SimValue_23
+2025-05-20 03:14:03,PV_Broken_Cell,PV Broken Cell fault detected.,PV_233,High,Active,SimValue_84
+2025-05-20 03:51:56,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_717,High,Active,SimValue_16
+2025-05-20 07:51:56,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_717,High,Cleared,SimValue_16
+2025-05-20 12:14:03,PV_Broken_Cell,PV Broken Cell fault detected.,PV_233,High,Cleared,SimValue_84
+2025-05-21 17:59:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_813,Medium,Active,SimValue_29
+2025-05-21 18:59:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_813,Medium,Cleared,SimValue_29
+2025-05-21 22:17:50,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_875,Medium,Active,SimValue_94
+2025-05-22 09:17:50,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_875,Medium,Cleared,SimValue_94
+2025-05-23 22:53:11,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_962,High,Active,SimValue_15
+2025-05-24 00:53:11,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_962,High,Cleared,SimValue_15
+2025-05-25 21:30:08,PV_Broken_Cell,PV Broken Cell fault detected.,PV_934,High,Active,SimValue_45
+2025-05-25 23:30:08,PV_Broken_Cell,PV Broken Cell fault detected.,PV_934,High,Cleared,SimValue_45
+2025-05-26 12:05:38,PV_Hot_Spot,PV Hot Spot fault detected.,PV_639,Medium,Active,SimValue_12
+2025-05-26 16:05:38,PV_Hot_Spot,PV Hot Spot fault detected.,PV_639,Medium,Cleared,SimValue_12
+2025-05-26 19:59:19,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_530,High,Active,SimValue_81
+2025-05-27 00:59:19,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_530,High,Cleared,SimValue_81
+2025-05-27 09:39:14,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_340,Medium,Active,SimValue_83
+2025-05-27 13:39:14,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_340,Medium,Cleared,SimValue_83
+2025-05-27 20:43:11,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_320,Medium,Active,SimValue_92
+2025-05-28 02:43:11,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_320,Medium,Cleared,SimValue_92
+2025-05-28 06:09:22,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_162,Medium,Active,SimValue_85
+2025-05-28 09:09:22,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_162,Medium,Cleared,SimValue_85
+2025-05-29 03:06:18,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_190,High,Active,SimValue_64
+2025-05-29 06:06:18,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_190,High,Cleared,SimValue_64
+2025-05-29 10:20:47,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_991,High,Active,SimValue_16
+2025-05-29 16:08:26,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_663,Medium,Active,SimValue_37
+2025-05-29 18:08:26,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_663,Medium,Cleared,SimValue_37
+2025-05-29 18:20:47,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_991,High,Cleared,SimValue_16
+2025-05-29 23:00:18,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_576,Medium,Active,SimValue_52
+2025-05-30 05:23:49,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_947,High,Active,SimValue_63
+2025-05-30 09:00:18,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_576,Medium,Cleared,SimValue_52
+2025-05-30 11:23:49,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_947,High,Cleared,SimValue_63
+2025-06-01 13:14:18,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_451,High,Active,SimValue_16
+2025-06-01 18:14:18,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_451,High,Cleared,SimValue_16
+2025-06-02 04:19:53,PV_Hot_Spot,PV Hot Spot fault detected.,PV_268,Medium,Active,SimValue_75
+2025-06-02 05:19:53,PV_Hot_Spot,PV Hot Spot fault detected.,PV_268,Medium,Cleared,SimValue_75
+2025-06-03 17:45:28,PV_Hot_Spot,PV Hot Spot fault detected.,PV_156,Medium,Active,SimValue_89
+2025-06-03 18:34:50,PV_Broken_Cell,PV Broken Cell fault detected.,PV_530,High,Active,SimValue_36
+2025-06-03 21:45:28,PV_Hot_Spot,PV Hot Spot fault detected.,PV_156,Medium,Cleared,SimValue_89
+2025-06-03 23:12:21,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_102,Medium,Active,SimValue_78
+2025-06-04 02:34:50,PV_Broken_Cell,PV Broken Cell fault detected.,PV_530,High,Cleared,SimValue_36
+2025-06-04 09:21:45,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_819,Medium,Active,SimValue_21
+2025-06-04 10:12:21,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_102,Medium,Cleared,SimValue_78
+2025-06-04 15:21:45,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_819,Medium,Cleared,SimValue_21
+2025-06-05 13:50:27,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_883,High,Active,SimValue_74
+2025-06-05 18:20:25,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_269,Medium,Active,SimValue_43
+2025-06-05 20:20:25,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_269,Medium,Cleared,SimValue_43
+2025-06-06 01:50:27,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_883,High,Cleared,SimValue_74
+2025-06-07 18:16:35,PV_Shading,PV Shading fault detected.,PV_279,Low,Active,SimValue_58
+2025-06-07 20:16:35,PV_Shading,PV Shading fault detected.,PV_279,Low,Cleared,SimValue_58
+2025-06-08 14:24:15,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_826,Medium,Active,SimValue_22
+2025-06-08 18:24:15,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_826,Medium,Cleared,SimValue_22
+2025-06-10 16:18:20,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_360,Medium,Active,SimValue_66
+2025-06-10 18:51:42,PV_Broken_Cell,PV Broken Cell fault detected.,PV_590,High,Active,SimValue_12
+2025-06-10 23:18:20,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_360,Medium,Cleared,SimValue_66
+2025-06-11 00:51:42,PV_Broken_Cell,PV Broken Cell fault detected.,PV_590,High,Cleared,SimValue_12
+2025-06-11 04:18:02,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_429,High,Active,SimValue_98
+2025-06-11 06:19:29,PV_Soiling,PV Soiling fault detected.,PV_429,Low,Active,SimValue_99
+2025-06-11 06:24:01,PV_Broken_Cell,PV Broken Cell fault detected.,PV_763,High,Active,SimValue_44
+2025-06-11 07:18:02,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_429,High,Cleared,SimValue_98
+2025-06-11 11:24:01,PV_Broken_Cell,PV Broken Cell fault detected.,PV_763,High,Cleared,SimValue_44
+2025-06-11 12:19:29,PV_Soiling,PV Soiling fault detected.,PV_429,Low,Cleared,SimValue_99
+2025-06-11 13:08:52,PV_Shading,PV Shading fault detected.,PV_117,Low,Active,SimValue_17
+2025-06-11 22:08:52,PV_Shading,PV Shading fault detected.,PV_117,Low,Cleared,SimValue_17
+2025-06-12 23:55:01,PV_Broken_Cell,PV Broken Cell fault detected.,PV_736,High,Active,SimValue_61
+2025-06-13 02:55:01,PV_Broken_Cell,PV Broken Cell fault detected.,PV_736,High,Cleared,SimValue_61
+2025-06-13 18:06:06,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_297,High,Active,SimValue_59
+2025-06-14 00:12:41,PV_Broken_Cell,PV Broken Cell fault detected.,PV_848,High,Active,SimValue_62
+2025-06-14 02:12:41,PV_Broken_Cell,PV Broken Cell fault detected.,PV_848,High,Cleared,SimValue_62
+2025-06-14 05:06:06,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_297,High,Cleared,SimValue_59
+2025-06-15 05:30:12,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_261,High,Active,SimValue_71
+2025-06-15 06:30:12,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_261,High,Cleared,SimValue_71
+2025-06-16 19:44:58,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_462,Medium,Active,SimValue_65
+2025-06-17 02:00:46,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_616,High,Active,SimValue_10
+2025-06-17 02:44:58,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_462,Medium,Cleared,SimValue_65
+2025-06-17 07:11:06,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_183,High,Active,SimValue_76
+2025-06-17 12:53:03,PV_Shading,PV Shading fault detected.,PV_462,Low,Active,SimValue_50
+2025-06-17 13:27:25,PV_Shading,PV Shading fault detected.,PV_157,Low,Active,SimValue_45
+2025-06-17 14:00:46,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_616,High,Cleared,SimValue_10
+2025-06-17 16:28:50,PV_Shading,PV Shading fault detected.,PV_147,Low,Active,SimValue_45
+2025-06-17 16:53:03,PV_Shading,PV Shading fault detected.,PV_462,Low,Cleared,SimValue_50
+2025-06-17 18:11:06,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_183,High,Cleared,SimValue_76
+2025-06-17 23:27:25,PV_Shading,PV Shading fault detected.,PV_157,Low,Cleared,SimValue_45
+2025-06-18 04:28:50,PV_Shading,PV Shading fault detected.,PV_147,Low,Cleared,SimValue_45
+2025-06-18 07:13:07,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_576,High,Active,SimValue_46
+2025-06-18 11:13:07,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_576,High,Cleared,SimValue_46
+2025-06-19 16:59:20,PV_Broken_Cell,PV Broken Cell fault detected.,PV_970,High,Active,SimValue_49
+2025-06-19 17:59:20,PV_Broken_Cell,PV Broken Cell fault detected.,PV_970,High,Cleared,SimValue_49
+2025-06-20 16:42:29,PV_Shading,PV Shading fault detected.,PV_393,Low,Active,SimValue_62
+2025-06-20 20:42:29,PV_Shading,PV Shading fault detected.,PV_393,Low,Cleared,SimValue_62
+2025-06-21 17:31:51,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_654,High,Active,SimValue_42
+2025-06-21 20:31:51,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_654,High,Cleared,SimValue_42
+2025-06-22 03:46:34,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_706,High,Active,SimValue_17
+2025-06-22 11:29:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_953,Medium,Active,SimValue_73
+2025-06-22 12:46:34,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_706,High,Cleared,SimValue_17
+2025-06-22 13:29:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_953,Medium,Cleared,SimValue_73
+2025-06-23 20:12:47,PV_Hot_Spot,PV Hot Spot fault detected.,PV_247,Medium,Active,SimValue_96
+2025-06-24 07:12:47,PV_Hot_Spot,PV Hot Spot fault detected.,PV_247,Medium,Cleared,SimValue_96
+2025-06-24 08:17:11,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_953,Medium,Active,SimValue_66
+2025-06-24 08:46:08,PV_Shading,PV Shading fault detected.,PV_207,Low,Active,SimValue_88
+2025-06-24 11:17:11,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_953,Medium,Cleared,SimValue_66
+2025-06-24 11:38:49,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_894,High,Active,SimValue_88
+2025-06-24 15:46:08,PV_Shading,PV Shading fault detected.,PV_207,Low,Cleared,SimValue_88
+2025-06-24 20:38:49,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_894,High,Cleared,SimValue_88
+2025-06-24 20:47:45,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_913,Medium,Active,SimValue_34
+2025-06-25 08:47:45,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_913,Medium,Cleared,SimValue_34
+2025-06-26 08:51:11,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_297,High,Active,SimValue_69
+2025-06-26 11:37:37,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_564,High,Active,SimValue_48
+2025-06-26 14:51:11,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_297,High,Cleared,SimValue_69
+2025-06-26 17:37:37,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_564,High,Cleared,SimValue_48
+2025-06-26 20:05:39,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_568,Medium,Active,SimValue_79
+2025-06-27 08:05:39,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_568,Medium,Cleared,SimValue_79
+2025-06-28 09:08:59,PV_Broken_Cell,PV Broken Cell fault detected.,PV_359,High,Active,SimValue_78
+2025-06-28 11:16:38,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_885,Medium,Active,SimValue_12
+2025-06-28 16:16:38,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_885,Medium,Cleared,SimValue_12
+2025-06-28 20:08:59,PV_Broken_Cell,PV Broken Cell fault detected.,PV_359,High,Cleared,SimValue_78
+2025-06-29 02:27:02,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_660,High,Active,SimValue_92
+2025-06-29 10:55:14,PV_Hot_Spot,PV Hot Spot fault detected.,PV_664,Medium,Active,SimValue_80
+2025-06-29 11:27:02,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_660,High,Cleared,SimValue_92
+2025-06-29 18:04:05,PV_Shading,PV Shading fault detected.,PV_114,Low,Active,SimValue_34
+2025-06-29 19:55:14,PV_Hot_Spot,PV Hot Spot fault detected.,PV_664,Medium,Cleared,SimValue_80
+2025-06-30 02:04:05,PV_Shading,PV Shading fault detected.,PV_114,Low,Cleared,SimValue_34
+2025-06-30 09:54:46,PV_Shading,PV Shading fault detected.,PV_886,Low,Active,SimValue_27
+2025-06-30 17:51:31,PV_Broken_Cell,PV Broken Cell fault detected.,PV_206,High,Active,SimValue_60
+2025-06-30 20:51:31,PV_Broken_Cell,PV Broken Cell fault detected.,PV_206,High,Cleared,SimValue_60
+2025-06-30 21:54:46,PV_Shading,PV Shading fault detected.,PV_886,Low,Cleared,SimValue_27
+2025-07-01 00:53:57,MCB_Faulty,MCB Faulty fault detected.,MC_661,High,Active,SimValue_66
+2025-07-01 04:19:03,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_548,Medium,Active,SimValue_41
+2025-07-01 07:53:57,MCB_Faulty,MCB Faulty fault detected.,MC_661,High,Cleared,SimValue_66
+2025-07-01 10:19:03,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_548,Medium,Cleared,SimValue_41
+2025-07-02 15:54:11,PV_Hot_Spot,PV Hot Spot fault detected.,PV_168,Medium,Active,SimValue_32
+2025-07-03 02:54:11,PV_Hot_Spot,PV Hot Spot fault detected.,PV_168,Medium,Cleared,SimValue_32
+2025-07-03 07:43:20,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_393,High,Active,SimValue_77
+2025-07-03 17:43:20,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_393,High,Cleared,SimValue_77
+2025-07-04 06:15:47,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_728,Medium,Active,SimValue_33
+2025-07-04 10:15:47,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_728,Medium,Cleared,SimValue_33
+2025-07-04 16:44:51,PV_Shading,PV Shading fault detected.,PV_749,Low,Active,SimValue_54
+2025-07-04 19:21:07,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_212,High,Active,SimValue_60
+2025-07-04 20:21:07,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_212,High,Cleared,SimValue_60
+2025-07-04 21:44:51,PV_Shading,PV Shading fault detected.,PV_749,Low,Cleared,SimValue_54
+2025-07-07 11:24:36,PV_Shading,PV Shading fault detected.,PV_410,Low,Active,SimValue_67
+2025-07-07 14:24:36,PV_Shading,PV Shading fault detected.,PV_410,Low,Cleared,SimValue_67
+2025-07-09 02:57:55,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_305,Medium,Active,SimValue_78
+2025-07-09 05:07:08,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_829,Medium,Active,SimValue_57
+2025-07-09 13:57:55,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_305,Medium,Cleared,SimValue_78
+2025-07-09 17:07:08,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_829,Medium,Cleared,SimValue_57
+2025-07-10 21:42:21,PV_Shading,PV Shading fault detected.,PV_304,Low,Active,SimValue_41
+2025-07-11 04:42:21,PV_Shading,PV Shading fault detected.,PV_304,Low,Cleared,SimValue_41
+2025-07-12 01:03:31,MCB_Faulty,MCB Faulty fault detected.,MC_738,High,Active,SimValue_56
+2025-07-12 03:03:31,MCB_Faulty,MCB Faulty fault detected.,MC_738,High,Cleared,SimValue_56
+2025-07-14 13:19:15,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_507,High,Active,SimValue_53
+2025-07-14 14:19:15,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_507,High,Cleared,SimValue_53
+2025-07-14 17:30:29,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_557,High,Active,SimValue_61
+2025-07-14 21:30:29,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_557,High,Cleared,SimValue_61
+2025-07-15 09:11:25,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_558,Medium,Active,SimValue_49
+2025-07-15 15:11:25,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_558,Medium,Cleared,SimValue_49
+2025-07-16 05:10:31,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_448,High,Active,SimValue_39
+2025-07-16 08:10:31,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_448,High,Cleared,SimValue_39
+2025-07-18 07:53:28,PV_Broken_Cell,PV Broken Cell fault detected.,PV_958,High,Active,SimValue_45
+2025-07-18 18:53:28,PV_Broken_Cell,PV Broken Cell fault detected.,PV_958,High,Cleared,SimValue_45
+2025-07-19 05:13:08,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_735,Medium,Active,SimValue_74
+2025-07-19 08:13:08,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_735,Medium,Cleared,SimValue_74
+2025-07-21 16:39:19,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_231,High,Active,SimValue_98
+2025-07-22 02:39:19,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_231,High,Cleared,SimValue_98
+2025-07-22 07:58:47,PV_Shading,PV Shading fault detected.,PV_791,Low,Active,SimValue_83
+2025-07-22 08:58:47,PV_Shading,PV Shading fault detected.,PV_791,Low,Cleared,SimValue_83
+2025-07-23 00:18:41,PV_Hot_Spot,PV Hot Spot fault detected.,PV_761,Medium,Active,SimValue_53
+2025-07-23 04:18:41,PV_Hot_Spot,PV Hot Spot fault detected.,PV_761,Medium,Cleared,SimValue_53
+2025-07-23 10:43:26,PV_Broken_Cell,PV Broken Cell fault detected.,PV_235,High,Active,SimValue_86
+2025-07-23 17:50:11,PV_Shading,PV Shading fault detected.,PV_474,Low,Active,SimValue_90
+2025-07-23 21:43:26,PV_Broken_Cell,PV Broken Cell fault detected.,PV_235,High,Cleared,SimValue_86
+2025-07-23 23:40:43,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_711,High,Active,SimValue_77
+2025-07-24 02:40:43,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_711,High,Cleared,SimValue_77
+2025-07-24 04:50:11,PV_Shading,PV Shading fault detected.,PV_474,Low,Cleared,SimValue_90
+2025-07-24 14:10:46,PV_Broken_Cell,PV Broken Cell fault detected.,PV_482,High,Active,SimValue_35
+2025-07-24 18:40:34,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_807,High,Active,SimValue_48
+2025-07-24 22:10:46,PV_Broken_Cell,PV Broken Cell fault detected.,PV_482,High,Cleared,SimValue_35
+2025-07-25 00:40:34,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_807,High,Cleared,SimValue_48
+2025-07-26 10:11:37,PV_Shading,PV Shading fault detected.,PV_760,Low,Active,SimValue_48
+2025-07-26 17:11:37,PV_Shading,PV Shading fault detected.,PV_760,Low,Cleared,SimValue_48
+2025-07-27 05:24:32,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_403,Medium,Active,SimValue_29
+2025-07-27 05:36:34,PV_Broken_Cell,PV Broken Cell fault detected.,PV_897,High,Active,SimValue_91
+2025-07-27 10:24:32,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_403,Medium,Cleared,SimValue_29
+2025-07-27 13:36:34,PV_Broken_Cell,PV Broken Cell fault detected.,PV_897,High,Cleared,SimValue_91
+2025-07-28 03:19:25,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_858,High,Active,SimValue_87
+2025-07-28 12:19:25,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_858,High,Cleared,SimValue_87
+2025-07-31 03:42:21,PV_Hot_Spot,PV Hot Spot fault detected.,PV_621,Medium,Active,SimValue_36
+2025-07-31 12:42:21,PV_Hot_Spot,PV Hot Spot fault detected.,PV_621,Medium,Cleared,SimValue_36
+2025-07-31 12:47:07,PV_Shading,PV Shading fault detected.,PV_721,Low,Active,SimValue_55
+2025-07-31 21:47:07,PV_Shading,PV Shading fault detected.,PV_721,Low,Cleared,SimValue_55
+2025-07-31 23:27:02,PV_Hot_Spot,PV Hot Spot fault detected.,PV_286,Medium,Active,SimValue_26
+2025-08-01 02:27:02,PV_Hot_Spot,PV Hot Spot fault detected.,PV_286,Medium,Cleared,SimValue_26
+2025-08-02 19:34:36,PV_Hot_Spot,PV Hot Spot fault detected.,PV_952,Medium,Active,SimValue_17
+2025-08-03 05:34:36,PV_Hot_Spot,PV Hot Spot fault detected.,PV_952,Medium,Cleared,SimValue_17
+2025-08-03 15:08:04,PV_Hot_Spot,PV Hot Spot fault detected.,PV_647,Medium,Active,SimValue_55
+2025-08-03 19:14:03,PV_Hot_Spot,PV Hot Spot fault detected.,PV_170,Medium,Active,SimValue_14
+2025-08-03 21:28:49,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_596,High,Active,SimValue_15
+2025-08-03 22:08:04,PV_Hot_Spot,PV Hot Spot fault detected.,PV_647,Medium,Cleared,SimValue_55
+2025-08-03 22:36:21,PV_Broken_Cell,PV Broken Cell fault detected.,PV_825,High,Active,SimValue_18
+2025-08-04 02:28:49,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_596,High,Cleared,SimValue_15
+2025-08-04 06:14:03,PV_Hot_Spot,PV Hot Spot fault detected.,PV_170,Medium,Cleared,SimValue_14
+2025-08-04 07:36:21,PV_Broken_Cell,PV Broken Cell fault detected.,PV_825,High,Cleared,SimValue_18
+2025-08-06 00:29:45,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_719,High,Active,SimValue_92
+2025-08-06 04:29:45,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_719,High,Cleared,SimValue_92
+2025-08-06 08:15:05,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_759,Medium,Active,SimValue_77
+2025-08-06 15:15:05,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_759,Medium,Cleared,SimValue_77
+2025-08-06 23:36:18,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_371,Medium,Active,SimValue_63
+2025-08-07 00:36:18,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_371,Medium,Cleared,SimValue_63
+2025-08-07 02:38:23,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_954,High,Active,SimValue_75
+2025-08-07 14:38:23,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_954,High,Cleared,SimValue_75
+2025-08-08 03:53:01,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_374,High,Active,SimValue_77
+2025-08-08 15:53:01,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_374,High,Cleared,SimValue_77
+2025-08-09 14:13:40,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_424,High,Active,SimValue_18
+2025-08-10 01:13:40,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_424,High,Cleared,SimValue_18
+2025-08-11 16:52:12,PV_Broken_Cell,PV Broken Cell fault detected.,PV_142,High,Active,SimValue_82
+2025-08-11 19:52:12,PV_Broken_Cell,PV Broken Cell fault detected.,PV_142,High,Cleared,SimValue_82
+2025-08-13 05:39:16,PV_Shading,PV Shading fault detected.,PV_393,Low,Active,SimValue_90
+2025-08-13 06:39:16,PV_Shading,PV Shading fault detected.,PV_393,Low,Cleared,SimValue_90
+2025-08-13 19:18:49,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_254,High,Active,SimValue_54
+2025-08-13 21:18:59,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_993,Medium,Active,SimValue_53
+2025-08-14 01:18:59,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_993,Medium,Cleared,SimValue_53
+2025-08-14 06:18:49,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_254,High,Cleared,SimValue_54
+2025-08-15 09:03:00,PV_Broken_Cell,PV Broken Cell fault detected.,PV_371,High,Active,SimValue_56
+2025-08-15 13:03:00,PV_Broken_Cell,PV Broken Cell fault detected.,PV_371,High,Cleared,SimValue_56
+2025-08-17 08:46:58,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_827,High,Active,SimValue_81
+2025-08-17 11:21:19,MCB_Faulty,MCB Faulty fault detected.,MC_125,High,Active,SimValue_92
+2025-08-17 15:21:19,MCB_Faulty,MCB Faulty fault detected.,MC_125,High,Cleared,SimValue_92
+2025-08-17 15:46:58,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_827,High,Cleared,SimValue_81
+2025-08-18 08:06:41,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_141,Medium,Active,SimValue_11
+2025-08-18 18:06:41,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_141,Medium,Cleared,SimValue_11
+2025-08-19 21:26:18,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_355,High,Active,SimValue_49
+2025-08-20 03:26:18,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_355,High,Cleared,SimValue_49
+2025-08-20 11:08:36,PV_Broken_Cell,PV Broken Cell fault detected.,PV_574,High,Active,SimValue_43
+2025-08-20 19:08:36,PV_Broken_Cell,PV Broken Cell fault detected.,PV_574,High,Cleared,SimValue_43
+2025-08-21 08:56:37,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_822,High,Active,SimValue_61
+2025-08-21 18:56:37,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_822,High,Cleared,SimValue_61
+2025-08-22 06:21:41,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_367,High,Active,SimValue_39
+2025-08-22 12:21:41,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_367,High,Cleared,SimValue_39
+2025-08-23 00:11:24,PV_Hot_Spot,PV Hot Spot fault detected.,PV_913,Medium,Active,SimValue_18
+2025-08-23 02:11:24,PV_Hot_Spot,PV Hot Spot fault detected.,PV_913,Medium,Cleared,SimValue_18
+2025-08-23 04:08:22,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_402,High,Active,SimValue_33
+2025-08-23 04:53:27,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_519,Medium,Active,SimValue_79
+2025-08-23 05:53:27,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_519,Medium,Cleared,SimValue_79
+2025-08-23 10:09:58,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_734,Medium,Active,SimValue_96
+2025-08-23 12:09:58,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_734,Medium,Cleared,SimValue_96
+2025-08-23 14:08:22,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_402,High,Cleared,SimValue_33
+2025-08-23 22:11:05,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_621,Medium,Active,SimValue_88
+2025-08-24 09:11:05,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_621,Medium,Cleared,SimValue_88
+2025-08-26 05:29:24,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_189,High,Active,SimValue_30
+2025-08-26 10:29:24,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_189,High,Cleared,SimValue_30
+2025-08-27 18:14:40,PV_Hot_Spot,PV Hot Spot fault detected.,PV_815,Medium,Active,SimValue_10
+2025-08-28 04:02:15,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_632,High,Active,SimValue_35
+2025-08-28 06:14:40,PV_Hot_Spot,PV Hot Spot fault detected.,PV_815,Medium,Cleared,SimValue_10
+2025-08-28 09:32:15,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_432,High,Active,SimValue_13
+2025-08-28 13:02:15,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_632,High,Cleared,SimValue_35
+2025-08-28 15:44:03,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_416,Medium,Active,SimValue_68
+2025-08-28 17:32:15,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_432,High,Cleared,SimValue_13
+2025-08-28 17:44:03,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_416,Medium,Cleared,SimValue_68
+2025-08-29 08:27:18,PV_Shading,PV Shading fault detected.,PV_620,Low,Active,SimValue_99
+2025-08-29 17:27:18,PV_Shading,PV Shading fault detected.,PV_620,Low,Cleared,SimValue_99
+2025-08-30 04:49:28,PV_Broken_Cell,PV Broken Cell fault detected.,PV_848,High,Active,SimValue_52
+2025-08-30 09:49:28,PV_Broken_Cell,PV Broken Cell fault detected.,PV_848,High,Cleared,SimValue_52
+2025-08-30 15:32:15,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_961,Medium,Active,SimValue_36
+2025-08-31 00:32:15,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_961,Medium,Cleared,SimValue_36
+2025-09-01 16:34:34,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_159,High,Active,SimValue_47
+2025-09-02 03:34:34,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_159,High,Cleared,SimValue_47
+2025-09-02 03:58:42,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_988,Medium,Active,SimValue_98
+2025-09-02 10:58:42,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_988,Medium,Cleared,SimValue_98
+2025-09-02 14:43:20,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_687,High,Active,SimValue_71
+2025-09-02 16:43:20,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_687,High,Cleared,SimValue_71
+2025-09-03 04:02:56,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_770,High,Active,SimValue_74
+2025-09-03 08:02:56,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_770,High,Cleared,SimValue_74
+2025-09-03 15:36:22,PV_Shading,PV Shading fault detected.,PV_763,Low,Active,SimValue_61
+2025-09-03 22:27:56,PV_Broken_Cell,PV Broken Cell fault detected.,PV_449,High,Active,SimValue_63
+2025-09-04 00:36:22,PV_Shading,PV Shading fault detected.,PV_763,Low,Cleared,SimValue_61
+2025-09-04 03:14:48,PV_Hot_Spot,PV Hot Spot fault detected.,PV_133,Medium,Active,SimValue_87
+2025-09-04 06:27:56,PV_Broken_Cell,PV Broken Cell fault detected.,PV_449,High,Cleared,SimValue_63
+2025-09-04 08:14:48,PV_Hot_Spot,PV Hot Spot fault detected.,PV_133,Medium,Cleared,SimValue_87
+2025-09-05 16:40:55,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_244,High,Active,SimValue_62
+2025-09-05 20:40:55,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_244,High,Cleared,SimValue_62
+2025-09-06 13:28:40,PV_Broken_Cell,PV Broken Cell fault detected.,PV_867,High,Active,SimValue_62
+2025-09-06 15:10:22,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_400,Medium,Active,SimValue_57
+2025-09-06 17:10:22,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_400,Medium,Cleared,SimValue_57
+2025-09-06 18:28:40,PV_Broken_Cell,PV Broken Cell fault detected.,PV_867,High,Cleared,SimValue_62
+2025-09-07 11:48:15,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_765,Medium,Active,SimValue_16
+2025-09-07 14:48:15,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_765,Medium,Cleared,SimValue_16
+2025-09-07 20:25:42,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_298,High,Active,SimValue_49
+2025-09-08 04:25:42,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_298,High,Cleared,SimValue_49
+2025-09-08 15:45:33,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_208,High,Active,SimValue_34
+2025-09-08 17:45:33,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_208,High,Cleared,SimValue_34
+2025-09-09 23:54:57,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_624,Medium,Active,SimValue_86
+2025-09-10 00:29:44,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_431,High,Active,SimValue_32
+2025-09-10 03:55:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_198,Medium,Active,SimValue_41
+2025-09-10 04:54:57,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_624,Medium,Cleared,SimValue_86
+2025-09-10 11:29:44,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_431,High,Cleared,SimValue_32
+2025-09-10 11:55:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_198,Medium,Cleared,SimValue_41
+2025-09-11 04:46:32,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_979,High,Active,SimValue_29
+2025-09-11 07:46:32,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_979,High,Cleared,SimValue_29
+2025-09-11 18:07:06,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_259,High,Active,SimValue_45
+2025-09-12 02:07:06,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_259,High,Cleared,SimValue_45
+2025-09-13 20:49:51,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_827,High,Active,SimValue_93
+2025-09-14 07:49:51,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_827,High,Cleared,SimValue_93
+2025-09-14 10:47:11,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_302,High,Active,SimValue_37
+2025-09-14 17:36:25,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_155,Medium,Active,SimValue_21
+2025-09-14 18:10:50,PV_Broken_Cell,PV Broken Cell fault detected.,PV_619,High,Active,SimValue_17
+2025-09-14 20:47:11,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_302,High,Cleared,SimValue_37
+2025-09-14 23:10:50,PV_Broken_Cell,PV Broken Cell fault detected.,PV_619,High,Cleared,SimValue_17
+2025-09-15 04:36:25,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_155,Medium,Cleared,SimValue_21
+2025-09-15 06:47:56,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_171,High,Active,SimValue_61
+2025-09-15 16:38:45,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_719,High,Active,SimValue_32
+2025-09-15 16:47:56,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_171,High,Cleared,SimValue_61
+2025-09-15 18:19:32,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_931,High,Active,SimValue_46
+2025-09-16 00:38:45,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_719,High,Cleared,SimValue_32
+2025-09-16 05:19:32,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_931,High,Cleared,SimValue_46
+2025-09-16 08:52:46,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_834,High,Active,SimValue_54
+2025-09-16 15:52:46,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_834,High,Cleared,SimValue_54
+2025-09-16 16:00:33,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_814,Medium,Active,SimValue_97
+2025-09-16 21:00:33,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_814,Medium,Cleared,SimValue_97
+2025-09-17 12:24:39,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_970,High,Active,SimValue_57
+2025-09-17 17:24:39,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_970,High,Cleared,SimValue_57
+2025-09-18 09:09:56,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_636,High,Active,SimValue_46
+2025-09-18 19:09:56,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_636,High,Cleared,SimValue_46
+2025-09-19 01:23:41,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_888,High,Active,SimValue_32
+2025-09-19 05:23:41,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_888,High,Cleared,SimValue_32
+2025-09-19 06:39:35,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_316,Medium,Active,SimValue_30
+2025-09-19 07:39:35,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_316,Medium,Cleared,SimValue_30
+2025-09-19 23:20:14,PV_Hot_Spot,PV Hot Spot fault detected.,PV_898,Medium,Active,SimValue_21
+2025-09-20 01:20:14,PV_Hot_Spot,PV Hot Spot fault detected.,PV_898,Medium,Cleared,SimValue_21
+2025-09-20 08:30:19,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_326,Medium,Active,SimValue_45
+2025-09-20 18:30:19,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_326,Medium,Cleared,SimValue_45
+2025-09-20 20:55:25,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_939,High,Active,SimValue_87
+2025-09-21 02:55:25,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_939,High,Cleared,SimValue_87
+2025-09-21 04:24:55,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_249,High,Active,SimValue_74
+2025-09-21 16:24:55,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_249,High,Cleared,SimValue_74
+2025-09-21 23:22:11,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_768,Medium,Active,SimValue_64
+2025-09-22 06:22:11,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_768,Medium,Cleared,SimValue_64
+2025-09-23 00:41:00,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_638,High,Active,SimValue_22
+2025-09-23 00:58:08,PV_Shading,PV Shading fault detected.,PV_555,Low,Active,SimValue_68
+2025-09-23 02:58:08,PV_Shading,PV Shading fault detected.,PV_555,Low,Cleared,SimValue_68
+2025-09-23 03:41:00,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_638,High,Cleared,SimValue_22
+2025-09-23 19:34:31,PV_Broken_Cell,PV Broken Cell fault detected.,PV_862,High,Active,SimValue_39
+2025-09-23 23:34:31,PV_Broken_Cell,PV Broken Cell fault detected.,PV_862,High,Cleared,SimValue_39
+2025-09-24 03:04:07,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_511,High,Active,SimValue_16
+2025-09-24 09:04:07,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_511,High,Cleared,SimValue_16
+2025-09-25 01:48:34,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_922,Medium,Active,SimValue_31
+2025-09-25 02:41:14,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_740,High,Active,SimValue_87
+2025-09-25 03:31:54,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_509,Medium,Active,SimValue_50
+2025-09-25 03:41:14,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_740,High,Cleared,SimValue_87
+2025-09-25 04:34:43,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_286,High,Active,SimValue_31
+2025-09-25 06:34:43,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_286,High,Cleared,SimValue_31
+2025-09-25 09:48:34,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_922,Medium,Cleared,SimValue_31
+2025-09-25 11:04:27,PV_Broken_Cell,PV Broken Cell fault detected.,PV_688,High,Active,SimValue_51
+2025-09-25 11:31:54,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_509,Medium,Cleared,SimValue_50
+2025-09-25 13:04:27,PV_Broken_Cell,PV Broken Cell fault detected.,PV_688,High,Cleared,SimValue_51
+2025-09-26 22:47:46,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_813,High,Active,SimValue_88
+2025-09-27 02:47:46,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_813,High,Cleared,SimValue_88
+2025-09-28 06:34:04,PV_Broken_Cell,PV Broken Cell fault detected.,PV_400,High,Active,SimValue_13
+2025-09-28 10:34:04,PV_Broken_Cell,PV Broken Cell fault detected.,PV_400,High,Cleared,SimValue_13
+2025-09-29 15:16:11,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_967,Medium,Active,SimValue_25
+2025-09-30 03:16:11,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_967,Medium,Cleared,SimValue_25
+2025-10-01 22:22:59,PV_Hot_Spot,PV Hot Spot fault detected.,PV_131,Medium,Active,SimValue_13
+2025-10-02 01:23:36,PV_Hot_Spot,PV Hot Spot fault detected.,PV_843,Medium,Active,SimValue_36
+2025-10-02 01:43:16,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_895,High,Active,SimValue_47
+2025-10-02 04:23:36,PV_Hot_Spot,PV Hot Spot fault detected.,PV_843,Medium,Cleared,SimValue_36
+2025-10-02 06:22:59,PV_Hot_Spot,PV Hot Spot fault detected.,PV_131,Medium,Cleared,SimValue_13
+2025-10-02 08:40:22,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_998,High,Active,SimValue_75
+2025-10-02 12:43:16,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_895,High,Cleared,SimValue_47
+2025-10-02 16:13:12,PV_Shading,PV Shading fault detected.,PV_932,Low,Active,SimValue_35
+2025-10-02 20:40:22,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_998,High,Cleared,SimValue_75
+2025-10-03 03:13:12,PV_Shading,PV Shading fault detected.,PV_932,Low,Cleared,SimValue_35
+2025-10-03 07:39:09,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_146,High,Active,SimValue_78
+2025-10-03 16:39:09,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_146,High,Cleared,SimValue_78
+2025-10-03 21:36:07,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_743,Medium,Active,SimValue_46
+2025-10-04 00:36:07,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_743,Medium,Cleared,SimValue_46
+2025-10-04 06:54:23,PV_Broken_Cell,PV Broken Cell fault detected.,PV_972,High,Active,SimValue_40
+2025-10-04 08:35:52,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_658,High,Active,SimValue_20
+2025-10-04 08:54:23,PV_Broken_Cell,PV Broken Cell fault detected.,PV_972,High,Cleared,SimValue_40
+2025-10-04 14:35:52,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_658,High,Cleared,SimValue_20
+2025-10-05 15:08:45,PV_Hot_Spot,PV Hot Spot fault detected.,PV_572,Medium,Active,SimValue_42
+2025-10-05 16:08:45,PV_Hot_Spot,PV Hot Spot fault detected.,PV_572,Medium,Cleared,SimValue_42
+2025-10-07 08:35:48,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_525,High,Active,SimValue_72
+2025-10-07 11:03:00,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_843,Medium,Active,SimValue_71
+2025-10-07 13:03:00,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_843,Medium,Cleared,SimValue_71
+2025-10-07 17:35:48,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_525,High,Cleared,SimValue_72
+2025-10-07 20:51:40,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_147,Medium,Active,SimValue_89
+2025-10-08 03:51:40,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_147,Medium,Cleared,SimValue_89
+2025-10-08 23:13:03,PV_Broken_Cell,PV Broken Cell fault detected.,PV_946,High,Active,SimValue_90
+2025-10-09 10:13:03,PV_Broken_Cell,PV Broken Cell fault detected.,PV_946,High,Cleared,SimValue_90
+2025-10-10 03:28:25,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_428,High,Active,SimValue_28
+2025-10-10 09:28:25,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_428,High,Cleared,SimValue_28
+2025-10-10 10:21:58,PV_Broken_Cell,PV Broken Cell fault detected.,PV_236,High,Active,SimValue_32
+2025-10-10 15:21:58,PV_Broken_Cell,PV Broken Cell fault detected.,PV_236,High,Cleared,SimValue_32
+2025-10-10 17:06:21,PV_Shading,PV Shading fault detected.,PV_505,Low,Active,SimValue_33
+2025-10-10 17:22:31,PV_Broken_Cell,PV Broken Cell fault detected.,PV_343,High,Active,SimValue_56
+2025-10-10 20:22:31,PV_Broken_Cell,PV Broken Cell fault detected.,PV_343,High,Cleared,SimValue_56
+2025-10-11 05:06:21,PV_Shading,PV Shading fault detected.,PV_505,Low,Cleared,SimValue_33
+2025-10-11 14:54:56,PV_Broken_Cell,PV Broken Cell fault detected.,PV_953,High,Active,SimValue_87
+2025-10-11 19:54:56,PV_Broken_Cell,PV Broken Cell fault detected.,PV_953,High,Cleared,SimValue_87
+2025-10-12 11:10:17,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_466,High,Active,SimValue_41
+2025-10-12 12:10:17,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_466,High,Cleared,SimValue_41
+2025-10-12 14:49:05,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_955,High,Active,SimValue_80
+2025-10-12 18:49:05,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_955,High,Cleared,SimValue_80
+2025-10-12 22:47:21,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_242,Medium,Active,SimValue_39
+2025-10-13 04:47:21,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_242,Medium,Cleared,SimValue_39
+2025-10-13 11:48:40,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_407,High,Active,SimValue_79
+2025-10-13 17:48:40,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_407,High,Cleared,SimValue_79
+2025-10-15 00:58:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_644,Medium,Active,SimValue_26
+2025-10-15 06:58:50,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_644,Medium,Cleared,SimValue_26
+2025-10-15 12:33:11,PV_Broken_Cell,PV Broken Cell fault detected.,PV_976,High,Active,SimValue_90
+2025-10-15 17:33:11,PV_Broken_Cell,PV Broken Cell fault detected.,PV_976,High,Cleared,SimValue_90
+2025-10-16 16:47:51,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_279,High,Active,SimValue_37
+2025-10-17 02:24:00,PV_Broken_Cell,PV Broken Cell fault detected.,PV_338,High,Active,SimValue_10
+2025-10-17 02:47:51,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_279,High,Cleared,SimValue_37
+2025-10-17 03:24:00,PV_Broken_Cell,PV Broken Cell fault detected.,PV_338,High,Cleared,SimValue_10
+2025-10-17 05:30:13,PV_Shading,PV Shading fault detected.,PV_713,Low,Active,SimValue_31
+2025-10-17 15:30:13,PV_Shading,PV Shading fault detected.,PV_713,Low,Cleared,SimValue_31
+2025-10-17 16:12:20,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_847,Medium,Active,SimValue_38
+2025-10-17 16:47:18,PV_Shading,PV Shading fault detected.,PV_533,Low,Active,SimValue_65
+2025-10-17 19:50:45,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_151,Medium,Active,SimValue_26
+2025-10-17 21:47:18,PV_Shading,PV Shading fault detected.,PV_533,Low,Cleared,SimValue_65
+2025-10-18 00:12:20,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_847,Medium,Cleared,SimValue_38
+2025-10-18 01:50:45,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_151,Medium,Cleared,SimValue_26
+2025-10-18 11:17:35,PV_Shading,PV Shading fault detected.,PV_563,Low,Active,SimValue_73
+2025-10-18 18:17:35,PV_Shading,PV Shading fault detected.,PV_563,Low,Cleared,SimValue_73
+2025-10-20 08:03:09,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_310,Medium,Active,SimValue_65
+2025-10-20 15:03:09,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_310,Medium,Cleared,SimValue_65
+2025-10-21 00:09:49,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_526,Medium,Active,SimValue_60
+2025-10-21 04:09:49,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_526,Medium,Cleared,SimValue_60
+2025-10-21 06:02:48,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_216,Medium,Active,SimValue_95
+2025-10-21 08:10:26,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_912,Medium,Active,SimValue_97
+2025-10-21 11:02:48,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_216,Medium,Cleared,SimValue_95
+2025-10-21 16:10:26,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_912,Medium,Cleared,SimValue_97
+2025-10-22 22:06:27,PV_Broken_Cell,PV Broken Cell fault detected.,PV_358,High,Active,SimValue_79
+2025-10-23 08:06:27,PV_Broken_Cell,PV Broken Cell fault detected.,PV_358,High,Cleared,SimValue_79
+2025-10-24 02:12:02,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_566,Medium,Active,SimValue_25
+2025-10-24 07:36:23,PV_Hot_Spot,PV Hot Spot fault detected.,PV_513,Medium,Active,SimValue_33
+2025-10-24 10:12:02,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_566,Medium,Cleared,SimValue_25
+2025-10-24 11:36:23,PV_Hot_Spot,PV Hot Spot fault detected.,PV_513,Medium,Cleared,SimValue_33
+2025-10-25 07:08:09,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_907,Medium,Active,SimValue_22
+2025-10-25 15:08:09,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_907,Medium,Cleared,SimValue_22
+2025-10-26 01:55:41,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_234,Medium,Active,SimValue_36
+2025-10-26 04:55:41,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_234,Medium,Cleared,SimValue_36
+2025-10-26 15:18:48,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_449,Medium,Active,SimValue_71
+2025-10-26 16:18:48,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_449,Medium,Cleared,SimValue_71
+2025-10-26 17:50:28,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_961,Medium,Active,SimValue_15
+2025-10-26 21:54:17,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_392,Medium,Active,SimValue_98
+2025-10-27 00:54:17,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_392,Medium,Cleared,SimValue_98
+2025-10-27 05:50:28,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_961,Medium,Cleared,SimValue_15
+2025-10-27 23:41:16,PV_Soiling,PV Soiling fault detected.,PV_742,Low,Active,SimValue_20
+2025-10-28 04:41:16,PV_Soiling,PV Soiling fault detected.,PV_742,Low,Cleared,SimValue_20
+2025-10-28 07:20:57,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_908,High,Active,SimValue_67
+2025-10-28 09:20:57,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_908,High,Cleared,SimValue_67
+2025-10-28 12:41:32,PV_Shading,PV Shading fault detected.,PV_870,Low,Active,SimValue_57
+2025-10-28 13:35:09,PV_Broken_Cell,PV Broken Cell fault detected.,PV_753,High,Active,SimValue_24
+2025-10-28 21:35:09,PV_Broken_Cell,PV Broken Cell fault detected.,PV_753,High,Cleared,SimValue_24
+2025-10-28 22:41:32,PV_Shading,PV Shading fault detected.,PV_870,Low,Cleared,SimValue_57
+2025-10-30 13:33:34,PV_Shading,PV Shading fault detected.,PV_263,Low,Active,SimValue_36
+2025-10-30 14:33:34,PV_Shading,PV Shading fault detected.,PV_263,Low,Cleared,SimValue_36
+2025-10-30 18:55:14,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_214,High,Active,SimValue_41
+2025-10-31 06:55:14,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_214,High,Cleared,SimValue_41
+2025-11-01 18:42:52,PV_Broken_Cell,PV Broken Cell fault detected.,PV_295,High,Active,SimValue_83
+2025-11-01 23:55:37,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_769,Medium,Active,SimValue_44
+2025-11-02 02:42:52,PV_Broken_Cell,PV Broken Cell fault detected.,PV_295,High,Cleared,SimValue_83
+2025-11-02 11:55:37,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_769,Medium,Cleared,SimValue_44
+2025-11-02 19:54:06,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_989,High,Active,SimValue_74
+2025-11-03 00:54:06,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_989,High,Cleared,SimValue_74
+2025-11-03 16:18:08,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_322,High,Active,SimValue_65
+2025-11-03 22:18:08,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_322,High,Cleared,SimValue_65
+2025-11-03 23:08:34,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_749,High,Active,SimValue_94
+2025-11-04 02:56:52,MCB_Faulty,MCB Faulty fault detected.,MC_460,High,Active,SimValue_28
+2025-11-04 09:56:52,MCB_Faulty,MCB Faulty fault detected.,MC_460,High,Cleared,SimValue_28
+2025-11-04 11:08:34,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_749,High,Cleared,SimValue_94
+2025-11-04 11:54:56,PV_Hot_Spot,PV Hot Spot fault detected.,PV_242,Medium,Active,SimValue_11
+2025-11-04 17:54:56,PV_Hot_Spot,PV Hot Spot fault detected.,PV_242,Medium,Cleared,SimValue_11
+2025-11-05 05:31:30,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_423,Medium,Active,SimValue_32
+2025-11-05 07:31:30,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_423,Medium,Cleared,SimValue_32
+2025-11-07 09:00:09,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_709,Medium,Active,SimValue_15
+2025-11-07 11:00:09,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_709,Medium,Cleared,SimValue_15
+2025-11-07 18:14:33,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_413,High,Active,SimValue_51
+2025-11-07 23:51:43,PV_Soiling,PV Soiling fault detected.,PV_656,Low,Active,SimValue_34
+2025-11-08 00:58:53,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_818,High,Active,SimValue_96
+2025-11-08 03:14:33,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_413,High,Cleared,SimValue_51
+2025-11-08 03:58:53,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_818,High,Cleared,SimValue_96
+2025-11-08 10:51:43,PV_Soiling,PV Soiling fault detected.,PV_656,Low,Cleared,SimValue_34
+2025-11-09 04:54:59,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_320,Medium,Active,SimValue_38
+2025-11-09 12:54:59,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_320,Medium,Cleared,SimValue_38
+2025-11-11 12:47:32,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_461,Medium,Active,SimValue_38
+2025-11-11 13:47:32,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_461,Medium,Cleared,SimValue_38
+2025-11-11 15:04:03,PV_Hot_Spot,PV Hot Spot fault detected.,PV_112,Medium,Active,SimValue_60
+2025-11-11 20:33:37,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_129,Medium,Active,SimValue_75
+2025-11-11 23:33:37,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_129,Medium,Cleared,SimValue_75
+2025-11-12 02:04:03,PV_Hot_Spot,PV Hot Spot fault detected.,PV_112,Medium,Cleared,SimValue_60
+2025-11-12 14:56:17,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_899,Medium,Active,SimValue_50
+2025-11-12 21:56:17,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_899,Medium,Cleared,SimValue_50
+2025-11-13 02:58:11,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_902,Medium,Active,SimValue_68
+2025-11-13 05:30:49,PV_Shading,PV Shading fault detected.,PV_955,Low,Active,SimValue_11
+2025-11-13 08:58:11,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_902,Medium,Cleared,SimValue_68
+2025-11-13 15:30:49,PV_Shading,PV Shading fault detected.,PV_955,Low,Cleared,SimValue_11
+2025-11-13 17:34:21,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_381,High,Active,SimValue_96
+2025-11-13 21:18:32,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_761,Medium,Active,SimValue_70
+2025-11-14 03:18:32,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_761,Medium,Cleared,SimValue_70
+2025-11-14 03:34:21,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_381,High,Cleared,SimValue_96
+2025-11-14 03:35:31,PV_Broken_Cell,PV Broken Cell fault detected.,PV_688,High,Active,SimValue_46
+2025-11-14 06:35:31,PV_Broken_Cell,PV Broken Cell fault detected.,PV_688,High,Cleared,SimValue_46
+2025-11-14 12:13:47,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_613,High,Active,SimValue_67
+2025-11-14 18:20:52,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_527,Medium,Active,SimValue_72
+2025-11-14 21:13:47,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_613,High,Cleared,SimValue_67
+2025-11-15 06:20:52,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_527,Medium,Cleared,SimValue_72
+2025-11-16 17:44:11,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_631,High,Active,SimValue_83
+2025-11-17 03:44:11,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_631,High,Cleared,SimValue_83
+2025-11-17 10:52:43,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_531,Medium,Active,SimValue_23
+2025-11-17 22:52:43,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_531,Medium,Cleared,SimValue_23
+2025-11-19 20:45:10,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_400,High,Active,SimValue_15
+2025-11-20 08:45:10,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_400,High,Cleared,SimValue_15
+2025-11-20 19:20:29,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_657,Medium,Active,SimValue_73
+2025-11-20 19:39:44,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_895,Medium,Active,SimValue_17
+2025-11-20 22:39:44,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_895,Medium,Cleared,SimValue_17
+2025-11-21 04:45:29,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_898,High,Active,SimValue_34
+2025-11-21 06:20:29,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_657,Medium,Cleared,SimValue_73
+2025-11-21 09:36:13,PV_Hot_Spot,PV Hot Spot fault detected.,PV_443,Medium,Active,SimValue_15
+2025-11-21 12:29:03,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_903,Medium,Active,SimValue_73
+2025-11-21 15:36:13,PV_Hot_Spot,PV Hot Spot fault detected.,PV_443,Medium,Cleared,SimValue_15
+2025-11-21 15:45:29,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_898,High,Cleared,SimValue_34
+2025-11-21 22:29:03,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_903,Medium,Cleared,SimValue_73
+2025-11-22 21:09:29,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_505,High,Active,SimValue_25
+2025-11-23 00:09:29,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_505,High,Cleared,SimValue_25
+2025-11-24 17:43:59,PV_Hot_Spot,PV Hot Spot fault detected.,PV_354,Medium,Active,SimValue_35
+2025-11-24 18:43:59,PV_Hot_Spot,PV Hot Spot fault detected.,PV_354,Medium,Cleared,SimValue_35
+2025-11-25 12:10:45,PV_Shading,PV Shading fault detected.,PV_613,Low,Active,SimValue_10
+2025-11-25 13:10:45,PV_Shading,PV Shading fault detected.,PV_613,Low,Cleared,SimValue_10
+2025-11-25 19:24:26,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_600,Medium,Active,SimValue_61
+2025-11-25 19:45:34,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_965,Medium,Active,SimValue_74
+2025-11-25 21:24:26,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_600,Medium,Cleared,SimValue_61
+2025-11-26 02:45:34,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_965,Medium,Cleared,SimValue_74
+2025-11-26 18:01:21,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_303,Medium,Active,SimValue_23
+2025-11-27 00:46:17,PV_Hot_Spot,PV Hot Spot fault detected.,PV_496,Medium,Active,SimValue_40
+2025-11-27 02:20:21,PV_Hot_Spot,PV Hot Spot fault detected.,PV_431,Medium,Active,SimValue_32
+2025-11-27 03:01:21,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_303,Medium,Cleared,SimValue_23
+2025-11-27 04:08:29,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_766,Medium,Active,SimValue_36
+2025-11-27 08:40:10,PV_Broken_Cell,PV Broken Cell fault detected.,PV_903,High,Active,SimValue_13
+2025-11-27 10:08:29,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_766,Medium,Cleared,SimValue_36
+2025-11-27 10:46:17,PV_Hot_Spot,PV Hot Spot fault detected.,PV_496,Medium,Cleared,SimValue_40
+2025-11-27 11:07:09,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_430,High,Active,SimValue_54
+2025-11-27 11:40:10,PV_Broken_Cell,PV Broken Cell fault detected.,PV_903,High,Cleared,SimValue_13
+2025-11-27 13:20:21,PV_Hot_Spot,PV Hot Spot fault detected.,PV_431,Medium,Cleared,SimValue_32
+2025-11-27 14:23:02,PV_Hot_Spot,PV Hot Spot fault detected.,PV_222,Medium,Active,SimValue_11
+2025-11-27 15:07:09,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_430,High,Cleared,SimValue_54
+2025-11-27 16:23:02,PV_Hot_Spot,PV Hot Spot fault detected.,PV_222,Medium,Cleared,SimValue_11
+2025-11-27 16:31:49,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_151,High,Active,SimValue_89
+2025-11-27 16:59:27,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_642,Medium,Active,SimValue_65
+2025-11-27 22:50:35,PV_Shading,PV Shading fault detected.,PV_815,Low,Active,SimValue_71
+2025-11-28 01:31:49,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_151,High,Cleared,SimValue_89
+2025-11-28 03:50:35,PV_Shading,PV Shading fault detected.,PV_815,Low,Cleared,SimValue_71
+2025-11-28 04:59:27,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_642,Medium,Cleared,SimValue_65
+2025-11-28 14:18:05,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_880,High,Active,SimValue_67
+2025-11-28 16:18:05,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_880,High,Cleared,SimValue_67
+2025-11-30 18:27:57,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_362,High,Active,SimValue_63
+2025-12-01 05:27:57,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_362,High,Cleared,SimValue_63
+2025-12-02 05:20:01,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_569,High,Active,SimValue_40
+2025-12-02 09:16:50,PV_Hot_Spot,PV Hot Spot fault detected.,PV_934,Medium,Active,SimValue_29
+2025-12-02 12:20:01,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_569,High,Cleared,SimValue_40
+2025-12-02 16:16:50,PV_Hot_Spot,PV Hot Spot fault detected.,PV_934,Medium,Cleared,SimValue_29
+2025-12-02 18:41:52,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_537,High,Active,SimValue_34
+2025-12-02 21:36:46,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_249,High,Active,SimValue_22
+2025-12-03 03:49:01,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_514,High,Active,SimValue_63
+2025-12-03 04:45:21,PV_Shading,PV Shading fault detected.,PV_368,Low,Active,SimValue_18
+2025-12-03 06:36:46,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_249,High,Cleared,SimValue_22
+2025-12-03 06:41:52,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_537,High,Cleared,SimValue_34
+2025-12-03 06:49:01,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_514,High,Cleared,SimValue_63
+2025-12-03 14:45:21,PV_Shading,PV Shading fault detected.,PV_368,Low,Cleared,SimValue_18
+2025-12-03 22:53:39,PV_Shading,PV Shading fault detected.,PV_126,Low,Active,SimValue_65
+2025-12-03 23:20:37,PV_Broken_Cell,PV Broken Cell fault detected.,PV_792,High,Active,SimValue_11
+2025-12-03 23:53:39,PV_Shading,PV Shading fault detected.,PV_126,Low,Cleared,SimValue_65
+2025-12-04 10:20:37,PV_Broken_Cell,PV Broken Cell fault detected.,PV_792,High,Cleared,SimValue_11
+2025-12-05 04:34:39,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_999,High,Active,SimValue_67
+2025-12-05 09:34:39,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_999,High,Cleared,SimValue_67
+2025-12-06 05:44:56,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_967,Medium,Active,SimValue_44
+2025-12-06 14:49:57,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_994,High,Active,SimValue_17
+2025-12-06 16:44:56,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_967,Medium,Cleared,SimValue_44
+2025-12-06 22:49:57,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_994,High,Cleared,SimValue_17
+2025-12-06 23:20:05,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_289,High,Active,SimValue_29
+2025-12-07 00:00:30,PV_Shading,PV Shading fault detected.,PV_293,Low,Active,SimValue_47
+2025-12-07 03:15:40,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_419,Medium,Active,SimValue_48
+2025-12-07 04:00:30,PV_Shading,PV Shading fault detected.,PV_293,Low,Cleared,SimValue_47
+2025-12-07 04:52:06,PV_Broken_Cell,PV Broken Cell fault detected.,PV_413,High,Active,SimValue_94
+2025-12-07 06:20:05,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_289,High,Cleared,SimValue_29
+2025-12-07 06:52:06,PV_Broken_Cell,PV Broken Cell fault detected.,PV_413,High,Cleared,SimValue_94
+2025-12-07 11:15:40,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_419,Medium,Cleared,SimValue_48
+2025-12-07 12:28:51,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_347,High,Active,SimValue_71
+2025-12-07 17:28:51,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_347,High,Cleared,SimValue_71
+2025-12-07 17:33:10,PV_Broken_Cell,PV Broken Cell fault detected.,PV_700,High,Active,SimValue_31
+2025-12-07 22:33:10,PV_Broken_Cell,PV Broken Cell fault detected.,PV_700,High,Cleared,SimValue_31
+2025-12-11 18:38:46,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_853,High,Active,SimValue_44
+2025-12-11 20:48:39,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_732,High,Active,SimValue_25
+2025-12-11 21:48:39,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_732,High,Cleared,SimValue_25
+2025-12-12 05:38:46,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_853,High,Cleared,SimValue_44
+2025-12-12 07:23:24,PV_Hot_Spot,PV Hot Spot fault detected.,PV_314,Medium,Active,SimValue_90
+2025-12-12 10:51:10,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_220,High,Active,SimValue_59
+2025-12-12 16:23:24,PV_Hot_Spot,PV Hot Spot fault detected.,PV_314,Medium,Cleared,SimValue_90
+2025-12-12 17:51:10,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_220,High,Cleared,SimValue_59
+2025-12-13 03:58:02,PV_Shading,PV Shading fault detected.,PV_713,Low,Active,SimValue_23
+2025-12-13 06:58:02,PV_Shading,PV Shading fault detected.,PV_713,Low,Cleared,SimValue_23
+2025-12-13 14:39:40,PV_Hot_Spot,PV Hot Spot fault detected.,PV_656,Medium,Active,SimValue_78
+2025-12-13 23:39:40,PV_Hot_Spot,PV Hot Spot fault detected.,PV_656,Medium,Cleared,SimValue_78
+2025-12-15 01:03:57,PV_Broken_Cell,PV Broken Cell fault detected.,PV_485,High,Active,SimValue_34
+2025-12-15 10:59:09,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_239,Medium,Active,SimValue_48
+2025-12-15 13:03:57,PV_Broken_Cell,PV Broken Cell fault detected.,PV_485,High,Cleared,SimValue_34
+2025-12-15 18:02:29,PV_Broken_Cell,PV Broken Cell fault detected.,PV_901,High,Active,SimValue_45
+2025-12-15 21:02:29,PV_Broken_Cell,PV Broken Cell fault detected.,PV_901,High,Cleared,SimValue_45
+2025-12-15 21:59:09,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_239,Medium,Cleared,SimValue_48
+2025-12-16 23:45:57,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_513,Medium,Active,SimValue_49
+2025-12-17 05:52:32,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_587,Medium,Active,SimValue_10
+2025-12-17 06:00:30,PV_Shading,PV Shading fault detected.,PV_661,Low,Active,SimValue_15
+2025-12-17 07:52:32,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_587,Medium,Cleared,SimValue_10
+2025-12-17 09:00:30,PV_Shading,PV Shading fault detected.,PV_661,Low,Cleared,SimValue_15
+2025-12-17 09:45:57,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_513,Medium,Cleared,SimValue_49
+2025-12-17 12:08:21,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_448,Medium,Active,SimValue_86
+2025-12-17 13:08:21,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_448,Medium,Cleared,SimValue_86
+2025-12-18 01:45:38,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_251,High,Active,SimValue_41
+2025-12-18 06:45:38,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_251,High,Cleared,SimValue_41
+2025-12-18 19:22:48,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_523,Medium,Active,SimValue_84
+2025-12-19 01:22:48,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_523,Medium,Cleared,SimValue_84
+2025-12-19 02:50:32,PV_Hot_Spot,PV Hot Spot fault detected.,PV_127,Medium,Active,SimValue_64
+2025-12-19 10:50:32,PV_Hot_Spot,PV Hot Spot fault detected.,PV_127,Medium,Cleared,SimValue_64
+2025-12-21 16:07:48,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_693,Medium,Active,SimValue_23
+2025-12-22 04:07:48,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_693,Medium,Cleared,SimValue_23
+2025-12-22 21:24:54,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_976,Medium,Active,SimValue_47
+2025-12-23 00:24:54,PV_Faulty_Bypass_Diode,PV Faulty Bypass Diode fault detected.,PV_976,Medium,Cleared,SimValue_47
+2025-12-24 05:07:12,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_764,Medium,Active,SimValue_53
+2025-12-24 12:17:16,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_146,Medium,Active,SimValue_89
+2025-12-24 14:17:16,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_146,Medium,Cleared,SimValue_89
+2025-12-24 16:07:12,PV_Short_Open_Circuit,PV Short Open Circuit fault detected.,PV_764,Medium,Cleared,SimValue_53
+2025-12-24 20:38:02,PV_Hot_Spot,PV Hot Spot fault detected.,PV_317,Medium,Active,SimValue_89
+2025-12-25 03:03:10,PV_Shading,PV Shading fault detected.,PV_755,Low,Active,SimValue_79
+2025-12-25 08:38:02,PV_Hot_Spot,PV Hot Spot fault detected.,PV_317,Medium,Cleared,SimValue_89
+2025-12-25 13:03:10,PV_Shading,PV Shading fault detected.,PV_755,Low,Cleared,SimValue_79
+2025-12-25 21:12:59,PV_Broken_Cell,PV Broken Cell fault detected.,PV_586,High,Active,SimValue_23
+2025-12-26 01:44:36,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_311,High,Active,SimValue_46
+2025-12-26 04:12:59,PV_Broken_Cell,PV Broken Cell fault detected.,PV_586,High,Cleared,SimValue_23
+2025-12-26 09:44:36,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_311,High,Cleared,SimValue_46
+2025-12-28 10:45:33,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_676,High,Active,SimValue_62
+2025-12-28 12:45:33,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_676,High,Cleared,SimValue_62
+2025-12-29 10:31:55,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_525,Medium,Active,SimValue_75
+2025-12-29 12:32:15,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_304,High,Active,SimValue_25
+2025-12-29 21:31:55,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_525,Medium,Cleared,SimValue_75
+2025-12-29 22:07:08,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_281,Medium,Active,SimValue_17
+2025-12-29 22:32:15,PV_Grounding_System_Fault,PV Grounding System Fault fault detected.,PV_304,High,Cleared,SimValue_25
+2025-12-30 04:07:08,Encapsulant_Fault,Encapsulant Fault fault detected.,EN_281,Medium,Cleared,SimValue_17
+2025-12-30 10:06:25,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_439,Medium,Active,SimValue_20
+2025-12-30 11:06:25,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_439,Medium,Cleared,SimValue_20
+2025-12-30 20:15:45,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_580,High,Active,SimValue_15
+2025-12-30 20:51:19,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_301,High,Active,SimValue_36
+2025-12-30 21:52:55,PV_Hot_Spot,PV Hot Spot fault detected.,PV_716,Medium,Active,SimValue_54
+2025-12-31 05:15:45,PV_Solder_Bond_Failure,PV Solder Bond Failure fault detected.,PV_580,High,Cleared,SimValue_15
+2025-12-31 06:51:19,PV_Broken_Interconnect,PV Broken Interconnect fault detected.,PV_301,High,Cleared,SimValue_36
+2025-12-31 06:52:55,PV_Hot_Spot,PV Hot Spot fault detected.,PV_716,Medium,Cleared,SimValue_54
+2025-12-31 20:10:17,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_809,Medium,Active,SimValue_49
+2026-01-01 08:10:17,Rack_Structure_Fault,Rack Structure Fault fault detected.,RA_809,Medium,Cleared,SimValue_49
