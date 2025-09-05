@@ -91,16 +91,17 @@ T_mission = 1000  # time units
 # === Mapping and probabilities ===
 
 label_map = {str(i): f'BE{i}' for i in range(1, 19)}
+
 failure_rates = {
-                'BE1':1e-6, 'BE2':2e-6,
-                'BE3':8e-6, 'BE4':8e-6,
-                'BE5':8.46e-5,  'BE6':4.9e-5,
-                'BE7':3e-6, 'BE8':1.3e-5,
-                'BE9':8.8e-5, 'BE10':1.115e-4,
-                'BE11':1.487e-4,'BE12':1.01e-5,
-                'BE13':2.1e-6,'BE14':5.2e-6,
-                'BE15': 7.29e-5, 'BE16':5.7e-5,
-                'BE17':1e-6,'BE18':2e-6
+                'BE1':1e-7, 'BE2':2e-7,
+                'BE3':8e-7, 'BE4':8e-7,
+                'BE5':8.46e-6,  'BE6':4.9e-6,
+                'BE7':3e-7, 'BE8':1.3e-6,
+                'BE9':8.8e-6, 'BE10':1.115e-5,
+                'BE11':1.487e-5,'BE12':1.01e-6,
+                'BE13':2.1e-7,'BE14':5.2e-7,
+                'BE15': 7.29e-6, 'BE16':5.7e-6,
+                'BE17':1e-7,'BE18':2e-7
                 }
 repair_times = {
                 'BE1': 3,  'BE2': 3,
@@ -129,27 +130,12 @@ print(importance_df)
 
 # === Simulate Reliability ===
 minimal_cut_sets_BE = [[f'BE{extract_event_number(be)}' for be in cut] for cut in minimal_cut_sets]
-sys_unavail, sys_ci, comp_df, availability_time_series, time_grid, all_component_states = simulate_reliability(minimal_cut_sets_BE, failure_rates, repair_times)
+sys_unavail, sys_ci, comp_df, availability_time_series, time_grid, all_component_states, availability_sys, MTTF_top, MTTR_top = simulate_reliability(minimal_cut_sets_BE, failure_rates, repair_times)
 
 
-print("\nSystem Unavailability:", sys_unavail, "CI:", sys_ci)
+print("\nSystem Unavailability:", sys_unavail, "CI:", sys_ci, "System Availability:", availability_sys, "MTTF_Top:", MTTF_top, "MTTR_Top:", MTTR_top)
 print("\nComponent Reliability Summary:\n", comp_df.sort_values('Unavailability', ascending=False))
 
-
-#%% Exporting Results
-
-# Sort helper function
-def sort_by_event_number(df):
-    return df.sort_index(key=lambda x: x.str.extract(r'(\d+)').astype(int)[0])
-
-# Sort importance and reliability DataFrames
-importance_df_sorted = sort_by_event_number(importance_df)
-comp_df_sorted = sort_by_event_number(comp_df)
-
-# # Export to CSV
-# importance_df_sorted.to_csv("importance_factors_sorted.csv")
-# comp_df_sorted.to_csv("reliability_metrics_sorted.csv")
-# print("Exported sorted importance and reliability data to CSV.")
 
 #%% PLots
 
@@ -158,15 +144,14 @@ comp_df_sorted = sort_by_event_number(comp_df)
 plt.figure(figsize=(10, 6))
 ax = plt.gca()  # Get current Axes
 ax.bar(comp_df.index, comp_df['Unavailability']/1000, label='Basic Events')
+# ax.bar('Top Event', sys_unavail/1000, color='orange', label='Top Event')
 ax.set_ylabel('Unavailability', fontsize=14)
-# ax.set_title('Unavailability of Basic Events and Top Event', fontsize=14)
 ax.tick_params(axis='x', rotation=45, labelsize=14)
 ax.tick_params(axis='y', labelsize=12)
 ax.yaxis.get_offset_text().set_fontsize(12)  # Set offset text font size
-ax.legend()
+# ax.legend()
 plt.tight_layout()
 plt.show()
-
 
 
 # Plot System Availability Over Time
@@ -179,14 +164,13 @@ plt.xticks(fontsize=12)
 plt.yticks(fontsize=12)
 plt.grid(True)
 plt.tight_layout()
-plt.legend()
+# plt.legend()
 plt.show()
 
 
 # # Plot Component Availability Over Time
 # component_to_plot = 'BE10'
 # comp_avail = 1 - np.mean(all_component_states[component_to_plot], axis=0)
-
 # plt.figure(figsize=(10, 6))
 # plt.plot(time_grid, comp_avail, label=f"{component_to_plot} Availability")
 # plt.xlabel("Time (hours)", fontsize=14)
@@ -198,3 +182,23 @@ plt.show()
 # plt.tight_layout()
 # plt.legend()
 # plt.show()
+
+
+#%% Exporting Results Data
+
+# Sort helper function
+def sort_by_event_number(df):
+    return df.sort_index(key=lambda x: x.str.extract(r'(\d+)').astype(int)[0])
+
+# Sort importance and reliability DataFrames
+importance_df_sorted = sort_by_event_number(importance_df)
+comp_df_sorted = sort_by_event_number(comp_df)
+
+comp_df_sorted.rename(columns={"Unavailability": "Unavailability (1e-3)"})
+comp_df_sorted['Unavailability'] = comp_df_sorted['Unavailability']*1000
+
+
+# # Export to CSV
+# importance_df_sorted.to_csv("importance_factors_sorted.csv")
+# comp_df_sorted.to_csv("reliability_metrics_sorted.csv")
+# print("Exported sorted importance and reliability data to CSV.")
