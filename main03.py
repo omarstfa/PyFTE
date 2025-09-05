@@ -237,7 +237,7 @@ R_sys = R_sys_disjoint if disjoint else R_sys_general
 
 # Choose time horizon for plotting (hours)
 T_plot = 1.0e5    # 100,000 hours
-n_points = 500    # resolution
+n_points = 5000    # resolution
 
 # Build time grid (in hours)
 time_grid_R = np.linspace(0, T_plot, n_points)
@@ -253,6 +253,208 @@ plt.xlabel("Time (×1000 hours)", fontsize=14)
 plt.ylabel("Reliability R(t)", fontsize=14)
 plt.title("System Reliability Function", fontsize=14)
 plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+
+# Comparision PLot
+
+# ---- Settings ----
+T_plot = 500e3        # total time horizon in hours (e.g., 100,000 h)
+n_points = 600        # curve resolution
+be_to_compare = ["BE11","BE15","BE6","BE4"]  # add any BEs you want to compare here
+
+# ---- Time grid (hours) ----
+time_grid = np.linspace(0.0, T_plot, n_points)
+
+# ---- System reliability values (assumes R_sys(t) is already defined) ----
+R_sys_vals = np.array([R_sys(t) for t in time_grid])
+
+# ---- Basic-event reliability helper ----
+def R_be(lambda_per_hour, t_hours):
+    # Exponential reliability: R(t) = exp(-λ t)
+    return math.exp(-lambda_per_hour * t_hours)
+
+# ---- Compute chosen BE curves ----
+be_curves = {}
+for be in be_to_compare:
+    if be not in failure_rates:
+        raise KeyError(f"{be} not found in failure_rates")
+    lam = failure_rates[be]
+    be_curves[be] = np.array([R_be(lam, t) for t in time_grid])
+
+# ---- Plot (time axis divided by 1000) ----
+plt.figure(figsize=(10, 6))
+plt.plot(time_grid / 1000.0, R_sys_vals, linewidth=2, label="System R(t)")
+
+for be, vals in be_curves.items():
+    plt.plot(time_grid / 1000.0, vals, linestyle="--", label=f"{be} R(t)")
+
+plt.xlabel("Time (×1000 hours)", fontsize=13)
+plt.ylabel("Reliability R(t)", fontsize=13)
+plt.title("System vs. Basic-Event Reliability", fontsize=14)
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+#%% Reliability and Availability Simulation 2
+
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+import heapq
+rng = np.random.default_rng(42)
+
+# ---------- Fault logic (adapt to your extracted tree if needed) ----------
+# System is DOWN if any singleton BE fails OR (BE3 AND BE4) both failed.
+singletons = {"BE1","BE2","BE5","BE6","BE7","BE8","BE9","BE10","BE11","BE12",
+              "BE13","BE14","BE15","BE16","BE17","BE18"}
+pair_and = ("BE3","BE4")
+
+def system_down(component_states: dict) -> bool:
+    # component_states[BE] is True if failed, False if up
+    if any(component_states[be] for be in singletons):
+        return True
+    return component_states[pair_and[0]] and component_states[pair_and[1]]
+
+# ---------- 1) Mission reliability simulation (NO repairs) ----------
+# Trick: time to system failure T_sys for this tree = min( min(T_i for singletons), max(T3, T4) ),
+# where T_i ~ Exp(lambda_i). We can simulate that directly.
+def simulate_mission_reliability(T_plot=1e5, n_points=400, n_trials=100_000):
+    time_grid = np.linspace(0, T_plot, n_points)
+    # Precompute lambdas
+    lam = failure_rates
+    # Draw samples of time-to-failure per BE for all trials
+    # (exponential inverse CDF: T = -ln(U)/lambda)
+    def exp_samples(rate, size):
+        # Guard for zero rates (not expected here)
+        if rate <= 0:
+            return np.full(size, np.inf)
+        U = rng.random(size)
+        return -np.log(U) / rate
+
+    # Singles: min over 16 BEs
+    singles_min = np.full(n_trials, np.inf, dtype=float)
+    for be in singletons:
+        singles_min = np.minimum(singles_min, exp_samples(lam[be], n_trials))
+
+    # AND pair needs both failures: time is max(T3, T4)
+    T3 = exp_samples(lam["BE3"], n_trials)
+    T4 = exp_samples(lam["BE4"], n_trials)
+    pair_time = np.maximum(T3, T4)
+
+    T_sys = np.minimum(singles_min, pair_time)
+
+    # Reliability estimator: R(t) = P(T_sys > t) ≈ mean( T_sys > t )
+    R_vals = np.array([(T_sys > t).mean() for t in time_grid])
+    return time_grid, R_vals
+
+# ---------- 2) Availability simulation (WITH repairs) ----------
+# Event-driven simulation with unlimited repair crews.
+# Each component alternates: Up --(Exp(lambda))-> Down --(fixed repair)-> Up ...
+def simulate_availability(T_horizon=1e5, n_points=400, n_trials=2000):
+    time_grid = np.linspace(0, T_horizon, n_points)
+    A_accum = np.zeros_like(time_grid, dtype=float)
+
+    be_list = sorted(failure_rates.keys(), key=lambda x: int(x[2:]))
+    lam = failure_rates
+    rep = repair_times
+
+    for _ in range(n_trials):
+        # Initial states: all up (False=up, True=failed)
+        state = {be: False for be in be_list}
+
+        # Priority queue of events: (time, type, be)
+        # type: "fail" or "repair"
+        Q = []
+        for be in be_list:
+            # schedule initial failure when up
+            t_fail = rng.exponential(1.0 / lam[be]) if lam[be] > 0 else np.inf
+            heapq.heappush(Q, (t_fail, "fail", be))
+
+        # We'll walk through the event list, and sample the state at each time_grid point
+        idx = 0
+        t_now = 0.0
+
+        # Helper to advance to a target time and ensure A(t) sampling at grid points
+        def sample_until(target_time):
+            nonlocal idx, t_now
+            while idx < len(time_grid) and time_grid[idx] <= target_time:
+                # sample instantaneous availability: system is up if not system_down
+                A_accum[idx] += 0.0 if system_down(state) else 1.0
+                idx += 1
+            t_now = target_time
+
+        while Q and idx < len(time_grid):
+            t_evt, etype, be = heapq.heappop(Q)
+            if t_evt > time_grid[-1]:
+                # sample the remainder and break
+                sample_until(time_grid[-1])
+                break
+
+            # sample at all grid points up to the next event
+            sample_until(t_evt)
+
+            if etype == "fail":
+                if not state[be]:  # only fail if currently up
+                    state[be] = True
+                    # schedule fixed repair
+                    t_rep = t_evt + rep[be]
+                    heapq.heappush(Q, (t_rep, "repair", be))
+                # schedule next failure for this BE after it returns to up.
+                # We schedule the next failure time when it returns to up (on repair).
+                # (So nothing else to do here.)
+            elif etype == "repair":
+                if state[be]:  # only repair if currently failed
+                    state[be] = False
+                    # schedule next failure from this repair completion time
+                    if lam[be] > 0:
+                        t_next_fail = t_evt + rng.exponential(1.0 / lam[be])
+                    else:
+                        t_next_fail = np.inf
+                    heapq.heappush(Q, (t_next_fail, "fail", be))
+
+        # If grid extends beyond last event time, sample the rest at last known state
+        if idx < len(time_grid):
+            sample_until(time_grid[-1])
+
+    # Empirical instantaneous availability A(t) = mean over trials of "system up" at t
+    A_vals = A_accum / n_trials
+    return time_grid, A_vals
+
+# ---------- RUN SIMS ----------
+T_plot = 1.0e5
+n_points = 500
+
+# Analytic reliability (already from your R_sys)
+t_analytic = np.linspace(0, T_plot, n_points)
+R_analytic = np.array([R_sys(t) for t in t_analytic])
+
+# Mission reliability (no repairs) Monte Carlo
+t_Rmc, R_mc = simulate_mission_reliability(T_plot=T_plot, n_points=n_points, n_trials=100000)
+
+# Availability with repairs Monte Carlo
+t_Amc, A_mc = simulate_availability(T_horizon=T_plot, n_points=n_points, n_trials=3000)
+
+# ---------- PLOTS (time divided by 1000) ----------
+plt.figure(figsize=(10, 6))
+plt.plot(t_analytic/1000.0, R_analytic, label="Analytic R(t) (no repairs)", linewidth=2)
+plt.plot(t_Rmc/1000.0, R_mc, "--", label="Simulated R(t) (no repairs)", alpha=0.8)
+plt.xlabel("Time (×1000 hours)")
+plt.ylabel("Reliability R(t)")
+plt.title("Mission Reliability: Analytic vs Monte Carlo")
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(10, 6))
+plt.plot(t_Amc/1000.0, A_mc, label="Simulated Availability A(t) (with repairs)", linewidth=2)
+plt.xlabel("Time (×1000 hours)")
+plt.ylabel("Availability A(t)")
+plt.title("Time-Series Availability with Failures and Fixed Repairs")
+plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
 
