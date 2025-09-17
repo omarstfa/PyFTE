@@ -1,3 +1,4 @@
+
 import numpy as np
 import pandas as pd
 
@@ -12,7 +13,7 @@ def calculate_importance_factors(minimal_cut_sets, label_map, failure_probs):
         Minimal cut sets expressed as lists of basic-event labels (e.g., "BE1", "BE2").
     label_map : dict[str, int]
         Maps each basic-event label to an index in `failure_probs`.
-    failure_probs : np.ndarray
+    failure_probs : np.ndarray or dict[str,float]
         Failure probabilities (P[fail during mission]) for each basic event.
 
     Returns
@@ -27,6 +28,14 @@ def calculate_importance_factors(minimal_cut_sets, label_map, failure_probs):
         for v in vals:
             out *= float(v)
         return out
+
+    # Allow dict-like failure_probs
+    if isinstance(failure_probs, dict):
+        # build a vector aligned with label_map order
+        vec = np.zeros(len(label_map), dtype=float)
+        for be, idx in label_map.items():
+            vec[idx] = failure_probs[be]
+        failure_probs = vec
 
     # Top-event unavailability (Q) via MCS sum of products approximation
     def top_unavailability(probs):
@@ -76,233 +85,199 @@ def calculate_importance_factors(minimal_cut_sets, label_map, failure_probs):
 
 
 # ------------------------------------------------------------
-# Monte Carlo reliability with CIs over simulations
+# Event-driven Monte Carlo for Availability & Reliability
 # ------------------------------------------------------------
-import numpy as np
-import pandas as pd
 
-# (Keep any other functions you already have here, e.g., calculate_importance_factors)
+from typing import Dict, List, Optional, Tuple
 
-def simulate_reliability(minimal_cut_sets, failure_rates, repair_times, T=1000, dt=1, N_SIM=5000):
+def _simulate_be_timeline(T: float, dt: float, lam: float, repair_time: float, rng) -> np.ndarray:
     """
-    Returns (same as before, with two extras appended at the end):
-      1) sys_unavail
-      2) sys_ci                  <-- NOTE: this remains the CI of *availability* for backward compatibility
-      3) comp_df
-      4) availability_time_series
-      5) time_grid
-      6) all_component_states
-      7) availability_sys
-      8) MTTF_sys
-      9) MTTR_sys
-     10) comp_unavail_summary    <-- NEW: per-component 95% CI for unavailability
-     11) sys_unavail_ci          <-- NEW: 95% CI for system unavailability
+    Returns a boolean array of shape (len(time_grid),) that is True when the BE is DOWN.
+    Time-to-failure ~ Exp(lam); repair duration is fixed (repair_time).
     """
     time_grid = np.arange(0, T + dt, dt)
-    basic_events = {
-        f'BE{i}': {'fail_rate': failure_rates[f'BE{i}'], 'repair_mean': repair_times[f'BE{i}']}
-        for i in range(1, 19)
+    down = np.zeros_like(time_grid, dtype=bool)
+    t = 0.0
+    while t < T:
+        # Up-time until next failure
+        if lam <= 0.0:
+            break
+        t += rng.exponential(1.0 / lam)
+        if t >= T:
+            break
+        down_start = t
+        # Fixed repair
+        t = down_start + repair_time
+        down_end = min(t, T)
+        idx = (time_grid >= down_start) & (time_grid < down_end)
+        down[idx] = True
+    return down
+
+
+def simulate_reliability(
+    minimal_cut_sets: List[List[str]],
+    failure_rates: Dict[str, float],
+    repair_times: Dict[str, float],
+    T: float = 1000.0,
+    dt: float = 1.0,
+    N_SIM: int = 3000,
+    be_to_component: Optional[Dict[str, str]] = None,
+    rng_seed: int = 42,
+):
+    """
+    Core, compact simulator that aligns with the algorithm spec.
+
+    minimal_cut_sets : list of MCS, each a list of BE labels (e.g., ["BE3","BE4"])
+    failure_rates    : dict BE->lambda (per hour)
+    repair_times     : dict BE->fixed repair time (hours)
+    T, dt, N_SIM     : horizon, resolution, replications
+    be_to_component  : optional dict mapping each BE to a component name
+                       (if omitted, each BE is treated as its own component)
+
+    Returns dict with:
+      - time_grid
+      - availability_time_series (mean A(t))
+      - availability_time_low/high (95% Wilson CI)
+      - reliability_time_series (mean R(t))
+      - reliability_time_low/high (95% Wilson CI)
+      - system_unavailability_mean, system_unavailability_ci
+      - component_unavailability (DataFrame, mean unavailability per component)
+      - top_event_states (N_SIM x len(time_grid) bool)
+    """
+    rng = np.random.default_rng(rng_seed)
+    time_grid = np.arange(0, T + dt, dt)
+    Nt = len(time_grid)
+
+    be_list = sorted(failure_rates.keys(), key=lambda x: int(x[2:]))
+    # Default mapping: each BE is its own component
+    if be_to_component is None:
+        be_to_component = {be: be for be in be_list}
+
+    # --- Pre-sim allocations ---
+    top_event_states = np.zeros((N_SIM, Nt), dtype=bool)  # True => system DOWN
+    be_states = {be: np.zeros((N_SIM, Nt), dtype=bool) for be in be_list}
+
+    # --- Simulate BE timelines ---
+    for s in range(N_SIM):
+        for be in be_list:
+            lam = float(failure_rates[be])
+            rep = float(repair_times[be])
+            be_states[be][s, :] = _simulate_be_timeline(T, dt, lam, rep, rng)
+
+        # Top event: OR over cut-ANDs of BE states
+        te = np.zeros(Nt, dtype=bool)
+        for cut in minimal_cut_sets:
+            cut_mask = np.logical_and.reduce([be_states[be][s, :] for be in cut])
+            te |= cut_mask
+        top_event_states[s, :] = te
+
+    # --- Availability A(t) ---
+    A_t = 1.0 - top_event_states.mean(axis=0)
+
+    # Wilson CI for binomial mean
+    N = float(N_SIM)
+    z = 1.959963984540054  # 95%
+    denom = 1.0 + (z**2) / N
+
+    def wilson_ci(p_hat_vec):
+        center = (p_hat_vec + (z**2) / (2.0 * N)) / denom
+        half_width = z * np.sqrt((p_hat_vec * (1.0 - p_hat_vec) / N) + (z**2) / (4.0 * N**2)) / denom
+        lo = np.clip(center - half_width, 0.0, 1.0)
+        hi = np.clip(center + half_width, 0.0, 1.0)
+        return lo, hi
+
+    A_lo, A_hi = wilson_ci(A_t)
+
+    # --- Reliability R(t) = P(no failure by t) ---
+    ever_failed = np.logical_or.accumulate(top_event_states, axis=1)  # (N_SIM, Nt)
+    R_t = 1.0 - ever_failed.mean(axis=0)
+    R_lo, R_hi = wilson_ci(R_t)
+
+    # --- System unavailability summary over [0,T] ---
+    sys_unavail_per_sim = top_event_states.mean(axis=1)  # fraction of time DOWN in each run
+    sys_unavail_mean = float(sys_unavail_per_sim.mean())
+    sys_unavail_ci = np.percentile(sys_unavail_per_sim, [2.5, 97.5]).astype(float)
+
+    # --- Component rollup: OR of BEs mapped to the component ---
+    # build component->list[BE]
+    comp_to_bes = {}
+    for be, comp in be_to_component.items():
+        comp_to_bes.setdefault(comp, []).append(be)
+
+    comp_unavail = {}
+    for comp, bes in comp_to_bes.items():
+        # OR across BEs for each sim/time, then mean across sims/time
+        comp_down = np.zeros((N_SIM, Nt), dtype=bool)
+        for be in bes:
+            comp_down |= be_states[be]
+        comp_unavail[comp] = float(comp_down.mean())  # fraction of time down
+
+    component_unavailability = pd.DataFrame.from_dict(
+        comp_unavail, orient="index", columns=["Unavailability"]
+    ).sort_index(key=lambda s: s.str.lower())
+
+    return {
+        "time_grid": time_grid,
+        "availability_time_series": A_t,
+        "availability_time_low": A_lo,
+        "availability_time_high": A_hi,
+        "reliability_time_series": R_t,
+        "reliability_time_low": R_lo,
+        "reliability_time_high": R_hi,
+        "system_unavailability_mean": sys_unavail_mean,
+        "system_unavailability_ci": sys_unavail_ci,
+        "component_unavailability": component_unavailability,
+        "top_event_states": top_event_states,
     }
 
-    def simulate_component(f_rate, repair_mean):
-        t = 0
-        events = []
-        while t < T:
-            t += np.random.exponential(1 / f_rate)
-            if t >= T:
-                break
-            t_down = t
-            t += np.random.exponential(repair_mean)
-            events.append((t_down, min(t, T)))
-        return events
 
-    sys_avail = np.zeros(N_SIM)
-    component_stats = {be: {'up_times': [], 'down_times': []} for be in basic_events}
-    top_event_states = np.zeros((N_SIM, len(time_grid)), dtype=bool)
-    all_component_states = {be: np.zeros((N_SIM, len(time_grid)), dtype=bool) for be in basic_events}
+# ------------------------------------------------------------
+# Reliability Function helpers
+# ------------------------------------------------------------
+from typing import Callable
 
-    top_event_up_times = []
-    top_event_down_times = []
-
-    for sim in range(N_SIM):
-        comp_states = {be: np.zeros_like(time_grid, dtype=bool) for be in basic_events}
-        for be, params in basic_events.items():
-            f_rate = params['fail_rate']
-            events = simulate_component(f_rate, params['repair_mean'])
-            for down, up in events:
-                idx = (time_grid >= down) & (time_grid < up)
-                comp_states[be][idx] = True
-                all_component_states[be][sim][idx] = True
-                component_stats[be]['down_times'].append(up - down)
-
-        # Top event state (system failure state)
-        top_state = np.zeros_like(time_grid, dtype=bool)
-        for cut in minimal_cut_sets:
-            mask = np.logical_and.reduce([comp_states[e] for e in cut])
-            top_state |= mask
-
-        top_event_states[sim] = top_state
-        sys_avail[sim] = 1 - np.mean(top_state)
-
-        # Track up and down periods for top event
-        prev_state = False
-        start_time = 0
-        for i, state in enumerate(top_state):
-            t = time_grid[i]
-            if state and not prev_state:  # up → down
-                top_event_up_times.append(t - start_time)
-                start_time = t
-                prev_state = True
-            elif not state and prev_state:  # down → up
-                top_event_down_times.append(t - start_time)
-                start_time = t
-                prev_state = False
-
-        # Handle tail segment
-        if not prev_state:
-            top_event_up_times.append(T - start_time)
-        else:
-            top_event_down_times.append(T - start_time)
-
-        for be in basic_events:
-            # This is actually the fraction of time UP in this simulation
-            component_stats[be]['up_times'].append(np.mean(~comp_states[be]))
-
-    # -------------------------------
-    # Component-level point estimates
-    # -------------------------------
-    comp_df = pd.DataFrame({
-        be: {
-            'Failure Rate': failure_rates[be],
-            'Unavailability': 1 - np.mean(stats['up_times']),
-            'MTBF': (np.mean(stats['up_times']) * T / len(stats['down_times'])) if stats['down_times'] else np.nan,
-            'MTTR': (np.mean(stats['down_times'])) if stats['down_times'] else np.nan
-        }
-        for be, stats in component_stats.items()
-    }).T
-
-    # ---------------------------------------------
-    # NEW: per-component 95% CI for unavailability
-    # ---------------------------------------------
-    comp_unavail_summary = pd.DataFrame({
-        be: {
-            'Unavailability_mean': float(1 - np.mean(stats['up_times'])),
-            'Unavailability_low':  float(np.percentile(1 - np.array(stats['up_times']), 2.5)),
-            'Unavailability_high': float(np.percentile(1 - np.array(stats['up_times']), 97.5)),
-        }
-        for be, stats in component_stats.items()
-    }).T
-
-    # --------------------
-    # System-level metrics
-    # --------------------
-    # System unavailability per simulation (direct, simple, unambiguous)
-    sys_unavail_per_sim = 1 - sys_avail
-
-    sys_unavail = float(np.mean(sys_unavail_per_sim))
-    sys_unavail_ci = np.percentile(sys_unavail_per_sim, [2.5, 97.5])  # NEW: CI on UNAVAILABILITY
-
-    # Keep your original availability CI for backward compatibility
-    sys_ci = np.percentile(sys_avail, [2.5, 97.5])
-
-    MTTF_sys = np.mean(top_event_up_times) if top_event_up_times else None
-    MTTR_sys = np.mean(top_event_down_times) if top_event_down_times else None
-    availability_sys = (
-        MTTF_sys / (MTTF_sys + MTTR_sys) if MTTF_sys is not None and MTTR_sys is not None else None
-    )
-
-    # == Availability A(t) ==
-    
-    # Time series for plotting (mean availability over sims at each time)
-    availability_time_series = 1 - np.mean(top_event_states, axis=0)
-    
-    # 95% Wilson binomial CI for P(UP) at each time t
-    N = float(N_SIM)
-    z = 1.959963984540054  # 95% z-score
-    p_hat = 1 - top_event_states.mean(axis=0)  # same as availability_time_series
-    
-    denom = 1.0 + (z**2) / N
-    center = (p_hat + (z**2) / (2.0 * N)) / denom
-    half_width = z * np.sqrt((p_hat * (1.0 - p_hat) / N) + (z**2) / (4.0 * N**2)) / denom
-    
-    availability_time_low = np.clip(center - half_width, 0.0, 1.0)
-    availability_time_high = np.clip(center + half_width, 0.0, 1.0)
-    
-    
-    # == Reliability R(t) ==
-    
-    # R(t) = P(no failure yet by time t) = 1 - P(ever failed by t)
-    # Convert per-sim failure-state to "ever failed" by cumulative OR along time
-    ever_failed = np.logical_or.accumulate(top_event_states, axis=1)    # shape (N_SIM, len(time_grid))
-    reliability_time_series = 1.0 - ever_failed.mean(axis=0)            # shape (len(time_grid),)
-    
-    # 95% Wilson binomial CI for R(t) at each time (stable even when near 0 or 1)
-    N = float(N_SIM)
-    z = 1.959963984540054  # 95% z-score
-    p_hat = reliability_time_series
-    denom = 1.0 + (z**2) / N
-    center = (p_hat + (z**2) / (2.0 * N)) / denom
-    half_width = z * np.sqrt((p_hat * (1.0 - p_hat) / N) + (z**2) / (4.0 * N**2)) / denom
-    reliability_time_low  = np.clip(center - half_width, 0.0, 1.0)
-    reliability_time_high = np.clip(center + half_width, 0.0, 1.0)
-
-
-
-# =============================================================================
-# 
-# =============================================================================
-
-    dt = float(time_grid[1] - time_grid[0]) if len(time_grid) > 1 else 0.0
+def _first_failure_times(top_event_states: np.ndarray, dt: float) -> np.ndarray:
+    """
+    Compute time-to-first-failure per simulation (right-censored at the horizon).
+    top_event_states: (N_SIM, Nt) bool where True means system DOWN at t
+    Returns array of shape (N_SIM,) with times in hours; if never failed, value is np.inf.
+    """
     N_SIM, Nt = top_event_states.shape
-    
-    # All missions complete at T in your current code; adjust later if you allow early ends
-    mission_end_times = np.full(N_SIM, time_grid[-1])
-    elig = (mission_end_times[:, None] >= time_grid[None, :])  # (N_SIM, Nt)
-    
-    # ---- Availability(t): Σ uptime / Σ mission time (over completed missions) ----
-    # Left-interval cumulative uptime (per run, up to t_k): sum UP over intervals [t_i, t_{i+1}), i = 0..k-1
-    cum_up_intervals = np.cumsum((~top_event_states)[:, :-1], axis=1)   # (N_SIM, Nt-1)
-    cum_up_left = np.pad(cum_up_intervals, ((0, 0), (1, 0)), mode="constant") * dt  # (N_SIM, Nt), starts at 0
-    numerator_A = (cum_up_left * elig).sum(axis=0)                       # (Nt,)
-    
-    # Total mission time over completed missions at t: each eligible run contributes t
-    denominator_A = elig.sum(axis=0) * time_grid                         # (Nt,)
-    denominator_A = np.where(denominator_A == 0.0, 1.0, denominator_A)   # avoid 0/0 at t=0
-    availability_time_series_mission = numerator_A / denominator_A
-    if Nt > 0:
-        availability_time_series_mission[0] = 1.0                        # define A(0) = 1
-    
-    # ---- Reliability(t): #successful missions / #considered runs ----
-    # If you want "no failure strictly before t" (aligned with left-interval convention), shift once:
-    ever_failed_before = np.concatenate(
-        [np.zeros((N_SIM, 1), dtype=bool),
-         np.logical_or.accumulate(top_event_states[:, :-1], axis=1)],
-        axis=1
-    )                                                                     # (N_SIM, Nt)
-    success_matrix = ~ever_failed_before
-    runs_counts_t = np.where(elig.sum(axis=0) == 0, 1, elig.sum(axis=0))  # (Nt,)
-    reliability_time_series_mission = (success_matrix & elig).sum(axis=0) / runs_counts_t
+    fft = np.full(N_SIM, np.inf, dtype=float)
+    first_idx = np.argmax(top_event_states, axis=1)  # 0 if all False, else first True index
+    # But if all False, argmax returns 0; we need to detect that
+    never = ~top_event_states.any(axis=1)
+    # time grid assumed uniform with step dt, starting at 0
+    fft[~never] = first_idx[~never] * dt
+    return fft
 
-    
-        
-    return (
-        sys_unavail,
-        sys_ci,                   # availability CI
-        comp_df,
-        availability_time_series,
-        time_grid,
-        all_component_states,
-        availability_sys,
-        MTTF_sys,
-        MTTR_sys,
-        comp_unavail_summary,     
-        sys_unavail_ci,            
-        availability_time_low,
-        availability_time_high,
-        top_event_states,
-        reliability_time_series,
-        reliability_time_low,
-        reliability_time_high,
-        availability_time_series_mission,
-        reliability_time_series_mission,
-    )
+def fit_exponential_reliability(top_event_states: np.ndarray, dt: float, T: float) -> float:
+    """
+    MLE for exponential failure rate with right-censoring ("time on test").
+    Returns lambda_hat (per hour). If there are zero failures, returns 0.0.
+    """
+    fft = _first_failure_times(top_event_states, dt)
+    failures = np.isfinite(fft)
+    n_fail = failures.sum()
+    total_time_on_test = np.where(failures, fft, T).sum()
+    if total_time_on_test <= 0:
+        return 0.0
+    lam_hat = n_fail / total_time_on_test
+    return float(lam_hat)
+
+def make_reliability_function(time_grid: np.ndarray, R_t: np.ndarray) -> Callable[[float], float]:
+    """
+    Create a callable R(t) via linear interpolation on (time_grid, R_t).
+    Values outside the grid are clamped to the nearest endpoint.
+    """
+    tg = np.asarray(time_grid, dtype=float)
+    rv = np.asarray(R_t, dtype=float)
+    def R_of_t(t: float) -> float:
+        t = float(t)
+        if t <= tg[0]:
+            return float(rv[0])
+        if t >= tg[-1]:
+            return float(rv[-1])
+        # numpy.interp is linear; for stepwise, one could use searchsorted.
+        return float(np.interp(t, tg, rv))
+    return R_of_t

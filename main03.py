@@ -262,7 +262,12 @@ plt.show()
 # ---- Settings ----
 T_plot = 500e3        # total time horizon in hours (e.g., 100,000 h)
 n_points = 600        # curve resolution
-be_to_compare = ["BE11","BE15","BE6","BE4"]  # add any BEs you want to compare here
+# be_to_compare = ["BE11","BE15","BE6","BE4"]  # Even spread
+be_to_compare = ["BE11","BE10","BE15","BE5"]  # Most critical
+# be_to_compare = ["BE1","BE2","BE3","BE4"]  # Least critical
+# be_to_compare = ["BE11","BE10","BE15","BE5","BE1","BE2","BE3","BE4"]  # Most & Least critical
+# be_to_compare = ["BE1","BE2","BE3","BE4","BE5","BE6","BE7","BE8","BE9",
+#                  "BE10","BE11","BE12", "BE13","BE14","BE15","BE16","BE17","BE18"]  # All
 
 # ---- Time grid (hours) ----
 time_grid = np.linspace(0.0, T_plot, n_points)
@@ -284,17 +289,19 @@ for be in be_to_compare:
     be_curves[be] = np.array([R_be(lam, t) for t in time_grid])
 
 # ---- Plot (time axis divided by 1000) ----
-plt.figure(figsize=(10, 6))
-plt.plot(time_grid / 1000.0, R_sys_vals, linewidth=2, label="System R(t)")
+plt.figure(figsize=(10, 6), dpi=300)
+plt.plot(time_grid / 1000.0, R_sys_vals, linewidth=2, color='black', label="System (TE)")
 
 for be, vals in be_curves.items():
-    plt.plot(time_grid / 1000.0, vals, linestyle="--", label=f"{be} R(t)")
+    plt.plot(time_grid / 1000.0, vals, linestyle="--", label=f"{be}")
 
-plt.xlabel("Time (×1000 hours)", fontsize=13)
-plt.ylabel("Reliability R(t)", fontsize=13)
-plt.title("System vs. Basic-Event Reliability", fontsize=14)
+plt.xlabel("Time (hour)", fontsize=14)
+plt.ylabel("Reliability", fontsize=14)
+# plt.title("System Reliability Function", fontsize=14)
 plt.grid(True, alpha=0.3)
-plt.legend()
+plt.legend(fontsize=12)
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
 plt.tight_layout()
 plt.show()
 
