@@ -103,18 +103,38 @@ failure_rates = {
 #     'BE17': 3, 'BE18': 3
 # }
 
-repair_times = {
-    'BE1': 3,  'BE2': 3,
-    'BE3': 6,  'BE4': 6,
-    'BE5': 24, 'BE6': 24,
-    'BE7': 6,  'BE8': 6,
-    'BE9': 6,  'BE10': 48,
-    'BE11': 48,'BE12': 6,
-    'BE13': 3, 'BE14': 3,
-    'BE15': 48,'BE16': 48,
-    'BE17': 3, 'BE18': 3
-}
+# repair_times = {
+#     'BE1': 3,  'BE2': 3,
+#     'BE3': 6,  'BE4': 6,
+#     'BE5': 24, 'BE6': 24,
+#     'BE7': 6,  'BE8': 6,
+#     'BE9': 6,  'BE10': 48,
+#     'BE11': 48,'BE12': 6,
+#     'BE13': 3, 'BE14': 3,
+#     'BE15': 48,'BE16': 48,
+#     'BE17': 3, 'BE18': 3
+# }
 
+repair_times = {
+    'BE1': 4,   # Fuse aging
+    'BE2': 4,   # Fuse installation
+    'BE3': 10,  # MCB 1
+    'BE4': 10,  # MCB 2
+    'BE5': 24,  # PV interconnect
+    'BE6': 24,  # Grounding
+    'BE7': 24,  # PV glass breakage (often needs swap logistics)
+    'BE8': 8,   # Soiling (if you keep it as an availability event; see note 3)
+    'BE9': 8,   # Shading (same note)
+    'BE10': 48, # PV cell breakage
+    'BE11': 48, # PV solder bond
+    'BE12': 24, # Hotspot
+    'BE13': 24, # Diode
+    'BE14': 12, # Short/open identification & reset
+    'BE15': 48, # Rack structure
+    'BE16': 48, # Encapsulant
+    'BE17': 4,  # Cable insulation
+    'BE18': 4,  # Cable aging
+}
 
 #%% Reliability Function (non-repairable mission, analytical)
 # Uses extracted minimal_cut_sets and failure_rates to compute exact R(t).
@@ -135,7 +155,7 @@ def _are_mcs_disjoint(mcs_be):
 _lambda = dict(failure_rates)
 mcs_be = _mcs_to_be_labels(minimal_cut_sets)
 disjoint = _are_mcs_disjoint(mcs_be)
-print(f"\\n[Reliability] Minimal cut sets disjoint? {disjoint}")
+print(f"\n[Reliability] Minimal cut sets disjoint? {disjoint}")
 
 def R_sys_disjoint(t_hours: float) -> float:
     prod_terms = 1.0
@@ -224,7 +244,7 @@ label_map = {f"BE{i}": i-1 for i in range(1, 19)}
 failure_probs = {be: 1 - np.exp(-failure_rates[be] * T_mission) for be in failure_rates}
 importance_df = calculate_importance_factors(minimal_cut_sets_BE, label_map, failure_probs)
 
-print("\\n--- Importance Factors (sample) ---")
+print("\n--- Importance Factors (sample) ---")
 print(importance_df)
 
 # ============================
@@ -236,7 +256,7 @@ res = simulate_reliability(
     repair_times=repair_times,
     T=T_mission,
     dt=1.0,
-    N_SIM=5000,
+    N_SIM=3000,
     be_to_component=be_to_component,
     rng_seed=123,
 )
@@ -244,7 +264,7 @@ res = simulate_reliability(
 time_grid = res["time_grid"]
 
 # --- Print concise summary ---
-print(f"\\nSystem unavailability (mean over sims): {res['system_unavailability_mean']:.6g}")
+print(f"\nSystem unavailability (mean over sims): {res['system_unavailability_mean']:.6g}")
 print(f"95% CI for system unavailability: [{res['system_unavailability_ci'][0]:.6g}, {res['system_unavailability_ci'][1]:.6g}]\\n")
 
 print("Component unavailability (mean):")
@@ -276,6 +296,8 @@ plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
 
+# %% Cumulative Availability
+
 # ============================
 # Cumulative Availability Plot
 # ============================
@@ -294,8 +316,8 @@ A_cum_lo = np.percentile(A_cum_sim, 2.5, axis=0)
 A_cum_hi = np.percentile(A_cum_sim, 97.5, axis=0)
 
 plt.figure(figsize=(10,6))
-# for j in range(500):  # first 5 replications
-#     plt.plot(time_grid, A_cum_sim[j], alpha=0.5, linewidth=1)
+for j in range(50):  # first 5 replications
+    plt.plot(time_grid, A_cum_sim[j], alpha=0.5, linewidth=1)
 plt.plot(time_grid, A_cum_mean, color="red", linewidth=2, label="Mean Cumulative Availability")
 plt.xlabel("Time (hours)")
 plt.ylabel("Cumulative Availability")
@@ -305,6 +327,28 @@ plt.legend()
 plt.show()
 
 
+# ============================
+# Cumulative Availability Plot + 95% band (zoomed on mean) 
+# ============================
+# Inputs expected:
+#   time_grid: 1D array shape (Nt,), strictly increasing
+#   res["top_event_states"]: bool array shape (N_SIM, Nt) OR (Nt, N_SIM)
+#                            True when the SYSTEM is DOWN
+
+down = res["top_event_states"]
+Nt = len(time_grid)
+
+plt.figure(figsize=(10, 6))
+plt.plot(time_grid, A_cum_mean, lw=2, label="Mean cumulative availability")
+plt.fill_between(time_grid, A_cum_lo, A_cum_hi, alpha=0.18, label="95% band")
+plt.xlabel("Time (hours)")
+plt.ylabel("Cumulative Availability")
+plt.title("Cumulative Availability — Mean and 95% Band (zoomed)")
+plt.ylim(0.996, 1.0)
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.tight_layout()
+plt.show()
 
 #%%
 
@@ -333,41 +377,43 @@ for t_demo in [100, 250, 500, 1000]:
     print(f"R_exp_hat({t_demo} h) = {np.exp(-lam_hat * t_demo):.6f}")
     
 #%% Verification of (Analytical Reliability) vs (Monte Carlo, NON-REPAIRABLE mission)
-# This verifies R(t) against a non-repairable MC, which is directly comparable to the analytical curve.
-import numpy as np
+# # This verifies R(t) against a non-repairable MC, which is directly comparable to the analytical curve.
+# import numpy as np
 
-def mc_reliability_nonrepairable(min_cut_sets_BE, failure_rates, T_plot, n_points=800, n_sims=30000, seed=17):
-    rng = np.random.default_rng(seed)
-    be_list = sorted(failure_rates.keys(), key=lambda x: int(x[2:]))
-    lam = np.array([failure_rates[be] for be in be_list], dtype=float)
-    with np.errstate(divide='ignore'):
-        scale = np.where(lam > 0, 1.0 / lam, np.inf)
-    # Sample time-to-failure once (no repairs)
-    ttf = rng.exponential(scale=scale, size=(n_sims, len(be_list)))
-    ttf[:, lam == 0.0] = np.inf
+# def mc_reliability_nonrepairable(min_cut_sets_BE, failure_rates, T_plot, n_points=800, n_sims=30000, seed=17):
+#     rng = np.random.default_rng(seed)
+#     be_list = sorted(failure_rates.keys(), key=lambda x: int(x[2:]))
+#     lam = np.array([failure_rates[be] for be in be_list], dtype=float)
+#     with np.errstate(divide='ignore'):
+#         scale = np.where(lam > 0, 1.0 / lam, np.inf)
+#     # Sample time-to-failure once (no repairs)
+#     ttf = rng.exponential(scale=scale, size=(n_sims, len(be_list)))
+#     ttf[:, lam == 0.0] = np.inf
 
-    # System failure time = min over cuts of (max TTF within the cut)
-    be_idx = {be: i for i, be in enumerate(be_list)}
-    te_time = np.full(n_sims, np.inf)
-    for cut in min_cut_sets_BE:
-        cut_i = [be_idx[be] for be in cut]
-        te_time = np.minimum(te_time, np.max(ttf[:, cut_i], axis=1))
+#     # System failure time = min over cuts of (max TTF within the cut)
+#     be_idx = {be: i for i, be in enumerate(be_list)}
+#     te_time = np.full(n_sims, np.inf)
+#     for cut in min_cut_sets_BE:
+#         cut_i = [be_idx[be] for be in cut]
+#         te_time = np.minimum(te_time, np.max(ttf[:, cut_i], axis=1))
 
-    grid = np.linspace(0.0, T_plot, n_points)
-    R_hat = np.array([(te_time > t).mean() for t in grid], dtype=float)
-    return grid, R_hat
+#     grid = np.linspace(0.0, T_plot, n_points)
+#     R_hat = np.array([(te_time > t).mean() for t in grid], dtype=float)
+#     return grid, R_hat
 
-# Use the same horizon as the analytical plot
-T_verify = T_plot if 'T_plot' in globals() else 1.0e5
-time_mc, R_mc = mc_reliability_nonrepairable(mcs_be, _lambda, T_verify, n_points=800, n_sims=30000, seed=17)
+# # Use the same horizon as the analytical plot
+# T_verify = T_plot if 'T_plot' in globals() else 1.0e5
+# time_mc, R_mc = mc_reliability_nonrepairable(mcs_be, _lambda, T_verify, n_points=800, n_sims=30000, seed=17)
 
-plt.figure(figsize=(10, 6))
-plt.plot(time_grid_R / 1000.0, R_vals, linewidth=2, label="Analytical R(t)")
-plt.plot(time_mc / 1000.0, R_mc, linestyle="--", label="MC (non-repairable)")
-plt.xlabel("Time (×1000 hours)")
-plt.ylabel("Reliability R(t)")
-plt.title("Analytical vs MC (Non-repairable) — Reliability")
-plt.grid(True, alpha=0.3)
-plt.legend()
-plt.tight_layout()
-plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.plot(time_grid_R / 1000.0, R_vals, linewidth=2, label="Analytical R(t)")
+# plt.plot(time_mc / 1000.0, R_mc, linestyle="--", label="MC (non-repairable)")
+# plt.xlabel("Time (×1000 hours)")
+# plt.ylabel("Reliability R(t)")
+# plt.title("Analytical vs MC (Non-repairable) — Reliability")
+# plt.grid(True, alpha=0.3)
+# plt.legend()
+# plt.tight_layout()
+# plt.show()
+
+
