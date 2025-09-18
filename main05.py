@@ -250,6 +250,20 @@ res = simulate_reliability(
 
 time_grid = res["time_grid"]
 
+# --- Component stats (MTTF, MTTR, λ, Unavailability) ---
+comp = res["component_stats"]
+print("\nComponent metrics (simulation-based):")
+print(comp)
+
+# Plot: bar chart of component unavailability
+plt.figure(figsize=(9, 5))
+comp_sorted = comp.sort_values("Unavailability", ascending=True)
+plt.barh(comp_sorted.index, comp_sorted["Unavailability"].values)
+plt.xlabel("Unavailability (fraction of time down)")
+plt.title("Component Unavailability (simulation)")
+plt.grid(axis="x", alpha=0.3)
+plt.tight_layout()
+plt.show()
 # --- Print concise summary ---
 print(f"\nSystem unavailability (mean over sims): {res['system_unavailability_mean']:.6g}")
 print(f"95% CI for system unavailability: [{res['system_unavailability_ci'][0]:.6g}, {res['system_unavailability_ci'][1]:.6g}]\\n")
@@ -400,3 +414,56 @@ for t_demo in [100, 250, 500, 1000]:
 # plt.legend()
 # plt.tight_layout()
 # plt.show()
+
+#%% Analytic per-component equivalent failure rates (competing risks) ---
+lam_analytic = {}
+for be, comp_name in be_to_component.items():
+    lam_analytic.setdefault(comp_name, 0.0)
+    lam_analytic[comp_name] += failure_rates[be]
+
+analytic_rows = []
+for comp_name, lam in lam_analytic.items():
+    mttf = (1.0 / lam) if lam > 0 else float("inf")
+    analytic_rows.append({"Component": comp_name, "Lambda_analytic": lam, "MTTF_analytic": mttf})
+
+df_analytic = pd.DataFrame(analytic_rows).set_index("Component")
+
+# Merge with simulation stats
+comp_full = comp.join(df_analytic, how="left")
+
+# (Optional) MTTR analytic note:
+# You can't get MTTR purely from the FT structure; if you assume "repair time depends on the failure mode"
+# and failures are memoryless competing risks, a common approximation is:
+#   MTTR_comp,analytic ≈ sum_i (λ_i / Σ λ_j) * MTTR_i
+# We'll compute that too for reference.
+
+mttr_analytic = {}
+for comp_name, bes in {}.items():  # placeholder to show structure
+    pass
+# Build comp -> list of (λ_i, MTTR_i)
+comp_to_modes = {}
+for be, comp_name in be_to_component.items():
+    comp_to_modes.setdefault(comp_name, []).append((failure_rates[be], repair_times[be]))
+
+comp_full["MTTR_analytic"] = np.nan
+for comp_name, modes in comp_to_modes.items():
+    lam_sum = sum(l for l, _ in modes)
+    if lam_sum > 0:
+        mttr_w = sum((l / lam_sum) * rt for l, rt in modes)
+        comp_full.loc[comp_name, "MTTR_analytic"] = mttr_w
+
+print("\nComponent metrics — simulation vs analytic:")
+print(comp_full)
+
+# (Optional) quick comparison plot of λ_sim vs λ_analytic
+plt.figure(figsize=(7,5))
+x = np.arange(len(comp_full))
+w = 0.4
+plt.bar(x - w/2, comp_full["Lambda_sim"].values, width=w, label="λ_sim")
+plt.bar(x + w/2, comp_full["Lambda_analytic"].values, width=w, label="λ_analytic")
+plt.xticks(x, comp_full.index, rotation=30, ha="right")
+plt.ylabel("Failure rate (per hour)")
+plt.title("Equivalent failure rate by component: simulation vs analytic")
+plt.legend()
+plt.tight_layout()
+plt.show()

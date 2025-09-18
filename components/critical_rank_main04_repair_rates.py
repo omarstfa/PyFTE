@@ -90,10 +90,11 @@ def calculate_importance_factors(minimal_cut_sets, label_map, failure_probs):
 
 from typing import Dict, List, Optional, Tuple
 
-def _simulate_be_timeline(T: float, dt: float, lam: float, repair_time: float, rng) -> np.ndarray:
+def _simulate_be_timeline(T: float, dt: float, lam: float, mu: float, rng) -> np.ndarray:
     """
     Returns a boolean array of shape (len(time_grid),) that is True when the BE is DOWN.
-    Time-to-failure ~ Exp(lam); repair duration is fixed (repair_time).
+    Time-to-failure ~ Exp(lam); repair duration ~ Exp(mu).
+    If mu == 0, the BE is non-repairable (stays down after first failure).
     """
     time_grid = np.arange(0, T + dt, dt)
     down = np.zeros_like(time_grid, dtype=bool)
@@ -106,73 +107,23 @@ def _simulate_be_timeline(T: float, dt: float, lam: float, repair_time: float, r
         if t >= T:
             break
         down_start = t
-        # Fixed repair
-        t = down_start + repair_time
+        # Exponential repair time (mu per hour)
+        if mu > 0.0:
+            rep_dur = rng.exponential(1.0 / mu)
+        else:
+            # Non-repairable
+            rep_dur = T - down_start
+        t = down_start + rep_dur
         down_end = min(t, T)
         idx = (time_grid >= down_start) & (time_grid < down_end)
         down[idx] = True
     return down
 
-def _mttf_mttr_from_timeline(down_bool: np.ndarray, dt: float) -> tuple[float, float, int]:
-    """
-    Given a 1D boolean array 'down_bool' (True when DOWN) sampled every dt hours,
-    compute MTTF (mean up duration between failures), MTTR (mean repair duration),
-    and number of failures observed.
-    """
-    x = down_bool.astype(np.int8)
-    if x.size == 0:
-        return float("inf"), 0.0, 0
-
-    # transitions: 0->1 is a failure start, 1->0 is a repair completion
-    d = np.diff(x, prepend=x[0])
-    fail_idxs = np.where(d == 1)[0]
-    repair_idxs = np.where(d == -1)[0]
-
-    # align pairs (failure start, repair end)
-    # If series starts down, ignore the leading partial-down until it goes up
-    if x[0] == 1:
-        # first transition must be 1->0; drop it so pairs line up
-        if repair_idxs.size and (fail_idxs.size == 0 or repair_idxs[0] < fail_idxs[0]):
-            repair_idxs = repair_idxs[1:]
-
-    # If it ends down, drop the trailing open failure interval
-    n_pairs = min(fail_idxs.size, repair_idxs.size)
-    fail_idxs = fail_idxs[:n_pairs]
-    repair_idxs = repair_idxs[:n_pairs]
-
-    # MTTR: mean over down intervals
-    down_durs = (repair_idxs - fail_idxs) * dt
-    mttr = down_durs.mean() if down_durs.size else 0.0
-
-    # MTTF: mean lengths of the up intervals that *precede* failures
-    # Build the up segments that end at each fail_idx.
-    up_ends = fail_idxs
-    # starts are either 0 or the previous repair index
-    if n_pairs:
-        # up segment starts at 0 if series starts up; otherwise at first repair
-        up_starts = np.zeros_like(up_ends)
-        if x[0] == 0:
-            up_starts[0] = 0
-        else:
-            # series started down; first up starts at first repair completing
-            if repair_idxs.size:
-                up_starts[0] = repair_idxs[0]
-        for k in range(1, n_pairs):
-            up_starts[k] = repair_idxs[k-1]
-        up_durs = (up_ends - up_starts) * dt
-        # keep only strictly positive up durations
-        up_durs = up_durs[up_durs > 0]
-        mttf = up_durs.mean() if up_durs.size else float("inf")
-    else:
-        # no failures observed => MTTF is right-censored at horizon
-        mttf = float("inf")
-
-    return float(mttf), float(mttr), int(n_pairs)
 
 def simulate_reliability(
     minimal_cut_sets: List[List[str]],
     failure_rates: Dict[str, float],
-    repair_times: Dict[str, float],
+    repair_rates: Dict[str, float],
     T: float = 1000.0,
     dt: float = 1.0,
     N_SIM: int = 3000,
@@ -184,7 +135,7 @@ def simulate_reliability(
 
     minimal_cut_sets : list of MCS, each a list of BE labels (e.g., ["BE3","BE4"])
     failure_rates    : dict BE->lambda (per hour)
-    repair_times     : dict BE->fixed repair time (hours)
+    repair_rates     : dict BE->mu (per hour) for exponential repair durations
     T, dt, N_SIM     : horizon, resolution, replications
     be_to_component  : optional dict mapping each BE to a component name
                        (if omitted, each BE is treated as its own component)
@@ -216,8 +167,8 @@ def simulate_reliability(
     for s in range(N_SIM):
         for be in be_list:
             lam = float(failure_rates[be])
-            rep = float(repair_times[be])
-            be_states[be][s, :] = _simulate_be_timeline(T, dt, lam, rep, rng)
+            mu  = float(repair_rates[be])
+            be_states[be][s, :] = _simulate_be_timeline(T, dt, lam, mu, rng)
 
         # Top event: OR over cut-ANDs of BE states
         te = np.zeros(Nt, dtype=bool)
@@ -259,44 +210,17 @@ def simulate_reliability(
     for be, comp in be_to_component.items():
         comp_to_bes.setdefault(comp, []).append(be)
 
-    comp_rows = []
+    comp_unavail = {}
     for comp, bes in comp_to_bes.items():
-        # OR across mapped BEs → component down time series for each sim
+        # OR across BEs for each sim/time, then mean across sims/time
         comp_down = np.zeros((N_SIM, Nt), dtype=bool)
         for be in bes:
             comp_down |= be_states[be]
+        comp_unavail[comp] = float(comp_down.mean())  # fraction of time down
 
-        # Unavailability over full run (mean over sims & time)
-        unavail = float(comp_down.mean())
-
-        # MTTF/MTTR from simulation:
-        mttf_list, mttr_list, nf_list = [], [], []
-        for s in range(N_SIM):
-            mttf_s, mttr_s, nf_s = _mttf_mttr_from_timeline(comp_down[s, :], dt)
-            mttf_list.append(mttf_s)
-            mttr_list.append(mttr_s)
-            nf_list.append(nf_s)
-
-        # Estimate λ from simulation two ways:
-        #  - "failures per time on test" across all reps (handles censoring),
-        #  - or 1/mean(MTTF) if finite
-        total_failures = np.sum(nf_list)
-        total_uptime = float((~comp_down).sum()) * dt  # total up-time across all sims
-        lam_hat = (total_uptime > 0) and (total_failures / total_uptime) or 0.0
-
-        mttf_sim = float(np.mean([v for v in mttf_list if np.isfinite(v)]) if np.isfinite(mttf_list).any() else float("inf"))
-        mttr_sim = float(np.mean(mttr_list)) if len(mttr_list) else 0.0
-
-        comp_rows.append({
-            "Component": comp,
-            "Unavailability": unavail,
-            "MTTF_sim": mttf_sim,
-            "MTTR_sim": mttr_sim,
-            "Lambda_sim": lam_hat,
-        })
-
-    component_stats = pd.DataFrame(comp_rows).sort_values("Unavailability", ascending=False).set_index("Component")
-
+    component_unavailability = pd.DataFrame.from_dict(
+        comp_unavail, orient="index", columns=["Unavailability"]
+    ).sort_index(key=lambda s: s.str.lower())
 
     return {
         "time_grid": time_grid,
@@ -308,7 +232,7 @@ def simulate_reliability(
         "reliability_time_high": R_hi,
         "system_unavailability_mean": sys_unavail_mean,
         "system_unavailability_ci": sys_unavail_ci,
-        "component_states": component_stats,
+        "component_unavailability": component_unavailability,
         "top_event_states": top_event_states,
     }
 

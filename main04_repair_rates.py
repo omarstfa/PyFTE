@@ -75,11 +75,10 @@ tt_constructed.to_csv("truth_table_constructedFT.txt", sep=" ", index=False)
 validate_truth_tables("truth_table_originalFT.txt", "truth_table_constructedFT.txt")
 
 # ============================
-# 2) Inputs (time, # of replications, failure rates, repair times, )
+# 2) Inputs (rates, repairs)
 # ============================
-
-T_mission = 10000  # hours
-N_SIM = 3000 # replications
+T_mission = 1000  # hours
+N_SIM = 200 # replications
 
 failure_rates = {
     'BE1':1e-7, 'BE2':2e-7,
@@ -93,31 +92,29 @@ failure_rates = {
     'BE17':1e-7,'BE18':2e-7
 }
 
-repair_times = {
-    'BE1': 4,   # Fuse aging
-    'BE2': 4,   # Fuse installation
-    'BE3': 10,  # MCB 1
-    'BE4': 10,  # MCB 2
-    'BE5': 24,  # PV interconnect
-    'BE6': 24,  # Grounding
-    'BE7': 24,  # PV glass breakage (often needs swap logistics)
-    'BE8': 8,   # Soiling (if you keep it as an availability event; see note 3)
-    'BE9': 8,   # Shading (same note)
-    'BE10': 48, # PV cell breakage
-    'BE11': 48, # PV solder bond
-    'BE12': 24, # Hotspot
-    'BE13': 24, # Diode
-    'BE14': 12, # Short/open identification & reset
-    'BE15': 48, # Rack structure
-    'BE16': 48, # Encapsulant
-    'BE17': 4,  # Cable insulation
-    'BE18': 4,  # Cable aging
+# Switch to REPAIR RATES (mu per hour). If you formerly used MTTR (hours),
+# set mu = 1 / MTTR. Below mirrors the previously active repair_times dict.
+repair_rates = {
+    'BE1': 1/4,   'BE2': 1/4,
+    'BE3': 1/10,  'BE4': 1/10,
+    'BE5': 1/24,  'BE6': 1/24,
+    'BE7': 1/24,  'BE8': 1/80,
+    'BE9': 1/80,  'BE10': 1/48,
+    'BE11': 1/48, 'BE12': 1/24,
+    'BE13': 1/24, 'BE14': 1/12,
+    'BE15': 1/48, 'BE16': 1/48,
+    'BE17': 1/4,  'BE18': 1/4,
 }
 
+def scale_repair_rates(rates: dict, factor: float) -> dict:
+    """Return a new dict with all repair rates multiplied by factor."""
+    return {k: v * factor for k, v in rates.items()}
+
+# Example: divide all rates by 2
+repair_rates = scale_repair_rates(repair_rates, 0.5)
 
 #%% Reliability Function (non-repairable mission, analytical)
 # Uses extracted minimal_cut_sets and failure_rates to compute exact R(t).
-
 import math
 from collections import Counter
 
@@ -177,48 +174,43 @@ def R_sys_general(t_hours: float) -> float:
 R_sys = R_sys_disjoint if disjoint else R_sys_general
 
 # Reliability curve R(t) System vs BE(s) 
-import matplotlib.ticker as ticker
-T_cmp = 3.0e5  # hours
-n_cmp = 1000   # smoothness
-# be_to_compare = ["BE11","BE10","BE15","BE5"]  # high contributors
-be_to_compare = ["BE1","BE2","BE3","BE4"]  # Least critical
-
+T_cmp = 2.0e5      # hours
+n_cmp = 5000
 time_cmp = np.linspace(0.0, T_cmp, n_cmp)
+
 def R_be(lambda_per_hour, t_hours):
     return math.exp(-lambda_per_hour * t_hours)
+
+# pick a concise, informative set (edit as desired)
+be_to_compare = ["BE11","BE10","BE15","BE5"]  # high contributors
+# be_to_compare = ["BE1","BE2","BE3","BE4"]  # Least critical
 R_sys_vals = np.array([R_sys(t) for t in time_cmp])
 
 plt.figure(figsize=(10, 6))
-plt.plot(time_cmp, R_sys_vals, color="black", linewidth=2, label="System (TE)")
+plt.plot(time_cmp / 1000.0, R_sys_vals, linewidth=2, label="System (TE)")
 for be in be_to_compare:
     lam = _lambda[be]
-    plt.plot(time_cmp, np.array([R_be(lam, t) for t in time_cmp]),
-             linestyle="--", label=be)
-plt.xlabel("Time (hours)", fontsize=14)
-plt.ylabel("Reliability", fontsize=14)
-ax = plt.gca()
-ax.xaxis.set_major_formatter(ticker.ScalarFormatter(useMathText=True))
-ax.ticklabel_format(style='sci', axis='x', scilimits=(4,4))
+    plt.plot(time_cmp / 1000.0, np.array([R_be(lam, t) for t in time_cmp]), linestyle="--", label=be)
+
+plt.xlabel("Time (hours)")
+plt.ylabel("Reliability")
+plt.title("Comparison: System vs BE Reliability")
 plt.grid(True, alpha=0.3)
-plt.legend(fontsize=12)
-plt.xticks(fontsize=12)
-plt.yticks(fontsize=12)
+plt.legend()
 plt.tight_layout()
 plt.show()
-
-
 
 # ============================
 # 3) Map BEs -> Components
 # ============================
 be_to_component = {
-        "BE1": "Fuse", "BE2": "Fuse",
-        "BE3": "MCB",  "BE4": "MCB",
-        "BE5": "PV Module", "BE6": "PV Module", "BE7": "PV Module", "BE8": "PV Module",
-        "BE9": "PV Module", "BE10": "PV Module", "BE11": "PV Module", "BE12": "PV Module",
-        "BE13": "PV Module", "BE14": "PV Module", "BE15": "PV Module", "BE16": "PV Module",
-        "BE17": "Cable", "BE18": "Cable",
-    }
+    "BE1": "Fuse", "BE2": "Fuse",
+    "BE3": "MCB",  "BE4": "MCB",
+    "BE5": "PV Module", "BE6": "PV Module", "BE7": "PV Module", "BE8": "PV Module",
+    "BE9": "PV Module", "BE10": "PV Module", "BE11": "PV Module", "BE12": "PV Module",
+    "BE13": "PV Module", "BE14": "PV Module", "BE15": "PV Module", "BE16": "PV Module",
+    "BE17": "Cable", "BE18": "Cable",
+}
 
 # ============================
 # 4) Importance (Birnbaum, etc.)
@@ -231,8 +223,10 @@ importance_df = calculate_importance_factors(minimal_cut_sets_BE, label_map, fai
 
 print("\n--- Importance Factors (sample) ---")
 print(importance_df)
+# %%
 
-#%% Simulation
+T_mission = 10000  # hours
+N_SIM = 1500 # replications
 
 # ============================
 # 5) Availability & Reliability (Monte Carlo)
@@ -240,7 +234,7 @@ print(importance_df)
 res = simulate_reliability(
     minimal_cut_sets=minimal_cut_sets_BE,
     failure_rates=failure_rates,
-    repair_times=repair_times,
+    repair_rates=repair_rates,
     T=T_mission,
     dt=1.0,
     N_SIM=N_SIM,
@@ -252,37 +246,37 @@ time_grid = res["time_grid"]
 
 # --- Print concise summary ---
 print(f"\nSystem unavailability (mean over sims): {res['system_unavailability_mean']:.6g}")
-print(f"95% CI for system unavailability: [{res['system_unavailability_ci'][0]:.6g}, {res['system_unavailability_ci'][1]:.6g}]\\n")
+print(f"95% CI for system unavailability: [{res['system_unavailability_ci'][0]:.6g}, {res['system_unavailability_ci'][1]:.6g}]\n")
 
 print("Component unavailability (mean):")
 print(res["component_unavailability"].sort_values("Unavailability", ascending=False))
 
 # ============================
-# 6) Time-Series Availability & Reliability Plots
+# 6) Plots
 # ============================
-# plt.figure(figsize=(10,6))
-# plt.plot(time_grid, res["availability_time_series"], label="A(t)")
-# plt.fill_between(time_grid, res["availability_time_low"], res["availability_time_high"], alpha=0.2, label="95% CI")
-# plt.xlabel("Time (hours)")
-# plt.ylabel("Availability")
-# plt.title("System Availability A(t) with 95% CI")
-# plt.legend()
-# plt.grid(True, alpha=0.3)
-# plt.tight_layout()
-# plt.show()
+plt.figure(figsize=(10,6))
+plt.plot(time_grid, res["availability_time_series"], label="A(t)")
+plt.fill_between(time_grid, res["availability_time_low"], res["availability_time_high"], alpha=0.2, label="95% CI")
+plt.xlabel("Time (hours)")
+plt.ylabel("Availability")
+plt.title("System Availability A(t) with 95% CI")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
 
-# plt.figure(figsize=(10,6))
-# plt.plot(time_grid, res["reliability_time_series"], label="R(t)")
-# plt.fill_between(time_grid, res["reliability_time_low"], res["reliability_time_high"], alpha=0.2, label="95% CI")
-# plt.xlabel("Time (hours)")
-# plt.ylabel("Reliability")
-# plt.title("System Reliability R(t) with 95% CI")
-# plt.legend()
-# plt.grid(True, alpha=0.3)
-# plt.tight_layout()
-# plt.show()
+plt.figure(figsize=(10,6))
+plt.plot(time_grid, res["reliability_time_series"], label="R(t)")
+plt.fill_between(time_grid, res["reliability_time_low"], res["reliability_time_high"], alpha=0.2, label="95% CI")
+plt.xlabel("Time (hours)")
+plt.ylabel("Reliability")
+plt.title("System Reliability R(t) with 95% CI")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
 
-# # ============================
+# ============================
 # Cumulative Availability Plot
 # ============================
 # A_cum(t) = running mean of system up-state since time 0
@@ -300,17 +294,16 @@ A_cum_lo = np.percentile(A_cum_sim, 2.5, axis=0)
 A_cum_hi = np.percentile(A_cum_sim, 97.5, axis=0)
 
 plt.figure(figsize=(10,6))
-plt.plot(time_grid, A_cum_mean, linewidth=1.5, label="Mean Cumulative Availability")
+# for j in range(50):  # first 5 replications
+#     plt.plot(time_grid, A_cum_sim[j], alpha=0.5, linewidth=1)
+plt.plot(time_grid, A_cum_mean, color="red", linewidth=2, label="Mean Cumulative Availability")
 plt.xlabel("Time (hours)")
 plt.ylabel("Cumulative Availability")
 plt.title(f"Mean Cumulative Availability - {N_SIM} replications")
-plt.xlim(left=0)
-plt.xlim(right=1000)
-plt.ylim(bottom=0.9970)
 plt.grid(True, alpha=0.3)
-plt.tick_params(axis="both", direction="in", top=True, right=True)
 plt.legend()
 plt.show()
+
 
 # ============================
 # Cumulative Availability Plot + 95% band (zoomed on mean) 
@@ -320,22 +313,22 @@ plt.show()
 #   res["top_event_states"]: bool array shape (N_SIM, Nt) OR (Nt, N_SIM)
 #                            True when the SYSTEM is DOWN
 
-# down = res["top_event_states"]
-# Nt = len(time_grid)
+down = res["top_event_states"]
+Nt = len(time_grid)
 
-# plt.figure(figsize=(10, 6))
-# plt.plot(time_grid, A_cum_mean, lw=2, label="Mean cumulative availability")
-# plt.fill_between(time_grid, A_cum_lo, A_cum_hi, alpha=0.18, label="95% band")
-# plt.xlabel("Time (hours)")
-# plt.ylabel("Cumulative Availability")
-# plt.title("Cumulative Availability — Mean and 95% Band (zoomed)")
-# plt.ylim(0.996, 1.0)
-# plt.grid(True, alpha=0.3)
-# plt.legend()
-# plt.tight_layout()
-# plt.show()
+plt.figure(figsize=(10, 6))
+plt.plot(time_grid, A_cum_mean, lw=2, label="Mean cumulative availability")
+plt.fill_between(time_grid, A_cum_lo, A_cum_hi, alpha=0.18, label="95% band")
+plt.xlabel("Time (hours)")
+plt.ylabel("Cumulative Availability")
+plt.title("Cumulative Availability — Mean and 95% Band (zoomed)")
+plt.ylim(0.996, 1.0)
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.tight_layout()
+plt.show()
 
-#%% Exports
+#%%
 
 # ============================
 # 7) Export & Reliability Function
@@ -360,43 +353,3 @@ lam_hat = fit_exponential_reliability(res["top_event_states"], dt=1.0, T=T_missi
 print(f"\nExponential fit λ̂ = {lam_hat:.6g}  =>  Ĥ R(t) = exp(-λ̂ t)")
 for t_demo in [100, 250, 500, 1000]:
     print(f"R_exp_hat({t_demo} h) = {np.exp(-lam_hat * t_demo):.6f}")
-    
-#%% Verification of (Analytical Reliability) vs (Monte Carlo, NON-REPAIRABLE mission)
-# # This verifies R(t) against a non-repairable MC, which is directly comparable to the analytical curve.
-# import numpy as np
-
-# def mc_reliability_nonrepairable(min_cut_sets_BE, failure_rates, T_plot, n_points=800, n_sims=30000, seed=17):
-#     rng = np.random.default_rng(seed)
-#     be_list = sorted(failure_rates.keys(), key=lambda x: int(x[2:]))
-#     lam = np.array([failure_rates[be] for be in be_list], dtype=float)
-#     with np.errstate(divide='ignore'):
-#         scale = np.where(lam > 0, 1.0 / lam, np.inf)
-#     # Sample time-to-failure once (no repairs)
-#     ttf = rng.exponential(scale=scale, size=(n_sims, len(be_list)))
-#     ttf[:, lam == 0.0] = np.inf
-
-#     # System failure time = min over cuts of (max TTF within the cut)
-#     be_idx = {be: i for i, be in enumerate(be_list)}
-#     te_time = np.full(n_sims, np.inf)
-#     for cut in min_cut_sets_BE:
-#         cut_i = [be_idx[be] for be in cut]
-#         te_time = np.minimum(te_time, np.max(ttf[:, cut_i], axis=1))
-
-#     grid = np.linspace(0.0, T_plot, n_points)
-#     R_hat = np.array([(te_time > t).mean() for t in grid], dtype=float)
-#     return grid, R_hat
-
-# # Use the same horizon as the analytical plot
-# T_verify = T_plot if 'T_plot' in globals() else 1.0e5
-# time_mc, R_mc = mc_reliability_nonrepairable(mcs_be, _lambda, T_verify, n_points=800, n_sims=30000, seed=17)
-
-# plt.figure(figsize=(10, 6))
-# plt.plot(time_grid_R / 1000.0, R_vals, linewidth=2, label="Analytical R(t)")
-# plt.plot(time_mc / 1000.0, R_mc, linestyle="--", label="MC (non-repairable)")
-# plt.xlabel("Time (×1000 hours)")
-# plt.ylabel("Reliability R(t)")
-# plt.title("Analytical vs MC (Non-repairable) — Reliability")
-# plt.grid(True, alpha=0.3)
-# plt.legend()
-# plt.tight_layout()
-# plt.show()
