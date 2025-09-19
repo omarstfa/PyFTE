@@ -253,6 +253,65 @@ def simulate_reliability(
     sys_unavail_mean = float(sys_unavail_per_sim.mean())
     sys_unavail_ci = np.percentile(sys_unavail_per_sim, [2.5, 97.5]).astype(float)
 
+
+    # --- System-level MTTF, MTTR, and λ from simulation (repairable) ---
+    # Count failures & sum downtime using the system's down timeline directly.
+    sys_mttf_list, sys_mttr_list, sys_nf_list = [], [], []
+    for s in range(N_SIM):
+        mttf_s, mttr_s, nf_s = _mttf_mttr_from_timeline(top_event_states[s, :], dt)
+        sys_mttf_list.append(mttf_s)
+        sys_mttr_list.append(mttr_s)
+        sys_nf_list.append(nf_s)
+    
+    total_failures = int(np.sum(sys_nf_list))
+    total_downtime = float(top_event_states.sum()) * dt
+    total_uptime   = float((~top_event_states).sum()) * dt
+    total_time     = total_downtime + total_uptime  # = N_SIM * T
+    
+    lambda_sys_sim = (total_uptime > 0) and (total_failures / total_uptime) or 0.0
+    mttf_sys_sim   = (lambda_sys_sim > 0) and (1.0 / lambda_sys_sim) or float("inf")
+    mttr_sys_sim   = (total_failures > 0) and (total_downtime / total_failures) or 0.0
+    unavail_sys    = total_downtime / total_time  # this equals sys_unavail_mean
+    
+    system_stats = {
+        "Unavailability": unavail_sys,
+        "Lambda_sim": float(lambda_sys_sim),
+        "MTTF_sim": float(mttf_sys_sim),
+        "MTTR_sim": float(mttr_sys_sim),
+        "Failures_total": int(total_failures),
+    }
+    
+    # --- Truncated system MTTF from simulation ---
+    # Mission horizon:
+    T_total = top_event_states.shape[1] * dt
+    
+    first_fail_times = []
+    for s in range(N_SIM):
+        down = top_event_states[s, :]
+        if down.any():
+            # index of first True (system down)
+            t_first = int(down.argmax()) * dt
+            first_fail_times.append(t_first)
+    
+    # Conditional on failure within T:
+    mttf_trunc_cond_sim = float(np.mean(first_fail_times)) if first_fail_times else float("inf")
+    
+    # Unconditional (capped at T):
+    num_fail = len(first_fail_times)
+    mttf_trunc_uncond_sim = float(
+        (np.sum(first_fail_times) + (N_SIM - num_fail) * T_total) / N_SIM
+    )
+    
+    p_fail_within_T = num_fail / N_SIM
+    
+    # Attach to returned stats
+    system_stats_trunc = {
+        "MTTF_trunc_cond_sim": mttf_trunc_cond_sim,
+        "MTTF_trunc_uncond_sim": mttf_trunc_uncond_sim,
+        "P_fail_within_T": p_fail_within_T,
+    }
+
+
     # --- Component rollup: OR of BEs mapped to the component ---
     # build component->list[BE]
     comp_to_bes = {}
@@ -271,18 +330,31 @@ def simulate_reliability(
 
         # MTTF/MTTR from simulation:
         mttf_list, mttr_list, nf_list = [], [], []
+        all_up_durs, all_down_durs = [], []
+        
         for s in range(N_SIM):
             mttf_s, mttr_s, nf_s = _mttf_mttr_from_timeline(comp_down[s, :], dt)
-            mttf_list.append(mttf_s)
-            mttr_list.append(mttr_s)
             nf_list.append(nf_s)
+            # Collect the raw segments instead of per-sim means
+            # (Modify _mttf_mttr_from_timeline to optionally return the arrays,
+            #  or reconstruct here if you prefer.)
+            # For a quick fix using current returns:
+            if nf_s > 0:
+                mttf_list.append(mttf_s)
+                mttr_list.append(mttr_s)
+        
+        # “Conditional on failure” estimates
+        # mttf_sim = float(np.mean(mttf_list)) if mttf_list else float("inf")
+        # mttr_sim = float(np.mean(mttr_list)) if mttr_list else 0.0
+        mttf_sim = float(np.mean(np.concatenate(all_up_durs))) if all_up_durs else float("inf")
+        mttr_sim = float(np.mean(np.concatenate(all_down_durs))) if all_down_durs else 0.0
 
         # Estimate λ from simulation two ways:
         #  - "failures per time on test" across all reps (handles censoring),
         #  - or 1/mean(MTTF) if finite
         total_failures = np.sum(nf_list)
-        total_uptime = float((~comp_down).sum()) * dt  # total up-time across all sims
-        lam_hat = (total_uptime > 0) and (total_failures / total_uptime) or 0.0
+        total_uptime   = float((~comp_down).sum()) * dt
+        lambda_sim     = total_failures / total_uptime if total_uptime > 0 else 0.0
 
         mttf_sim = float(np.mean([v for v in mttf_list if np.isfinite(v)]) if np.isfinite(mttf_list).any() else float("inf"))
         mttr_sim = float(np.mean(mttr_list)) if len(mttr_list) else 0.0
@@ -292,7 +364,7 @@ def simulate_reliability(
             "Unavailability": unavail,
             "MTTF_sim": mttf_sim,
             "MTTR_sim": mttr_sim,
-            "Lambda_sim": lam_hat,
+            "Lambda_sim": lambda_sim,
         })
 
     component_stats = pd.DataFrame(comp_rows).sort_values("Unavailability", ascending=False).set_index("Component")
@@ -308,7 +380,9 @@ def simulate_reliability(
         "reliability_time_high": R_hi,
         "system_unavailability_mean": sys_unavail_mean,
         "system_unavailability_ci": sys_unavail_ci,
-        "component_states": component_stats,
+        "system_stats": system_stats,
+        "system_stats_truncated": system_stats_trunc,
+        "component_stats": component_stats,
         "top_event_states": top_event_states,
     }
 

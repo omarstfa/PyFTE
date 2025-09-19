@@ -188,7 +188,7 @@ def R_be(lambda_per_hour, t_hours):
     return math.exp(-lambda_per_hour * t_hours)
 R_sys_vals = np.array([R_sys(t) for t in time_cmp])
 
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(10, 6), dpi=600)
 plt.plot(time_cmp, R_sys_vals, color="black", linewidth=2, label="System (TE)")
 for be in be_to_compare:
     lam = _lambda[be]
@@ -205,8 +205,6 @@ plt.xticks(fontsize=12)
 plt.yticks(fontsize=12)
 plt.tight_layout()
 plt.show()
-
-
 
 # ============================
 # 3) Map BEs -> Components
@@ -232,6 +230,8 @@ importance_df = calculate_importance_factors(minimal_cut_sets_BE, label_map, fai
 print("\n--- Importance Factors (sample) ---")
 print(importance_df)
 
+
+
 #%% Simulation
 
 # ============================
@@ -250,26 +250,97 @@ res = simulate_reliability(
 
 time_grid = res["time_grid"]
 
+
+
+# --- System metrics (simulation-based) ---
+sys_sim = res["system_stats"]
+print("\nSystem metrics — simulation:")
+print(pd.Series(sys_sim))
+
+# --- System MTTF (analytical, NON-REPAIRABLE) from FT R_sys(t) ---
+# Uses the exact FT reliability you already set up (R_sys) and a tail fix with the exp MLE.
+from math import isfinite
+Tmax = 1.0e6  # hours; large enough that R(Tmax) is tiny for most cases
+n_int = 4000
+grid = np.linspace(0.0, Tmax, n_int)
+R_vals = np.array([R_sys(t) for t in grid])
+mtbf_trap = np.trapz(R_vals, grid)
+
+# Exponential tail using censoring MLE you've already computed below:
+lam_hat = fit_exponential_reliability(res["top_event_states"], dt=1.0, T=T_mission)
+tail = (R_sys(Tmax) / lam_hat) if (lam_hat > 0) else 0.0
+mttf_analytical_sys = mtbf_trap + tail
+
+print("\nSystem MTTF (analytical, non-repairable):")
+print(f"MTTF_analytical ≈ {mttf_analytical_sys:.6g} h")
+
+
+# --- Analytic truncated MTTF from R_sys(t) ---
+T = T_mission  # your mission horizon
+n_int = 4000
+grid = np.linspace(0.0, T, n_int)
+R_vals = np.array([R_sys(t) for t in grid])
+
+# Unconditional (capped) truncated MTTF: E[min(X,T)] = ∫_0^T R(t) dt
+mttf_trunc_uncond_analytic = float(np.trapz(R_vals, grid))
+
+# Conditional truncated MTTF: E[X | X<T] = ∫_0^T R(t) dt / (1 - R(T))
+p_fail_T = 1.0 - float(R_vals[-1])
+mttf_trunc_cond_analytic = float(mttf_trunc_uncond_analytic / p_fail_T) if p_fail_T > 0 else float("inf")
+
+print("\nSystem truncated MTTF (simulation):")
+print(f"  Conditional  : {res['system_stats_truncated']['MTTF_trunc_cond_sim']:.3f} h  "
+      f"(P[failure≤T]={res['system_stats_truncated']['P_fail_within_T']:.3f})")
+print(f"  Unconditional: {res['system_stats_truncated']['MTTF_trunc_uncond_sim']:.3f} h")
+
+print("\nSystem truncated MTTF (analytic, from R_sys):")
+print(f"  Conditional  : {mttf_trunc_cond_analytic:.3f} h")
+print(f"  Unconditional: {mttf_trunc_uncond_analytic:.3f} h")
+
+
+
 # --- Component stats (MTTF, MTTR, λ, Unavailability) ---
 comp = res["component_stats"]
 print("\nComponent metrics (simulation-based):")
 print(comp)
 
-# Plot: bar chart of component unavailability
-plt.figure(figsize=(9, 5))
+# Plot: bar chart of component unavailability (simulation)
+plt.figure(figsize=(10,6))
 comp_sorted = comp.sort_values("Unavailability", ascending=True)
-plt.barh(comp_sorted.index, comp_sorted["Unavailability"].values)
-plt.xlabel("Unavailability (fraction of time down)")
+plt.bar(comp_sorted.index, comp_sorted["Unavailability"].values, width=0.5)
+plt.ylabel("Unavailability (fraction of time down)")
 plt.title("Component Unavailability (simulation)")
-plt.grid(axis="x", alpha=0.3)
+plt.grid(axis="y", alpha=0.3)
+plt.tight_layout()
+plt.xticks(fontsize=12, rotation=45, ha="right")  # rotate for readability
+plt.yticks(fontsize=12)
+plt.show()
+
+
+# Plot: Log bar chart of component unavailability (simulation)
+import matplotlib.ticker as ticker
+plt.figure(figsize=(10,6), dpi=600)
+comp_sorted = comp.sort_values("Unavailability", ascending=True)
+plt.bar(comp_sorted.index, comp_sorted["Unavailability"].values, width=0.5)
+plt.ylabel("Unavailability of the Component", fontsize=14)
+# plt.title("Component Unavailability (simulation)", fontsize=14)
+plt.yscale("log")
+plt.ylim(1e-7, 0.005)
+ax = plt.gca()
+ax.yaxis.set_major_formatter(ticker.FormatStrFormatter("%.6f"))
+# Show grid only for major ticks
+ax.yaxis.set_major_locator(ticker.LogLocator(base=10.0, subs=[1.0], numticks=10))
+ax.yaxis.set_minor_locator(ticker.LogLocator(base=10.0, subs=range(2, 10), numticks=10))
+ax.grid(True, which="major", axis="y", alpha=0.3)  # grid only on major ticks
+ax.grid(False, which="minor", axis="y")           # disable minor grid
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=12)
 plt.tight_layout()
 plt.show()
+
 # --- Print concise summary ---
 print(f"\nSystem unavailability (mean over sims): {res['system_unavailability_mean']:.6g}")
 print(f"95% CI for system unavailability: [{res['system_unavailability_ci'][0]:.6g}, {res['system_unavailability_ci'][1]:.6g}]\\n")
-
-print("Component unavailability (mean):")
-print(res["component_unavailability"].sort_values("Unavailability", ascending=False))
 
 # ============================
 # 6) Time-Series Availability & Reliability Plots
@@ -313,18 +384,25 @@ A_cum_mean = A_cum_sim.mean(axis=0)
 A_cum_lo = np.percentile(A_cum_sim, 2.5, axis=0)
 A_cum_hi = np.percentile(A_cum_sim, 97.5, axis=0)
 
-plt.figure(figsize=(10,6))
+import matplotlib.ticker as ticker
+
+plt.figure(figsize=(10,6), dpi=600)
 plt.plot(time_grid, A_cum_mean, linewidth=1.5, label="Mean Cumulative Availability")
-plt.xlabel("Time (hours)")
-plt.ylabel("Cumulative Availability")
-plt.title(f"Mean Cumulative Availability - {N_SIM} replications")
-plt.xlim(left=0)
-plt.xlim(right=1000)
+plt.xlabel("Time (hours)", fontsize=14)
+plt.ylabel("Availability of the System", fontsize=14)
+plt.title(f"Mean Cumulative Availability - {N_SIM} replications", fontsize=14)
+plt.xlim(left=0, right=T_mission)
 plt.ylim(bottom=0.9970)
 plt.grid(True, alpha=0.3)
-plt.tick_params(axis="both", direction="in", top=True, right=True)
-plt.legend()
+ax = plt.gca()
+ax.xaxis.set_major_formatter(ticker.ScalarFormatter(useMathText=True))
+ax.ticklabel_format(style='sci', axis='x', scilimits=(4,4))
+plt.legend(fontsize=12)
+plt.xticks(fontsize=12)
+plt.yticks(fontsize=12)
+plt.tight_layout()
 plt.show()
+
 
 # ============================
 # Cumulative Availability Plot + 95% band (zoomed on mean) 
@@ -348,6 +426,7 @@ plt.show()
 # plt.legend()
 # plt.tight_layout()
 # plt.show()
+
 
 #%% Exports
 
@@ -456,7 +535,7 @@ print("\nComponent metrics — simulation vs analytic:")
 print(comp_full)
 
 # (Optional) quick comparison plot of λ_sim vs λ_analytic
-plt.figure(figsize=(7,5))
+plt.figure(figsize=(7,5), dpi=600)
 x = np.arange(len(comp_full))
 w = 0.4
 plt.bar(x - w/2, comp_full["Lambda_sim"].values, width=w, label="λ_sim")
