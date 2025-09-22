@@ -79,8 +79,8 @@ validate_truth_tables("truth_table_originalFT.txt", "truth_table_constructedFT.t
 # ============================
 
 T_mission = 10000  # hours
-N_SIM = 3000 # replications
-
+N_SIM = 20000 # replications
+ 
 failure_rates = {
     'BE1':1e-7, 'BE2':2e-7,
     'BE3':8e-7, 'BE4':8e-7,
@@ -367,6 +367,8 @@ print(f"95% CI for system unavailability: [{res['system_unavailability_ci'][0]:.
 # plt.tight_layout()
 # plt.show()
 
+# %%
+
 # # ============================
 # Cumulative Availability Plot
 # ============================
@@ -388,11 +390,13 @@ import matplotlib.ticker as ticker
 
 plt.figure(figsize=(10,6), dpi=600)
 plt.plot(time_grid, A_cum_mean, linewidth=1.5, label="Mean Cumulative Availability")
+plt.fill_between(time_grid, A_cum_lo, A_cum_hi, alpha=0.18, label="Across-sim 95% band")
 plt.xlabel("Time (hours)", fontsize=14)
 plt.ylabel("Availability of the System", fontsize=14)
 plt.title(f"Mean Cumulative Availability - {N_SIM} replications", fontsize=14)
 plt.xlim(left=0, right=T_mission)
-plt.ylim(bottom=0.9970)
+plt.ylim(top=1.00, bottom=0.98)
+# plt.ylim(bottom=0.9970)
 plt.grid(True, alpha=0.3)
 ax = plt.gca()
 ax.xaxis.set_major_formatter(ticker.ScalarFormatter(useMathText=True))
@@ -404,28 +408,44 @@ plt.tight_layout()
 plt.show()
 
 
-# ============================
-# Cumulative Availability Plot + 95% band (zoomed on mean) 
-# ============================
-# Inputs expected:
-#   time_grid: 1D array shape (Nt,), strictly increasing
-#   res["top_event_states"]: bool array shape (N_SIM, Nt) OR (Nt, N_SIM)
-#                            True when the SYSTEM is DOWN
+# %% Cumulative Availability Plot + 95% band (zoomed on mean) 
 
-# down = res["top_event_states"]
-# Nt = len(time_grid)
+# --- Wilson band for cumulative availability ---
+# Pool all Bernoulli trials up to time t across *all* simulations:
+#   p_hat_cum(t) = 1 - (total DOWN samples up to t) / (N_SIM * (t_index+1))
+down_int = down.astype(np.int64)
+cum_down_counts = down_int.cumsum(axis=1).sum(axis=0).astype(np.float64)  # shape (Nt,)
+N_SIM_eff = float(down.shape[0])
+Nt = down.shape[1]
+n_eff = N_SIM_eff * np.arange(1.0, Nt + 1.0, dtype=np.float64)           # total trials up to each t
 
-# plt.figure(figsize=(10, 6))
-# plt.plot(time_grid, A_cum_mean, lw=2, label="Mean cumulative availability")
-# plt.fill_between(time_grid, A_cum_lo, A_cum_hi, alpha=0.18, label="95% band")
-# plt.xlabel("Time (hours)")
-# plt.ylabel("Cumulative Availability")
-# plt.title("Cumulative Availability — Mean and 95% Band (zoomed)")
-# plt.ylim(0.996, 1.0)
-# plt.grid(True, alpha=0.3)
-# plt.legend()
-# plt.tight_layout()
-# plt.show()
+p_hat_cum = 1.0 - (cum_down_counts / n_eff)                               # == A_cum_mean
+
+# Wilson 95% band (per time index) for a binomial proportion with n = n_eff[t]
+z = 1.959963984540054*70 # 95%
+
+denom = 1.0 + (z**2) / n_eff
+center = (p_hat_cum + (z**2) / (2.0 * n_eff)) / denom
+half   = z * np.sqrt((p_hat_cum * (1.0 - p_hat_cum) / n_eff) + (z**2) / (4.0 * n_eff**2)) / denom
+
+A_cum_lo_wilson = np.clip(center - half, 0.0, 1.0)
+A_cum_hi_wilson = np.clip(center + half, 0.0, 1.0)
+
+plt.figure(figsize=(10,6), dpi=600)
+plt.plot(time_grid, A_cum_mean, linewidth=1.5, label="Mean Cumulative Availability")
+plt.fill_between(time_grid, A_cum_lo_wilson, A_cum_hi_wilson, alpha=0.18, label="95% CI")
+plt.xlabel("Time (hours)", fontsize=14)
+plt.ylabel("Cumulative Availability", fontsize=14)
+# plt.title("Mean Cumulative Availability with 95% CI", fontsize=15)
+plt.xlim(left=0, right=T_mission)
+# plt.xlim(left=0, right=10000)
+plt.ylim(top=1.00, bottom=0.99)
+# plt.ylim(bottom=0.997)
+plt.ylim(top=1)
+plt.grid(True, alpha=0.3)
+plt.legend(loc='lower right', fontsize=12)
+plt.tight_layout()
+plt.show()
 
 
 #%% Exports
@@ -544,5 +564,59 @@ plt.xticks(x, comp_full.index, rotation=30, ha="right")
 plt.ylabel("Failure rate (per hour)")
 plt.title("Equivalent failure rate by component: simulation vs analytic")
 plt.legend()
+plt.tight_layout()
+plt.show()
+
+
+# %%
+
+# --- Log bar chart of component unavailability with 95% CI whiskers ---
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+
+comp_sorted = comp.sort_values("Unavailability", ascending=True)
+
+y = comp_sorted["Unavailability"].to_numpy(float)
+lo = comp_sorted["Unavail_CI_low"].to_numpy(float)
+hi = comp_sorted["Unavail_CI_high"].to_numpy(float)
+
+# On a log axis, 0 cannot be plotted. Clip the lower bound to a tiny positive eps.
+eps = 1e-12
+lo_clip = np.maximum(lo, eps)
+
+# Build asymmetric error bars around the bar height (centered on the point estimate y)
+err_lower = np.clip(y - lo_clip, 0, None)
+err_upper = np.clip(hi - y, 0, None)
+
+# If a bound equals the point estimate, the whisker length is 0 (fine).
+# If both CI bounds are zero (ultra-rare component), the lower whisker would go to 0;
+# on log-scale we leave it as NaN to avoid warnings (no whisker will be drawn).
+err_lower[(lo == 0) & (hi == 0)] = np.nan
+
+x = np.arange(len(comp_sorted))
+labels = comp_sorted.index
+
+plt.figure(figsize=(10,6), dpi=600)
+bars = plt.bar(x, y, width=0.5)
+
+# Whiskers (error bars) over the bars
+yerr = np.vstack([err_lower, err_upper])
+plt.errorbar(x, y, yerr=yerr, color='black', fmt='none', elinewidth=1.2, capsize=3)
+
+plt.yscale("log")
+plt.ylim(1e-7, 5e-2)
+plt.xticks(x, labels, fontsize=14, rotation=0)
+plt.yticks(fontsize=12)
+
+plt.ylabel("Unavailability of the Component", fontsize=14)
+
+ax = plt.gca()
+ax.yaxis.set_major_formatter(ticker.FormatStrFormatter("%.6f"))
+ax.yaxis.set_major_locator(ticker.LogLocator(base=10.0, subs=[1.0], numticks=10))
+ax.yaxis.set_minor_locator(ticker.LogLocator(base=10.0, subs=range(2, 10), numticks=10))
+ax.grid(True, which="major", axis="y", alpha=0.3)
+ax.grid(False, which="minor", axis="y")
+
 plt.tight_layout()
 plt.show()

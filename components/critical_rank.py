@@ -358,6 +358,14 @@ def simulate_reliability(
 
         mttf_sim = float(np.mean([v for v in mttf_list if np.isfinite(v)]) if np.isfinite(mttf_list).any() else float("inf"))
         mttr_sim = float(np.mean(mttr_list)) if len(mttr_list) else 0.0
+        
+        
+        # Unavailability over full run (mean over sims & time)
+        unavail = float(comp_down.mean())
+        
+        # NEW: per-simulation unavailability and its 95% CI (percentile CI over sims)
+        comp_unavail_per_sim = comp_down.mean(axis=1)                     # shape (N_SIM,)
+        comp_unavail_ci = np.percentile(comp_unavail_per_sim, [2.5, 97.5]).astype(float)
 
         comp_rows.append({
             "Component": comp,
@@ -365,6 +373,8 @@ def simulate_reliability(
             "MTTF_sim": mttf_sim,
             "MTTR_sim": mttr_sim,
             "Lambda_sim": lambda_sim,
+            "Unavail_CI_low": float(comp_unavail_ci[0]),
+            "Unavail_CI_high": float(comp_unavail_ci[1]),
         })
 
     component_stats = pd.DataFrame(comp_rows).sort_values("Unavailability", ascending=False).set_index("Component")
