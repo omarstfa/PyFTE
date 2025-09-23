@@ -78,7 +78,7 @@ validate_truth_tables("truth_table_originalFT.txt", "truth_table_constructedFT.t
 # 2) Inputs (time, # of replications, failure rates, repair times, )
 # ============================
 
-T_mission = 10000  # hours
+T_mission = 100000  # hours
 N_SIM = 20000 # replications
  
 failure_rates = {
@@ -439,7 +439,7 @@ plt.ylabel("Cumulative Availability", fontsize=14)
 # plt.title("Mean Cumulative Availability with 95% CI", fontsize=15)
 plt.xlim(left=0, right=T_mission)
 # plt.xlim(left=0, right=10000)
-plt.ylim(top=1.00, bottom=0.99)
+plt.ylim(top=1.00, bottom=0.997)
 # plt.ylim(bottom=0.997)
 plt.ylim(top=1)
 plt.grid(True, alpha=0.3)
@@ -603,6 +603,65 @@ bars = plt.bar(x, y, width=0.5)
 # Whiskers (error bars) over the bars
 yerr = np.vstack([err_lower, err_upper])
 plt.errorbar(x, y, yerr=yerr, color='black', fmt='none', elinewidth=1.2, capsize=3)
+
+plt.yscale("log")
+plt.ylim(1e-7, 5e-2)
+plt.xticks(x, labels, fontsize=14, rotation=0)
+plt.yticks(fontsize=12)
+
+plt.ylabel("Unavailability of the Component", fontsize=14)
+
+ax = plt.gca()
+ax.yaxis.set_major_formatter(ticker.FormatStrFormatter("%.6f"))
+ax.yaxis.set_major_locator(ticker.LogLocator(base=10.0, subs=[1.0], numticks=10))
+ax.yaxis.set_minor_locator(ticker.LogLocator(base=10.0, subs=range(2, 10), numticks=10))
+ax.grid(True, which="major", axis="y", alpha=0.3)
+ax.grid(False, which="minor", axis="y")
+
+plt.tight_layout()
+plt.show()
+
+# %%
+
+# --- Point plot with 95% CI whiskers (research-style) ---
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+
+comp_sorted = comp.sort_values("Unavailability", ascending=True)
+
+y = comp_sorted["Unavailability"].to_numpy(float)
+lo = comp_sorted["Unavail_CI_low"].to_numpy(float)
+hi = comp_sorted["Unavail_CI_high"].to_numpy(float)
+
+# On a log axis, 0 cannot be plotted. Clip the lower bound to a tiny positive eps.
+eps = 1e-12
+lo_clip = np.maximum(lo, eps)
+
+# Build asymmetric error bars around the point estimate y
+err_lower = np.clip(y - lo_clip, 0, None)
+err_upper = np.clip(hi - y, 0, None)
+
+# If both CI bounds are zero, hide the whisker
+err_lower[(lo == 0) & (hi == 0)] = np.nan
+
+x = np.arange(len(comp_sorted))
+labels = comp_sorted.index
+
+plt.figure(figsize=(10,6), dpi=600)
+
+# Points instead of bars
+plt.errorbar(
+    x, y, 
+    yerr=[err_lower, err_upper],
+    fmt='_',                # horizontal dash marker
+    color='blue',           # color of the dash
+    ecolor='blue',         # error bar (CI) color
+    elinewidth=1.2,
+    capsize=4,
+    markersize=12,           # dash length
+    markeredgewidth=2.5      # dash thickness
+)
 
 plt.yscale("log")
 plt.ylim(1e-7, 5e-2)
