@@ -180,8 +180,8 @@ R_sys = R_sys_disjoint if disjoint else R_sys_general
 import matplotlib.ticker as ticker
 T_cmp = 3.0e5  # hours
 n_cmp = 1000   # smoothness
-# be_to_compare = ["BE11","BE10","BE15","BE5"]  # high contributors
-be_to_compare = ["BE1","BE2","BE3","BE4"]  # Least critical
+be_to_compare = ["BE11","BE10","BE15","BE5"]  # high contributors
+# be_to_compare = ["BE1","BE2","BE3","BE4"]  # Least critical
 
 time_cmp = np.linspace(0.0, T_cmp, n_cmp)
 def R_be(lambda_per_hour, t_hours):
@@ -340,32 +340,8 @@ plt.show()
 
 # --- Print concise summary ---
 print(f"\nSystem unavailability (mean over sims): {res['system_unavailability_mean']:.6g}")
-print(f"95% CI for system unavailability: [{res['system_unavailability_ci'][0]:.6g}, {res['system_unavailability_ci'][1]:.6g}]\\n")
+print(f"95% CI for system unavailability: [{res['system_unavailability_ci'][0]:.6g}, {res['system_unavailability_ci'][1]:.6g}]\n")
 
-# ============================
-# 6) Time-Series Availability & Reliability Plots
-# ============================
-# plt.figure(figsize=(10,6))
-# plt.plot(time_grid, res["availability_time_series"], label="A(t)")
-# plt.fill_between(time_grid, res["availability_time_low"], res["availability_time_high"], alpha=0.2, label="95% CI")
-# plt.xlabel("Time (hours)")
-# plt.ylabel("Availability")
-# plt.title("System Availability A(t) with 95% CI")
-# plt.legend()
-# plt.grid(True, alpha=0.3)
-# plt.tight_layout()
-# plt.show()
-
-# plt.figure(figsize=(10,6))
-# plt.plot(time_grid, res["reliability_time_series"], label="R(t)")
-# plt.fill_between(time_grid, res["reliability_time_low"], res["reliability_time_high"], alpha=0.2, label="95% CI")
-# plt.xlabel("Time (hours)")
-# plt.ylabel("Reliability")
-# plt.title("System Reliability R(t) with 95% CI")
-# plt.legend()
-# plt.grid(True, alpha=0.3)
-# plt.tight_layout()
-# plt.show()
 
 # %%
 
@@ -431,88 +407,27 @@ half   = z * np.sqrt((p_hat_cum * (1.0 - p_hat_cum) / n_eff) + (z**2) / (4.0 * n
 A_cum_lo_wilson = np.clip(center - half, 0.0, 1.0)
 A_cum_hi_wilson = np.clip(center + half, 0.0, 1.0)
 
-plt.figure(figsize=(10,6), dpi=600)
+plt.figure(figsize=(8,5), dpi=600)
 plt.plot(time_grid, A_cum_mean, linewidth=1.5, label="Mean Cumulative Availability")
 plt.fill_between(time_grid, A_cum_lo_wilson, A_cum_hi_wilson, alpha=0.18, label="95% CI")
 plt.xlabel("Time (hours)", fontsize=14)
 plt.ylabel("Cumulative Availability", fontsize=14)
 # plt.title("Mean Cumulative Availability with 95% CI", fontsize=15)
-plt.xlim(left=0, right=T_mission)
-# plt.xlim(left=0, right=10000)
-plt.ylim(top=1.00, bottom=0.997)
+# plt.xlim(left=0, right=T_mission)
+plt.xlim(left=0, right=2000)
+plt.ylim(top=1.00, bottom=0.99)
 # plt.ylim(bottom=0.997)
 plt.ylim(top=1)
 plt.grid(True, alpha=0.3)
 plt.legend(loc='lower right', fontsize=12)
 plt.tight_layout()
+
+# # Set background of the plot area (axes) to white
+# ax = plt.gca()
+# ax.set_facecolor("white")
+# plt.savefig("availability.png", dpi=600, bbox_inches="tight", facecolor="none", transparent=True)
+
 plt.show()
-
-
-#%% Exports
-
-# ============================
-# 7) Export & Reliability Function
-# ============================
-import csv
-
-out_csv = "time_A_R.csv"
-with open(out_csv, "w", newline="") as f:
-    w = csv.writer(f)
-    w.writerow(["time_hours", "Availability_A", "Reliability_R"])
-    for t, a, r in zip(time_grid, res["availability_time_series"], res["reliability_time_series"]):
-        w.writerow([float(t), float(a), float(r)])
-print(f"\nSaved curves to {out_csv}")
-
-# Build an interpolated Reliability Function R(t)
-R_of_t = make_reliability_function(time_grid, res["reliability_time_series"])
-for t_demo in [0, 50, 100, 250, 500, 1000]:
-    print(f"R({t_demo} h) ≈ {R_of_t(t_demo):.6f}")
-
-# Fit exponential reliability (with censoring) for a compact closed-form approx
-lam_hat = fit_exponential_reliability(res["top_event_states"], dt=1.0, T=T_mission)
-print(f"\nExponential fit λ̂ = {lam_hat:.6g}  =>  Ĥ R(t) = exp(-λ̂ t)")
-for t_demo in [100, 250, 500, 1000]:
-    print(f"R_exp_hat({t_demo} h) = {np.exp(-lam_hat * t_demo):.6f}")
-    
-#%% Verification of (Analytical Reliability) vs (Monte Carlo, NON-REPAIRABLE mission)
-# # This verifies R(t) against a non-repairable MC, which is directly comparable to the analytical curve.
-# import numpy as np
-
-# def mc_reliability_nonrepairable(min_cut_sets_BE, failure_rates, T_plot, n_points=800, n_sims=30000, seed=17):
-#     rng = np.random.default_rng(seed)
-#     be_list = sorted(failure_rates.keys(), key=lambda x: int(x[2:]))
-#     lam = np.array([failure_rates[be] for be in be_list], dtype=float)
-#     with np.errstate(divide='ignore'):
-#         scale = np.where(lam > 0, 1.0 / lam, np.inf)
-#     # Sample time-to-failure once (no repairs)
-#     ttf = rng.exponential(scale=scale, size=(n_sims, len(be_list)))
-#     ttf[:, lam == 0.0] = np.inf
-
-#     # System failure time = min over cuts of (max TTF within the cut)
-#     be_idx = {be: i for i, be in enumerate(be_list)}
-#     te_time = np.full(n_sims, np.inf)
-#     for cut in min_cut_sets_BE:
-#         cut_i = [be_idx[be] for be in cut]
-#         te_time = np.minimum(te_time, np.max(ttf[:, cut_i], axis=1))
-
-#     grid = np.linspace(0.0, T_plot, n_points)
-#     R_hat = np.array([(te_time > t).mean() for t in grid], dtype=float)
-#     return grid, R_hat
-
-# # Use the same horizon as the analytical plot
-# T_verify = T_plot if 'T_plot' in globals() else 1.0e5
-# time_mc, R_mc = mc_reliability_nonrepairable(mcs_be, _lambda, T_verify, n_points=800, n_sims=30000, seed=17)
-
-# plt.figure(figsize=(10, 6))
-# plt.plot(time_grid_R / 1000.0, R_vals, linewidth=2, label="Analytical R(t)")
-# plt.plot(time_mc / 1000.0, R_mc, linestyle="--", label="MC (non-repairable)")
-# plt.xlabel("Time (×1000 hours)")
-# plt.ylabel("Reliability R(t)")
-# plt.title("Analytical vs MC (Non-repairable) — Reliability")
-# plt.grid(True, alpha=0.3)
-# plt.legend()
-# plt.tight_layout()
-# plt.show()
 
 #%% Analytic per-component equivalent failure rates (competing risks) ---
 lam_analytic = {}
@@ -655,8 +570,6 @@ plt.errorbar(
     x, y, 
     yerr=[err_lower, err_upper],
     fmt='_',                # horizontal dash marker
-    color='blue',           # color of the dash
-    ecolor='blue',         # error bar (CI) color
     elinewidth=1.2,
     capsize=4,
     markersize=12,           # dash length
