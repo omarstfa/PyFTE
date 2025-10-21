@@ -180,8 +180,8 @@ R_sys = R_sys_disjoint if disjoint else R_sys_general
 import matplotlib.ticker as ticker
 T_cmp = 3.0e5  # hours
 n_cmp = 1000   # smoothness
-# be_to_compare = ["BE11","BE10","BE15","BE5"]  # high contributors
-be_to_compare = ["BE1","BE2","BE3","BE4"]  # Least critical
+be_to_compare = ["BE11","BE10","BE15","BE5"]  # high contributors
+# be_to_compare = ["BE1","BE2","BE3","BE4"]  # Least critical
 
 time_cmp = np.linspace(0.0, T_cmp, n_cmp)
 def R_be(lambda_per_hour, t_hours):
@@ -340,32 +340,8 @@ plt.show()
 
 # --- Print concise summary ---
 print(f"\nSystem unavailability (mean over sims): {res['system_unavailability_mean']:.6g}")
-print(f"95% CI for system unavailability: [{res['system_unavailability_ci'][0]:.6g}, {res['system_unavailability_ci'][1]:.6g}]\\n")
+print(f"95% CI for system unavailability: [{res['system_unavailability_ci'][0]:.6g}, {res['system_unavailability_ci'][1]:.6g}]\n")
 
-# ============================
-# 6) Time-Series Availability & Reliability Plots
-# ============================
-# plt.figure(figsize=(10,6))
-# plt.plot(time_grid, res["availability_time_series"], label="A(t)")
-# plt.fill_between(time_grid, res["availability_time_low"], res["availability_time_high"], alpha=0.2, label="95% CI")
-# plt.xlabel("Time (hours)")
-# plt.ylabel("Availability")
-# plt.title("System Availability A(t) with 95% CI")
-# plt.legend()
-# plt.grid(True, alpha=0.3)
-# plt.tight_layout()
-# plt.show()
-
-# plt.figure(figsize=(10,6))
-# plt.plot(time_grid, res["reliability_time_series"], label="R(t)")
-# plt.fill_between(time_grid, res["reliability_time_low"], res["reliability_time_high"], alpha=0.2, label="95% CI")
-# plt.xlabel("Time (hours)")
-# plt.ylabel("Reliability")
-# plt.title("System Reliability R(t) with 95% CI")
-# plt.legend()
-# plt.grid(True, alpha=0.3)
-# plt.tight_layout()
-# plt.show()
 
 # %%
 
@@ -438,13 +414,18 @@ plt.fill_between(time_grid, A_cum_lo_wilson, A_cum_hi_wilson, alpha=0.18, label=
 # plt.ylabel("Cumulative Availability", fontsize=14)
 # plt.title("Mean Cumulative Availability with 95% CI", fontsize=15)
 # plt.xlim(left=0, right=T_mission)
+<<<<<<< HEAD
 plt.xlim(left=0, right=3000)
+=======
+plt.xlim(left=0, right=2000)
+>>>>>>> 3cd55e770d864d776eea6b86a9b5d6090033f3d5
 plt.ylim(top=1.00, bottom=0.99)
 # plt.ylim(bottom=0.997)
 plt.ylim(top=1)
 plt.grid(True, alpha=0.3)
 plt.legend(loc='lower right', fontsize=12)
 plt.tight_layout()
+<<<<<<< HEAD
 plt.savefig("availability.png", dpi=600, transparent=True)
 plt.show()
 
@@ -528,6 +509,16 @@ for t_demo in [100, 250, 500, 1000]:
 # plt.tight_layout()
 # plt.show()
 
+=======
+
+# # Set background of the plot area (axes) to white
+# ax = plt.gca()
+# ax.set_facecolor("white")
+# plt.savefig("availability.png", dpi=600, bbox_inches="tight", facecolor="none", transparent=True)
+
+plt.show()
+
+>>>>>>> 3cd55e770d864d776eea6b86a9b5d6090033f3d5
 #%% Analytic per-component equivalent failure rates (competing risks) ---
 lam_analytic = {}
 for be, comp_name in be_to_component.items():
@@ -669,8 +660,6 @@ plt.errorbar(
     x, y, 
     yerr=[err_lower, err_upper],
     fmt='_',                # horizontal dash marker
-    color='blue',           # color of the dash
-    ecolor='blue',         # error bar (CI) color
     elinewidth=1.2,
     capsize=4,
     markersize=12,           # dash length
