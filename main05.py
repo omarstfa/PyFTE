@@ -78,8 +78,8 @@ validate_truth_tables("truth_table_originalFT.txt", "truth_table_constructedFT.t
 # 2) Inputs (time, # of replications, failure rates, repair times, )
 # ============================
 
-T_mission = 100000  # hours
-N_SIM = 20000 # replications
+T_mission = 10000  # hours
+N_SIM = 3000 # replications
  
 failure_rates = {
     'BE1':1e-7, 'BE2':2e-7,
@@ -431,22 +431,36 @@ half   = z * np.sqrt((p_hat_cum * (1.0 - p_hat_cum) / n_eff) + (z**2) / (4.0 * n
 A_cum_lo_wilson = np.clip(center - half, 0.0, 1.0)
 A_cum_hi_wilson = np.clip(center + half, 0.0, 1.0)
 
-plt.figure(figsize=(10,6), dpi=600)
+plt.figure(figsize=(8,5), dpi=600)
 plt.plot(time_grid, A_cum_mean, linewidth=1.5, label="Mean Cumulative Availability")
 plt.fill_between(time_grid, A_cum_lo_wilson, A_cum_hi_wilson, alpha=0.18, label="95% CI")
-plt.xlabel("Time (hours)", fontsize=14)
-plt.ylabel("Cumulative Availability", fontsize=14)
+# plt.xlabel("Time (hours)", fontsize=14)
+# plt.ylabel("Cumulative Availability", fontsize=14)
 # plt.title("Mean Cumulative Availability with 95% CI", fontsize=15)
-plt.xlim(left=0, right=T_mission)
-# plt.xlim(left=0, right=10000)
-plt.ylim(top=1.00, bottom=0.997)
+# plt.xlim(left=0, right=T_mission)
+plt.xlim(left=0, right=3000)
+plt.ylim(top=1.00, bottom=0.99)
 # plt.ylim(bottom=0.997)
 plt.ylim(top=1)
 plt.grid(True, alpha=0.3)
 plt.legend(loc='lower right', fontsize=12)
 plt.tight_layout()
+plt.savefig("availability.png", dpi=600, transparent=True)
 plt.show()
 
+# %%
+
+
+plt.figure(figsize=(8,5), dpi=600, facecolor="none")
+plt.plot(time_grid, A_cum_mean, linewidth=1.5, label="Mean Cumulative Availability")
+plt.fill_between(time_grid, A_cum_lo_wilson, A_cum_hi_wilson, alpha=0.18, label="95% CI")
+plt.xlim(left=0, right=3000)
+plt.ylim(top=1, bottom=0.99)
+plt.grid(True, alpha=0.3)
+plt.legend(loc='lower right', fontsize=12)
+plt.tight_layout()
+plt.savefig("availability.png", dpi=600, transparent=True)
+plt.show()
 
 #%% Exports
 
