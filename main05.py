@@ -414,18 +414,17 @@ plt.fill_between(time_grid, A_cum_lo_wilson, A_cum_hi_wilson, alpha=0.18, label=
 # plt.ylabel("Cumulative Availability", fontsize=14)
 # plt.title("Mean Cumulative Availability with 95% CI", fontsize=15)
 # plt.xlim(left=0, right=T_mission)
-<<<<<<< HEAD
+
 plt.xlim(left=0, right=3000)
-=======
+
 plt.xlim(left=0, right=2000)
->>>>>>> 3cd55e770d864d776eea6b86a9b5d6090033f3d5
 plt.ylim(top=1.00, bottom=0.99)
 # plt.ylim(bottom=0.997)
 plt.ylim(top=1)
 plt.grid(True, alpha=0.3)
 plt.legend(loc='lower right', fontsize=12)
 plt.tight_layout()
-<<<<<<< HEAD
+
 plt.savefig("availability.png", dpi=600, transparent=True)
 plt.show()
 
@@ -509,7 +508,6 @@ for t_demo in [100, 250, 500, 1000]:
 # plt.tight_layout()
 # plt.show()
 
-=======
 
 # # Set background of the plot area (axes) to white
 # ax = plt.gca()
@@ -518,7 +516,6 @@ for t_demo in [100, 250, 500, 1000]:
 
 plt.show()
 
->>>>>>> 3cd55e770d864d776eea6b86a9b5d6090033f3d5
 #%% Analytic per-component equivalent failure rates (competing risks) ---
 lam_analytic = {}
 for be, comp_name in be_to_component.items():
