@@ -9,13 +9,14 @@ from components.gate import Gate
 from components.fault_tree import FaultTree, print_fault_tree
 from components.cutset import extract_cut_sets, get_minimal_cut_sets, build_boolean_expression
 from components.truth_table import generate_truth_table_from_expression
+from components.fault_log_generator import generate_synthetic_fault_logs_accelerated, fault_logs_to_truth_table
 from components.validate import validate_truth_tables
 from components.critical_rank import calculate_importance_factors, simulate_reliability,make_reliability_function, fit_exponential_reliability
 
 #%%
 
 # ============================
-# 1) Build Fault Tree (FT)
+# 1) Build A Fault Tree (FT)
 # ============================
 topEvent = Event('Top Event')
 or0 = Gate('OR', parent=topEvent)
@@ -69,16 +70,13 @@ for mcs in minimal_cut_sets:
 
 print("\nExtracted Fault Tree Boolean Expression: TE =", boolean_expression.replace('.', '·'))
 
-# Validate by reconstructing truth table from expression
-tt_constructed = generate_truth_table_from_expression(boolean_expression)
-tt_constructed.to_csv("output/truth_table_constructedFT.txt", sep=" ", index=False)
-validate_truth_tables("output/truth_table_originalFT.txt", "output/truth_table_constructedFT.txt")
+#%% Fault Log Generation
 
 # ============================
 # 2) Inputs (time, # of replications, failure rates, repair times, )
 # ============================
 
-T_mission = 10000  # hours
+T_mission = 50000 # hours
 N_SIM = 3000 # replications
  
 failure_rates = {
@@ -114,6 +112,187 @@ repair_times = {
     'BE18': 4,  # Cable aging
 }
 
+
+# ============================
+# Synthetic Fault Log Generation
+# ============================
+
+def add_fault_log_generation_to_main_accelerated(acceleration_factor=1000):
+
+    # Generate synthetic fault logs with acceleration
+    print("Generating accelerated synthetic fault logs...")
+    fault_logs, be_descriptions, accelerated_rates = generate_synthetic_fault_logs_accelerated(
+        failure_rates, repair_times, minimal_cut_sets,  # Pass original format
+        mission_time_hours=T_mission, 
+        acceleration_factor=acceleration_factor, 
+        seed=42
+    )
+    
+    # Convert to truth table
+    truth_table = fault_logs_to_truth_table(fault_logs, be_descriptions, minimal_cut_sets)
+    
+    # Save results
+    fault_logs.to_csv("output/synthetic_fault_logs_accelerated.csv", index=False)
+    truth_table.to_csv("output/truth_table_from_accelerated_logs.csv", index=False)
+    
+    print(f"Generated {len(fault_logs)} fault log entries")
+    print(f"Created truth table with {len(truth_table)} unique state combinations")
+    print(f"System failure occurred in {fault_logs['System_Failure'].sum()} events")
+    
+    # Display statistics
+    print("\nFault Statistics:")
+    for be in sorted(failure_rates.keys()):
+        be_faults = len(fault_logs[(fault_logs['Basic_Event'] == be) & (fault_logs['Status'] == 'Active')])
+        print(f"  {be}: {be_faults} faults")
+    
+    # Display sample of fault logs
+    print("\nSample of synthetic fault logs:")
+    sample_logs = fault_logs.head(10)[['Timestamp', 'Description', 'Status', 'System_Failure']]
+    print(sample_logs.to_string(index=False))
+    
+    return fault_logs, truth_table, accelerated_rates
+
+
+def validate_and_compare_fault_trees(original_minimal_cut_sets, truth_table_from_logs):
+    """
+    Validate that the generated truth table produces the same minimal cut sets
+    """
+    print("\n" + "="*60)
+    print("FAULT TREE VALIDATION")
+    print("="*60)
+    
+    # Extract cut sets from generated truth table
+    cut_sets_from_logs = extract_cut_sets(truth_table_from_logs)
+    minimal_cut_sets_from_logs = get_minimal_cut_sets(cut_sets_from_logs)
+    boolean_expression_from_logs = build_boolean_expression(minimal_cut_sets_from_logs)
+    
+    # Convert both to standardized format for comparison
+    def standardize_mcs(mcs_list):
+        """Convert all MCS to sorted tuple of strings format"""
+        standardized = []
+        for mcs in mcs_list:
+            # Convert to sorted tuple of strings
+            if isinstance(mcs, (set, list)):
+                # Handle both ['14'] and ['BE14'] formats
+                standardized_items = []
+                for item in mcs:
+                    if isinstance(item, str) and item.startswith('BE'):
+                        standardized_items.append(item[2:])  # 'BE14' -> '14'
+                    else:
+                        standardized_items.append(str(item))
+                standardized.append(tuple(sorted(standardized_items)))
+        return set(standardized)
+    
+    # Standardize both sets
+    original_standardized = standardize_mcs(original_minimal_cut_sets)
+    extracted_standardized = standardize_mcs(minimal_cut_sets_from_logs)
+    
+    print("\nOriginal Minimal Cut Sets (standardized):")
+    for mcs in sorted(original_standardized):
+        print(f"  {list(mcs)}")
+    
+    print("\nMinimal Cut Sets from generated logs (standardized):")
+    for mcs in sorted(extracted_standardized):
+        print(f"  {list(mcs)}")
+    
+    print(f"\nBoolean Expression from logs: TE = {boolean_expression_from_logs.replace('.', '·')}")
+    
+    # Compare with original
+    print("\nComparison with original FT:")
+    print(f"Original MCS count: {len(original_standardized)}")
+    print(f"Generated MCS count: {len(extracted_standardized)}")
+    print(f"MCS match: {original_standardized == extracted_standardized}")
+    
+    if original_standardized != extracted_standardized:
+        print("\nDifferences (in standardized format):")
+        missing = original_standardized - extracted_standardized
+        extra = extracted_standardized - original_standardized
+        
+        if missing:
+            print("Missing MCS in generated data:")
+            for mcs in sorted(missing):
+                print(f"  {list(mcs)}")
+        
+        if extra:
+            print("Extra MCS in generated data:")
+            for mcs in sorted(extra):
+                print(f"  {list(mcs)}")
+    
+    return minimal_cut_sets_from_logs, boolean_expression_from_logs
+ 
+    
+# ============================
+# Synthetic Fault Log Generation with Acceleration
+# ============================
+print("\n" + "="*50)
+print("SYNTHETIC FAULT LOG GENERATION WITH ACCELERATION")
+print("="*50)
+
+# FIX: Convert minimal cut sets to proper format for fault log generator
+minimal_cut_sets_BE_formatted = []
+for cut in minimal_cut_sets:
+    formatted_cut = [f"BE{be}" for be in cut]
+    minimal_cut_sets_BE_formatted.append(formatted_cut)
+
+print("Formatted minimal cut sets for fault log generation:")
+for mcs in minimal_cut_sets_BE_formatted:
+    print(f"  {mcs}")
+
+# Try different acceleration factors to get good coverage
+acceleration_factors = [1000]
+
+successful_generation = False
+for acc_factor in acceleration_factors:
+    print(f"\nTrying acceleration factor: {acc_factor}")
+    try:
+        # FIX: Now we get fault_logs, truth_table, accelerated_rates
+        fault_logs, truth_table_from_logs, accelerated_rates = add_fault_log_generation_to_main_accelerated(
+            acceleration_factor=acc_factor
+        )
+        
+        # Verify we got a proper truth table (DataFrame with columns like BE1, BE2, ..., TE)
+        print(f"Truth table type: {type(truth_table_from_logs)}")
+        print(f"Truth table columns: {truth_table_from_logs.columns.tolist() if hasattr(truth_table_from_logs, 'columns') else 'N/A'}")
+        print(f"Truth table shape: {truth_table_from_logs.shape if hasattr(truth_table_from_logs, 'shape') else 'N/A'}")
+        
+        if (hasattr(truth_table_from_logs, 'shape') and 
+            len(truth_table_from_logs) > 5 and 
+            fault_logs['System_Failure'].sum() > 0):
+            print(f"SUCCESS with acceleration factor {acc_factor}")
+            print(f"System failures observed: {fault_logs['System_Failure'].sum()}")
+            successful_generation = True
+            break
+        else:
+            print(f"Acceleration factor {acc_factor} generated data but no system failures or small truth table")
+            
+    except Exception as e:
+        print(f"Acceleration factor {acc_factor} failed: {e}")
+        import traceback
+        traceback.print_exc()
+        continue
+
+if not successful_generation:
+    print("\nWARNING: No acceleration factor produced system failures!")
+    print("Using the best available data...")
+
+# Now validate with the actual truth table
+if hasattr(truth_table_from_logs, 'columns') and 'TE' in truth_table_from_logs.columns:
+    minimal_cut_sets_from_logs, boolean_expression_from_logs = validate_and_compare_fault_trees(
+        minimal_cut_sets, truth_table_from_logs
+    )
+else:
+    print("\nERROR: truth_table_from_logs is not a valid truth table!")
+    print(f"Type: {type(truth_table_from_logs)}")
+    if hasattr(truth_table_from_logs, 'keys'):
+        print(f"Keys: {truth_table_from_logs.keys()}")
+        
+        
+
+#%%
+# Validate by reconstructing truth table from expression
+tt_constructed = generate_truth_table_from_expression(boolean_expression)
+tt_constructed.to_csv("output/truth_table_constructedFT.txt", sep=" ", index=False)
+validate_truth_tables("output/truth_table_originalFT.txt", "output/truth_table_constructedFT.txt")
 
 #%% Reliability Function (non-repairable mission, analytical)
 # Uses extracted minimal_cut_sets and failure_rates to compute exact R(t).
