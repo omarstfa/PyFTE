@@ -246,7 +246,7 @@ else:
         print(f"Keys: {truth_table_from_logs.keys()}")
 
 
-fault_logs.to_csv("output/fault_logs_example.csv")
+# fault_logs.to_csv("output/fault_logs_example.csv")
 
 
 #%%
