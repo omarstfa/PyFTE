@@ -505,3 +505,100 @@ def detailed_cut_set_analysis(analyzer):
 # Run detailed analysis
 if 'analyzer' in locals():
     detailed_cut_set_analysis(analyzer)
+    
+#%% Seperate Plots
+# =============================================================================
+# Imports (once)
+# =============================================================================
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.ticker import ScalarFormatter
+
+# =============================================================================
+# Plot 1 : Reliability vs Availability
+# =============================================================================
+t = results["time_grid"]
+rel = results["reliability"]
+avail = results["availability"]
+
+fig, ax = plt.subplots(figsize=(8, 5), dpi=600)
+ax.plot(t, rel, linewidth=2, label="Reliability (no failure yet)")
+ax.plot(t, avail, linewidth=2, label="Availability (up at time t)")
+ax.set_xlabel("Time (hours)", fontsize=14)
+ax.set_ylabel("Probability", fontsize=14)
+ax.set_title("System Reliability vs Availability", fontsize=14)
+ax.tick_params(axis='both', labelsize=12)
+ax.legend(fontsize=12)
+fig.tight_layout()
+plt.show()
+
+# =============================================================================
+# Plot 2 : System vs Basic-Event Reliability (no repairs)
+# =============================================================================
+t = results["time_grid"]
+system_rel = np.array([analyzer.analytical_reliability(float(x)) for x in t])
+
+fig, ax = plt.subplots(figsize=(8, 5), dpi=600)
+ax.plot(t, system_rel, linewidth=3, label="System (top event)", color="black")
+for be, lam in analyzer.failure_rates.items():
+    ax.plot(t, np.exp(-lam * t), "--", linewidth=2, label=be)
+ax.set_xlabel("Time (hours)", fontsize=14)
+ax.set_ylabel("Reliability", fontsize=14)
+ax.set_title("System vs Basic-Event Reliability (no repairs)", fontsize=14)
+ax.tick_params(axis='both', labelsize=12)
+ax.legend(fontsize=12)
+# ax.set_xlim(0, 200)
+fig.tight_layout()
+plt.show()
+
+# =============================================================================
+# Plot 3 : Component Unavailability (simulation-based)
+# =============================================================================
+metrics = results["component_metrics"]
+components = list(metrics.keys())
+unavail = [metrics[be]["unavailability"] for be in components]
+
+fig, ax = plt.subplots(figsize=(8, 5), dpi=600)
+bars = ax.bar(components, unavail)
+ax.set_xlabel("Component", fontsize=14)
+ax.set_ylabel("Unavailability (fraction of time down)", fontsize=14)
+ax.set_title("Component Unavailability (simulation-based)", fontsize=14)
+ax.tick_params(axis='both', labelsize=12)
+ax.set_ylim(0, 0.35)
+ax.yaxis.set_major_formatter(ScalarFormatter(useMathText=False))
+ax.ticklabel_format(axis='y', style='plain', useOffset=False)
+
+for b, v in zip(bars, unavail):
+    if v >= 0.01:
+        label = f"{v*100:.2f}%"
+    elif v >= 0.0001:
+        label = f"{v*100:.4f}%"
+    else:
+        label = f"{v*100:.6f}%"
+    ax.text(b.get_x() + b.get_width()/2, b.get_height(), label,
+            ha="center", va="bottom", fontsize=10)
+
+fig.tight_layout()
+plt.show()
+
+# =============================================================================
+# Plot 4 : Structural Importance (logic-only)
+# =============================================================================
+struct_import = analyzer.calculate_structural_importance()
+components = list(struct_import.keys())
+scores = [struct_import[be] for be in components]
+
+fig, ax = plt.subplots(figsize=(8, 5), dpi=600)
+bars = ax.bar(components, scores)
+ax.set_xlabel("Basic event", fontsize=14)
+ax.set_ylabel("Structural importance", fontsize=14)
+ax.set_title("Structural Importance of Basic Events", fontsize=14)
+ax.tick_params(axis='both', labelsize=12)
+
+for b, v in zip(bars, scores):
+    ax.text(b.get_x() + b.get_width()/2, b.get_height(),
+            f"{v:.3f}", ha="center", va="bottom", fontsize=10)
+
+fig.tight_layout()
+plt.show()
+
