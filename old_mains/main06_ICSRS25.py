@@ -9,7 +9,7 @@ from components.gate import Gate
 from components.fault_tree import FaultTree, print_fault_tree
 from components.cutset import extract_cut_sets, get_minimal_cut_sets, build_boolean_expression
 from components.truth_table import generate_truth_table_from_expression
-from components.fault_log_generator_example import generate_synthetic_fault_logs_accelerated, fault_logs_to_truth_table
+from components.fault_log_generator import generate_synthetic_fault_logs_accelerated, fault_logs_to_truth_table
 from components.validate import validate_truth_tables
 from components.critical_rank import calculate_importance_factors, simulate_reliability,make_reliability_function, fit_exponential_reliability
 
@@ -18,17 +18,32 @@ from components.critical_rank import calculate_importance_factors, simulate_reli
 # ============================
 # 1) Build A Fault Tree (FT)
 # ============================
-
 topEvent = Event('Top Event')
-or_gate = Gate('OR', parent=topEvent)
-# Basic events directly under OR gate
-Event('Basic Event 1', parent=or_gate)
-Event('Basic Event 2', parent=or_gate)
-# One AND gate for demonstration
-and_gate = Gate('AND', parent=or_gate)
-Event('Basic Event 3', parent=and_gate) 
-Event('Basic Event 4', parent=and_gate)
+or0 = Gate('OR', parent=topEvent)
 
+intermediateEvent1 = Event('Intermediate Event 1', parent=or0)
+intermediateEvent2 = Event('Intermediate Event 2', parent=or0)
+
+or1 = Gate('OR', parent=intermediateEvent1)
+Event('Basic Event 1', parent=or1)
+Event('Basic Event 2', parent=or1)
+
+intermediateEvent3 = Event('Intermediate Event 3', parent=or1)
+or2 = Gate('OR', parent=intermediateEvent3)
+intermediateEvent4 = Event('Intermediate Event 4', parent=or2)
+intermediateEvent5 = Event('Intermediate Event 5', parent=or2)
+or3 = Gate('OR', parent=intermediateEvent4)
+
+for i in range(5, 17):
+    Event(f'Basic Event {i}', parent=or3)
+
+and1 = Gate('AND', parent=intermediateEvent5)
+Event('Basic Event 3', parent=and1)
+Event('Basic Event 4', parent=and1)
+
+or4 = Gate('OR', parent=intermediateEvent2)
+Event('Basic Event 17', parent=or4)
+Event('Basic Event 18', parent=or4)
 
 print("\nOriginal Fault Tree Structure:")
 print_fault_tree(topEvent)
@@ -42,7 +57,7 @@ column_mapping["Top Event"] = "TE"
 tt_simple.rename(columns=column_mapping, inplace=True)
 sorted_cols = sorted([c for c in tt_simple.columns if c != "TE"], key=lambda x: int(x)) + ["TE"]
 tt_simple = tt_simple[sorted_cols]
-# tt_simple.to_csv("output/truth_table_originalFT.txt", sep=" ", index=False)
+tt_simple.to_csv("output/truth_table_originalFT.txt", sep=" ", index=False)
 
 # --- Minimal cut sets & Boolean expression ---
 cut_sets = extract_cut_sets(tt_simple)
@@ -61,20 +76,42 @@ print("\nExtracted Fault Tree Boolean Expression: TE =", boolean_expression.repl
 # 2) Inputs (time, # of replications, failure rates, repair times, )
 # ============================
 
-T_mission = 1000 # hours
+T_mission = 50000 # hours
 N_SIM = 3000 # replications
  
 failure_rates = {
-    'BE1':8.8e-6, 'BE2':1.115e-5,
-    'BE3':1.487e-5,'BE4':1.01e-6,
+    'BE1':1e-7, 'BE2':2e-7,
+    'BE3':8e-7, 'BE4':8e-7,
+    'BE5':8.46e-6, 'BE6':4.9e-6,
+    'BE7':3e-7, 'BE8':1.3e-6,
+    'BE9':8.8e-6, 'BE10':1.115e-5,
+    'BE11':1.487e-5,'BE12':1.01e-6,
+    'BE13':2.1e-7,'BE14':5.2e-7,
+    'BE15':7.29e-6,'BE16':5.7e-6,
+    'BE17':1e-7,'BE18':2e-7
 }
 
 repair_times = {
-    'BE1': 24,
-    'BE2': 24,
-    'BE3': 24,
-    'BE4': 24,
+    'BE1': 4,   # Fuse aging
+    'BE2': 4,   # Fuse installation
+    'BE3': 10,  # MCB 1
+    'BE4': 10,  # MCB 2
+    'BE5': 24,  # PV interconnect
+    'BE6': 24,  # Grounding
+    'BE7': 24,  # PV glass breakage (often needs swap logistics)
+    'BE8': 8,   # Soiling (if you keep it as an availability event; see note 3)
+    'BE9': 8,   # Shading (same note)
+    'BE10': 48, # PV cell breakage
+    'BE11': 48, # PV solder bond
+    'BE12': 24, # Hotspot
+    'BE13': 24, # Diode
+    'BE14': 12, # Short/open identification & reset
+    'BE15': 48, # Rack structure
+    'BE16': 48, # Encapsulant
+    'BE17': 4,  # Cable insulation
+    'BE18': 4,  # Cable aging
 }
+
 
 # ============================
 # Synthetic Fault Log Generation
@@ -93,6 +130,10 @@ def add_fault_log_generation_to_main_accelerated(acceleration_factor=1000):
     
     # Convert to truth table
     truth_table = fault_logs_to_truth_table(fault_logs, be_descriptions, minimal_cut_sets)
+    
+    # Save results
+    fault_logs.to_csv("output/synthetic_fault_logs_accelerated.csv", index=False)
+    truth_table.to_csv("output/truth_table_from_accelerated_logs.csv", index=False)
     
     print(f"Generated {len(fault_logs)} fault log entries")
     print(f"Created truth table with {len(truth_table)} unique state combinations")
@@ -244,10 +285,8 @@ else:
     print(f"Type: {type(truth_table_from_logs)}")
     if hasattr(truth_table_from_logs, 'keys'):
         print(f"Keys: {truth_table_from_logs.keys()}")
-
-
-# fault_logs.to_csv("output/fault_logs_example.csv")
-
+        
+        
 
 #%%
 # Validate by reconstructing truth table from expression

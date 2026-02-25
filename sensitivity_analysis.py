@@ -136,7 +136,8 @@ def run_sensitivity_for_events(
             T=T, dt=dt, N=N, seed0=seed0 + 1000*k
         )
         # optional: write per-BE CSV
-        out[be].to_csv(f"{be}_sensitivity.csv", index=False)
+        if out_csv:
+            out[be].to_csv(f"{be}_sensitivity.csv", index=False)
     return out
 
 
@@ -246,6 +247,7 @@ if __name__ == "__main__":
 
     # Choose which events to include
     events = ['BE4', 'BE15', 'BE11']
+    out_csv=None # Saving csv files per each BE
     
     # Option A: control by max multiplier (e.g., 1..6)
     dfs = run_sensitivity_for_events(events, max_multiplier=6)
