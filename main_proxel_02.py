@@ -67,7 +67,7 @@ print("\nMinimal Cut Sets:")
 for mcs in minimal_cut_sets:
     print(sorted(mcs))
 
-print("\nExtracted Fault Tree Boolean Expression: TE =", boolean_expression.replace('.', '·'))
+print("\nGround-Truth Fault Tree Boolean Expression: TE =", boolean_expression.replace('.', '·'))
 
 #%% Fault Log Generation
 # ============================
@@ -371,14 +371,25 @@ print(importance_df)
 
 #%% Simulation (DES)
 # ============================
-# 5) Availability & Reliability (Monte Carlo)
+# 5) DES Simulation with memory measurement
 # ============================
 print("\n" + "="*50)
 print("DISCRETE-EVENT SIMULATION (DES)")
 print("="*50)
 
+import tracemalloc
+
+def measure_peak_memory(func, *args, **kwargs):
+    """Run func with args and return (result, peak_memory_MB)."""
+    tracemalloc.start()
+    result = func(*args, **kwargs)
+    _, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    return result, peak / 1e6   # bytes -> MB
+
 t_start = time.time()
-res = simulate_reliability(
+res, des_peak_mem = measure_peak_memory(
+    simulate_reliability,
     minimal_cut_sets=minimal_cut_sets_BE,
     failure_rates=failure_rates,
     repair_times=repair_times,
@@ -386,10 +397,10 @@ res = simulate_reliability(
     dt=1.0,
     N_SIM=N_SIM,
     be_to_component=be_to_component,
-    rng_seed=123,
+    rng_seed=123
 )
 t_des = time.time() - t_start
-print(f"DES finished in {t_des:.2f} seconds")
+print(f"DES finished in {t_des:.2f} seconds, peak memory {des_peak_mem:.2f} MB")
 
 time_grid = res["time_grid"]
 sys_sim = res["system_stats"]
@@ -457,7 +468,7 @@ plt.show()
 print(f"\nSystem unavailability (mean over sims): {res['system_unavailability_mean']:.6g}")
 print(f"95% CI for system unavailability: [{res['system_unavailability_ci'][0]:.6g}, {res['system_unavailability_ci'][1]:.6g}]\n")
 
-# %% Cumulative Availability Plot
+# %% Cumulative Availability Plot (DES only)
 down = res["top_event_states"]
 cum_down_frac = down.cumsum(axis=1) / np.arange(1, down.shape[1]+1)
 A_cum_sim = 1.0 - cum_down_frac
@@ -483,16 +494,15 @@ plt.yticks(fontsize=12)
 plt.tight_layout()
 plt.show()
 
+#%%
 # ============================
-# 6) Proxel-based simulation
+# 6) Proxel simulation with memory measurement
 # ============================
 print("\n" + "="*50)
 print("PROXEL-BASED SIMULATION")
 print("="*50)
 
-# Define each basic event as a BasicEvent object.
-# We'll use exponential failure and exponential repair with same mean as repair_times.
-# Repair rate = 1 / repair_time.
+# Define each basic event as a BasicEvent object (if not already defined)
 belist = {}
 for i in range(1, 19):
     be_name = f"BE{i}"
@@ -500,80 +510,150 @@ for i in range(1, 19):
     mu = 1.0 / repair_times[be_name]
     be = BasicEvent(
         states=['OK', 'F'],
-        G=[[None, 1], [1, None]],   # None means diagonal computed later
+        G=[[None, 1], [1, None]],
         dist=['exp', 'exp'],
         param=[(lam,), (mu,)]
     )
     belist[be_name] = be
 
-# Run proxel simulation
-T_proxel = T_mission
+# Parameters for proxel
 dt_proxel = 1.0
 tol = 1e-9
 
 t_start = time.time()
-prox_res = proxel_system(belist, minimal_cut_sets_BE, T_proxel, dt_proxel, tol)
+prox_res, prox_peak_mem = measure_peak_memory(
+    proxel_system,
+    belist,
+    minimal_cut_sets_BE,
+    T_mission,
+    dt_proxel,
+    tol
+)
 t_prox = time.time() - t_start
-print(f"Proxel simulation finished in {t_prox:.2f} seconds")
+print(f"Proxel finished in {t_prox:.2f} seconds, peak memory {prox_peak_mem:.2f} MB")
 
-# Compute mean unavailability (time-averaged)
-mean_unav_prox = np.trapz(prox_res['system_unavailability'], dx=dt_proxel) / T_proxel
+mean_unav_prox = np.trapz(prox_res['system_unavailability'], dx=dt_proxel) / T_mission
 print(f"System mean unavailability (proxel): {mean_unav_prox:.6g}")
 print(f"System mean unavailability (DES)   : {res['system_unavailability_mean']:.6g}")
 
-# Compare unavailability at selected times
-times_compare = [100, 1000, 5000, 10000, 25000, 50000]
-print("\nPointwise unavailability comparison:")
-for tq in times_compare:
-    idx = int(tq / dt_proxel)
-    if idx < len(prox_res['system_unavailability']):
-        u_prox = prox_res['system_unavailability'][idx]
-    else:
-        u_prox = np.nan
-    idx_des = int(tq / 1.0)
-    if idx_des < len(res['availability_time_series']):
-        u_des = 1.0 - res['availability_time_series'][idx_des]
-    else:
-        u_des = np.nan
-    print(f"  t={tq:5d}h: DES U={u_des:.6f}, Proxel U={u_prox:.6f}")
+# ============================
+# 7) Comparison Metrics
+# ============================
+print("\n" + "="*50)
+print("COMPARISON METRICS")
+print("="*50)
 
-# Plot overlay of unavailability
-plt.figure(figsize=(10,6))
-plt.plot(prox_res['time_grid'], prox_res['system_unavailability'], label='Proxel', linewidth=2)
-plt.plot(time_grid, 1.0 - res['availability_time_series'], label='DES (mean)', linewidth=2, linestyle='--')
-plt.fill_between(time_grid,
-                 1.0 - res['availability_time_high'],
-                 1.0 - res['availability_time_low'],
-                 alpha=0.2, label='DES 95% CI')
-plt.xlabel('Time (hours)')
-plt.ylabel('System Unavailability')
-plt.title('Proxel vs DES: System Unavailability over Time')
-plt.legend()
+# --- Reference probability (DES mean unavailability) ---
+des_mean = res['system_unavailability_mean']
+prox_mean = mean_unav_prox
+
+# --- Relative error of proxel vs DES ---
+rel_err_prox = abs(prox_mean - des_mean) / des_mean if des_mean > 0 else np.inf
+
+# --- DES per‑simulation unavailability ---
+down_des = res["top_event_states"]
+per_sim_unav = down_des.mean(axis=1)          # fraction of time down per simulation
+des_var = per_sim_unav.var(ddof=1) / N_SIM   # variance of the estimate
+des_cv = np.sqrt(des_var) / des_mean if des_mean > 0 else np.inf
+
+# Rare‑event hit count: number of simulations where system ever failed
+ever_failed = down_des.any(axis=1)
+hit_count = ever_failed.sum()
+hit_rate = hit_count / N_SIM
+cost_per_event = t_des / hit_count if hit_count > 0 else np.inf
+
+# --- Array‑based memory (lower bound) ---
+def array_memory(obj):
+    if hasattr(obj, 'nbytes'):
+        return obj.nbytes
+    elif hasattr(obj, '__array__'):
+        return np.array(obj).nbytes
+    else:
+        return 0
+
+des_array_mem = down_des.nbytes / 1e6   # MB
+be_unav = prox_res['be_unavailability']
+be_mem = sum(arr.nbytes for arr in be_unav.values())
+sys_mem = prox_res['system_unavailability'].nbytes
+time_mem = prox_res['time_grid'].nbytes
+prox_array_mem = (be_mem + sys_mem + time_mem) / 1e6   # MB
+
+# --- MTTF/MTTR comparison ---
+des_mttf = res['system_stats']['MTTF_sim']
+des_mttr = res['system_stats']['MTTR_sim']
+n_steps = len(prox_res['system_unavailability'])
+steady_start = int(0.8 * n_steps)
+U_ss = np.mean(prox_res['system_unavailability'][steady_start:])
+mu_sys = 1.0 / des_mttr if des_mttr > 0 else 0.0
+lambda_sys_prox = (U_ss * mu_sys) / (1.0 - U_ss) if U_ss < 1.0 else 0.0
+mttf_prox = 1.0 / lambda_sys_prox if lambda_sys_prox > 0 else np.inf
+
+# --- Print metrics table ---
+print("\n{:<30} {:<18} {:<18}".format("Metric", "DES", "Proxel"))
+print("-"*66)
+print("{:<30} {:<18.2f} {:<18.2f}".format("Runtime (s)", t_des, t_prox))
+print("{:<30} {:<18.2f} {:<18.2f}".format("Peak Memory (MB) (tracemalloc)", des_peak_mem, prox_peak_mem))
+print("{:<30} {:<18.2f} {:<18.2f}".format("Array Memory (MB) (nbytes)", des_array_mem, prox_array_mem))
+print("{:<30} {:<18.6f} {:<18.6f}".format("Mean Unavailability", des_mean, prox_mean))
+print("{:<30} {:<18} {:<18.6f}".format("Relative Error", "reference", rel_err_prox))
+# print("{:<30} {:<18.6f} {:<18}".format("CV (est.)", des_cv, "N/A"))
+# print("{:<30} {:<18.0f} {:<18}".format("Hit count", hit_count, "N/A"))
+# print("{:<30} {:<18.6f} {:<18}".format("Cost per event (s)", cost_per_event, "N/A"))
+# print("{:<30} {:<18.4f} {:<18}".format("Hit rate", hit_rate, "N/A"))
+print("{:<30} {:<18.2f} {:<18.2f}".format("MTTF (h)", des_mttf, mttf_prox))
+# print("{:<30} {:<18.2f} {:<18}".format("MTTR (h)", des_mttr, "N/A"))
+
+#%%
+
+# ============================
+# 8) Cumulative Availability Comparison
+# ============================
+print("\n" + "="*50)
+print("CUMULATIVE AVAILABILITY COMPARISON")
+print("="*50)
+
+# DES cumulative availability (mean across replications)
+down_des = res["top_event_states"]               # shape (N_SIM, Nt)
+N_sim, Nt = down_des.shape
+time_grid_des = res["time_grid"]                  # length Nt
+
+# Fraction of time the system has been down up to each time step
+cum_down_frac = down_des.cumsum(axis=1) / np.arange(1, Nt+1).reshape(1, -1)
+A_cum_sim = 1.0 - cum_down_frac                   # cumulative availability per replication
+A_cum_mean_des = A_cum_sim.mean(axis=0)           # mean across replications
+
+# Compute 95% confidence interval (normal approximation)
+A_cum_std = A_cum_sim.std(axis=0, ddof=1)         # sample standard deviation
+A_cum_se = A_cum_std / np.sqrt(N_sim)              # standard error
+margin = 1.96 * A_cum_se                           # half-width of 95% CI
+ci_lower = A_cum_mean_des - margin
+ci_upper = A_cum_mean_des + margin
+
+# Proxel cumulative availability
+avail_prox = 1.0 - np.array(prox_res['system_unavailability'])
+cum_avail_prox = np.cumsum(avail_prox) / (np.arange(1, len(avail_prox)+1))
+
+# Create the plot
+plt.figure(figsize=(10,6), dpi=600)
+plt.plot(time_grid_des, A_cum_mean_des, linewidth=2, label='DES (mean cumulative availability)')
+plt.fill_between(time_grid_des, ci_lower, ci_upper, alpha=0.2, label='95% CI (DES)')
+plt.plot(prox_res['time_grid'], cum_avail_prox, '--', linewidth=2, label='Proxel (cumulative availability)')
+plt.xlabel('Time (hours)', fontsize=14)
+plt.ylabel('Cumulative Availability', fontsize=14)
+plt.title('Proxel vs DES: Cumulative System Availability')
+plt.legend(fontsize=12)
 plt.grid(alpha=0.3)
+plt.ylim(0.995, 1.00)
+plt.xlim(0, 10000)
 plt.tight_layout()
-plt.savefig('output/unavailability_comparison.png', dpi=600)
+plt.savefig('output/cumulative_availability_comparison.png', dpi=600)
 plt.show()
 
-# Log-scale plot
-plt.figure(figsize=(10,6))
-plt.semilogy(prox_res['time_grid'], prox_res['system_unavailability'], label='Proxel', linewidth=2)
-plt.semilogy(time_grid, 1.0 - res['availability_time_series'], '--', label='DES (mean)', linewidth=2)
-plt.fill_between(time_grid,
-                 1.0 - res['availability_time_high'],
-                 1.0 - res['availability_time_low'],
-                 alpha=0.2)
-plt.xlabel('Time (hours)')
-plt.ylabel('System Unavailability (log scale)')
-plt.title('Proxel vs DES: System Unavailability (log scale)')
-plt.legend()
-plt.grid(True, which='both', alpha=0.3)
-plt.tight_layout()
-plt.savefig('output/unavailability_comparison_log.png', dpi=600)
-plt.show()
+#%%
 
-print(f"\nComputational time: DES  = {t_des:.2f} s, Proxel = {t_prox:.2f} s")
-
-#%% Exports & Reliability Function (same as before)
+# ============================
+# 9) Exports & Reliability Function
+# ============================
 import csv
 out_csv = "time_A_R.csv"
 with open(out_csv, "w", newline="") as f:
@@ -593,93 +673,4 @@ for t_demo in [100, 250, 500, 1000]:
     print(f"R_exp_hat({t_demo} h) = {np.exp(-lam_hat * t_demo):.6f}")
 
 # Keep plots open
-plt.show()
-
-#%%
-
-# ============================
-# Cumulative Availability Comparison
-# ============================
-print("\n" + "="*50)
-print("CUMULATIVE AVAILABILITY COMPARISON")
-print("="*50)
-
-# DES cumulative availability (mean across replications)
-down_des = res["top_event_states"]               # shape (N_SIM, Nt)
-N_sim, Nt = down_des.shape
-time_grid_des = res["time_grid"]                  # length Nt
-
-# Fraction of time the system has been down up to each time step
-cum_down_frac = down_des.cumsum(axis=1) / np.arange(1, Nt+1).reshape(1, -1)
-A_cum_sim = 1.0 - cum_down_frac                   # cumulative availability per replication
-A_cum_mean_des = A_cum_sim.mean(axis=0)           # mean across replications
-
-# Proxel cumulative availability
-avail_prox = 1.0 - np.array(prox_res['system_unavailability'])
-cum_avail_prox = np.cumsum(avail_prox) / (np.arange(1, len(avail_prox)+1))
-
-# Create the plot
-plt.figure(figsize=(10,6), dpi=600)
-plt.plot(time_grid_des, A_cum_mean_des, linewidth=2, label='DES (mean cumulative availability)')
-plt.plot(prox_res['time_grid'], cum_avail_prox, '--', linewidth=2, label='Proxel (cumulative availability)')
-plt.xlabel('Time (hours)', fontsize=14)
-plt.ylabel('Cumulative Availability', fontsize=14)
-plt.title('Proxel vs DES: Cumulative System Availability')
-plt.legend(fontsize=12)
-plt.grid(alpha=0.3)
-plt.ylim(0.995, 1.00)
-plt.xlim(0, 10000)
-plt.tight_layout()
-plt.savefig('output/cumulative_availability_comparison.png', dpi=600)
-plt.show()
-
-
-#%%
-# ============================
-# Cumulative Availability Comparison
-# ============================
-print("\n" + "="*50)
-print("CUMULATIVE AVAILABILITY COMPARISON")
-print("="*50)
-
-# DES cumulative availability (mean across replications)
-down_des = res["top_event_states"]               # shape (N_SIM, Nt)
-N_sim, Nt = down_des.shape
-time_grid_des = res["time_grid"]                  # length Nt
-
-# Fraction of time the system has been down up to each time step
-cum_down_frac = down_des.cumsum(axis=1) / np.arange(1, Nt+1).reshape(1, -1)
-A_cum_sim = 1.0 - cum_down_frac                   # cumulative availability per replication
-A_cum_mean_des = A_cum_sim.mean(axis=0)           # mean across replications
-
-# Compute 95% confidence interval (normal approximation)
-A_cum_std = A_cum_sim.std(axis=0, ddof=1)         # sample standard deviation
-A_cum_se = A_cum_std / np.sqrt(N_sim)              # standard error
-margin = 1.96 * A_cum_se*7                           # half-width of 95% CI
-ci_lower = A_cum_mean_des - margin
-ci_upper = A_cum_mean_des + margin
-
-# Proxel cumulative availability
-avail_prox = 1.0 - np.array(prox_res['system_unavailability'])
-cum_avail_prox = np.cumsum(avail_prox) / (np.arange(1, len(avail_prox)+1))
-
-# Create the plot
-plt.figure(figsize=(10,6), dpi=600)
-# DES mean 
-plt.plot(time_grid_des, A_cum_mean_des, linewidth=2, label='Discrete-Event Simulation')
-# Proxel result
-plt.plot(prox_res['time_grid'], cum_avail_prox, '--', linewidth=2, label='Proxel-Based Simulation')
-# DES confidence band
-plt.fill_between(time_grid_des, ci_lower, ci_upper, alpha=0.2, label='95% CI ')
-plt.xlabel('Time (hours)', fontsize=16)
-plt.ylabel('Mean Availability', fontsize=16)
-# plt.title('Proxel vs DES: System Availability')
-plt.legend(fontsize=14)
-plt.grid(alpha=0.3)
-plt.ylim(0.995, 1.00)
-plt.xlim(0, 10000)
-plt.yticks(fontsize=14)
-plt.xticks(fontsize=14)
-plt.tight_layout()
-plt.savefig('output/cumulative_availability_comparison.png', dpi=600)
 plt.show()
