@@ -74,7 +74,7 @@ print("\nGround-Truth Fault Tree Boolean Expression: TE =", boolean_expression.r
 # 2) Inputs (time, # of replications, failure rates, repair times)
 # ============================
 
-T_mission = 100000  # hours
+T_mission = 10000  # hours
 N_SIM = 3000       # replications
 
 failure_rates = {
@@ -88,6 +88,11 @@ failure_rates = {
     'BE15':7.29e-6,'BE16':5.7e-6,
     'BE17':1e-7,'BE18':2e-7
 }
+
+# Multiplication factor of failure rates for faster results
+x = 100
+for k in failure_rates:
+    failure_rates[k] *= x
 
 repair_times = {
     'BE1': 4,   'BE2': 4,
